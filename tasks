@@ -14,27 +14,33 @@ APIs:
 /movie_names - for autocomplete
     input: {text=""}
     output: [
-    {name:"",
+    {title:"",
     id:0}
     ......
     ]
 
 / - home page, should return the html for the inital page
-/random_recommendation:
+/random_rating:
     returns {
-    movie_name="",
+    title="",
     rating="",
     comment=""
     }
 
 /staff_pick
-    ??
+    returns {
+     title="Frozen",
+     wiki_name="frozen (2013 film)",
+     wiki_link="https://en.wikipedia.org/wiki/Frozen_(2013_film)",
+     image="./images/frozen.jpg"
+     summary="blablabla"
+    }
 
 /user_rated?n=20
 /imdb_rated?n=20
     returns the n top rated movies
     [
-    {name="",
+    {title="",
     id="",
     rank=0,
     rating=4.8}
@@ -43,8 +49,9 @@ APIs:
 
 /recommendation?movie1=23&movie2=54&movie3=65
     returns {
-    name="",
-    id=0}
+    title="",
+    id=0,
+    summary=""}
 
 /movie/<movie_id>/info
 /movie/<movie_id>/comments?n=5
