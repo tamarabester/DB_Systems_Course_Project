@@ -6,21 +6,24 @@
  * users recommend - one random (or positive) recommendation from DB) __QUERY #1__
  * staff pick - random from list, with images and wiki info
  
+ ![](https://github.com/tamarabester/DB_Systems_Course_Project/blob/main/ui_planning/home_page.png)
+
 ## other pages:
   * top rated by our users
   * top rated on IMDB
   * recommended for you
+  * movie page
  
 ### top rated by our users:
   * table with rank, rating, title (top 20 or optional - load more) __QUERY #3__
   * 3/4 images in the bottom (later can be links)
-  
+  ![](https://github.com/tamarabester/DB_Systems_Course_Project/blob/main/ui_planning/user_rated.png)
   
 ### top rated on IMDB:
   * imdb logo
   * table with rank, rating, title (top 20 or optional - load more)
   * 3/4 images in the bottom (later can be links)
-  
+  ![](https://github.com/tamarabester/DB_Systems_Course_Project/blob/main/ui_planning/imdb_rated.png)
 
 ### recommended for you:
 * title and explanation
@@ -28,6 +31,9 @@
 * chosen movies should appear below with option to remove
 * limited to 3 movies
 * "recommend" button - when clicked the recommendation will be calculated and displayed with wiki info
+
+  ![](https://github.com/tamarabester/DB_Systems_Course_Project/blob/main/ui_planning/recommended_for_you_1.png)
+  ![](https://github.com/tamarabester/DB_Systems_Course_Project/blob/main/ui_planning/recommended_for_you_2.png)
   
   recommendation algorithm:
   * if 2 movies have the same genre: __QUERY #5__
@@ -37,7 +43,12 @@
   * else:
     * return random top movie from top 10 rated __QUERY #9__
     
-    
+ ### movie page
+ * movie name
+ * wiki info
+ * 5 comments from users __QUERY #10__
+   ![](https://github.com/tamarabester/DB_Systems_Course_Project/blob/main/ui_planning/movie_page.png)
+
 ## DB structure
 ### movies
 id, title, genre
