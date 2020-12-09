@@ -36,3 +36,23 @@
     * return top rated movie with this actor __QUERY #8__
   * else:
     * return random top movie from top 10 rated __QUERY #9__
+    
+    
+## DB structure
+### movies
+id, title, genre
+
+### users
+id, username
+
+### movie_ratings
+id, user_id, movie_id, rating, comment
+comment is str(2048)
+unique constraint (user_id, movie_id)
+
+### actors
+id, first_name, last_name
+
+### actors_movies
+id, acotr_id, movie_id
+unique constraint (acotr_id, movie_id)
