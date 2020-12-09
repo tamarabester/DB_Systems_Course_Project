@@ -1,0 +1,51 @@
+
+
+
+
+choose a front end farmework and create a test application
+for vanilla JS look at bootstrap
+decide if doing one page application or multi-page
+
+set up db - create tables (bonus - with info)
+
+
+APIs:
+
+/movie_names - for autocomplete
+    input: {text=""}
+    output: [
+    {name:"",
+    id:0}
+    ......
+    ]
+
+/ - home page, should return the html for the inital page
+/random_recommendation:
+    returns {
+    movie_name="",
+    rating="",
+    comment=""
+    }
+
+/staff_pick
+    ??
+
+/user_rated?n=20
+/imdb_rated?n=20
+    returns the n top rated movies
+    [
+    {name="",
+    id="",
+    rank=0,
+    rating=4.8}
+    .....
+    ]
+
+/recommendation?movie1=23&movie2=54&movie3=65
+    returns {
+    name="",
+    id=0}
+
+/movie/<movie_id>/info
+/movie/<movie_id>/comments?n=5
+    ???
