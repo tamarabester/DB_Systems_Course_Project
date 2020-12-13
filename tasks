@@ -1,5 +1,5 @@
 
-
+mysql -u DbMysql19 -p 'DbMysql19' -h mysqlsrv1.cs.tau.ac.il -D DbMysql19
 
 
 choose a front end farmework and create a test application

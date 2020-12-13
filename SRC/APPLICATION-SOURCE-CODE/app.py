@@ -1,15 +1,12 @@
 import json
 import random
-from flask import Flask, request
 
 import wikipedia
-
-from staff_pick import *
-from movie_utils import *
-
-from models.movies import *
+from flask import Flask, request
 from models.movie_ratings import *
-
+from models.movies import *
+from movie_utils import *
+from staff_pick import *
 
 app = Flask(__name__)
 
@@ -98,6 +95,7 @@ def get_top_n_user_rated():
 
 @app.route('/movie/<movie_id>/info')
 def get_movie_info(movie_id):
+    movie_id = int(movie_id)
     info = get_movie_info_for_movie_id(movie_id)
     return json.dumps(info)
 
@@ -105,6 +103,7 @@ def get_movie_info(movie_id):
 @app.route('/movie/<movie_id>/comments')
 def get_movie_comments(movie_id):
     n = int(request.args.get('n'))
+    movie_id = int(movie_id)
     comments = get_n_comments_for_movie_id(movie_id, n)
     return json.dumps(comments)
 

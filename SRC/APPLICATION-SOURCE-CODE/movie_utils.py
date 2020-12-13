@@ -1,8 +1,7 @@
 import wikipedia
-
-from models.movies import *
 from models.actor_movies import *
 from models.movie_ratings import *
+from models.movies import *
 
 
 def get_majority_genre(movies):
