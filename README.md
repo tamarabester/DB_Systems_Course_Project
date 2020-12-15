@@ -51,15 +51,16 @@
 
 ## DB structure
 ### movies
-id, title, genre
+id, title, genre, release_year,plot_summary, poster_link
 
 ### users
 id, username
 
 ### movie_ratings
-id, user_id, movie_id, rating, comment
+id, user_id, movie_id, original_rating, normalized_rating, rating_source, comment, 
+
 comment is str(2048)
-unique constraint (user_id, movie_id)
+unique constraint (rating_source, movie_id)
 
 ### actors
 id, first_name, last_name
