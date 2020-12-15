@@ -1,12 +1,12 @@
 import json
 import random
 
-import wikipedia
 from flask import Flask, request
-from models.movie_ratings import *
-from models.movies import *
-from movie_utils import *
-from staff_pick import *
+
+from lib.movies.movie_utils import *
+from lib.staff_pick.staff_pick_utils import *
+from utils.db_connection import *
+
 
 app = Flask(__name__)
 
@@ -109,6 +109,11 @@ def get_movie_comments(movie_id):
 
 
 if __name__ == '__main__':
-    port = 45123
-    app.run(debug=True, host="delta-tomcat-vm", port=port)
+        port = 45123
+        try:
+            init_db_connection()
+            app.run(debug=True, host="delta-tomcat-vm", port=port)
+        finally:
+            if DB_CONNECTION is not None:
+                DB_CONNECTION.close()
 

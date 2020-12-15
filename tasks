@@ -1,6 +1,7 @@
 
 mysql -u DbMysql19 -p 'DbMysql19' -h mysqlsrv1.cs.tau.ac.il -D DbMysql19
-
+drop table movie_ratings, actors_movies, movies, actors, users;
+source ../CREATE-DB-SCRIPT.sql
 
 choose a front end farmework and create a test application
 for vanilla JS look at bootstrap

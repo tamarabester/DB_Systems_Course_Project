@@ -2,6 +2,9 @@ CREATE TABLE movies (
     id int NOT NULL AUTO_INCREMENT,
     title VARCHAR(1024) NOT NULL,
     genre VARCHAR(64) NOT NULL,
+    release_year YEAR,
+    plot_summary VARCHAR(2048),
+    poster_link VARCHAR(2048),
     PRIMARY KEY (id)
 );
 
@@ -16,7 +19,7 @@ CREATE TABLE users (
 CREATE TABLE actors (
     id int NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(64) NOT NULL,
-    last_name VARCHAR(64) NOT NULL,
+    last_name VARCHAR(64),
     PRIMARY KEY (id),
     CONSTRAINT unique_full_name UNIQUE (first_name, last_name)
 );
@@ -24,14 +27,16 @@ CREATE TABLE actors (
 
 CREATE TABLE movie_ratings (
     id int NOT NULL AUTO_INCREMENT,
-    user_id int NOT NULL,
+    user_id int,
     movie_id int NOT NULL,
-    rating int NOT NULL,
-    comment VARCHAR(2048) NOT NULL,
+    original_rating DOUBLE NOT NULL,
+    normalized_rating DOUBLE NOT NULL,
+    rating_source VARCHAR(64) NOT NULL,
+    comment VARCHAR(2048),
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (movie_id) REFERENCES movies(id),
-    CONSTRAINT unique_rating_for_movie_per_user UNIQUE (user_id, movie_id)
+    CONSTRAINT unique_rating_for_movie_per_source UNIQUE (movie_id, rating_source)
 );
 
 
