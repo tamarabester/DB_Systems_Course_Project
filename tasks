@@ -57,3 +57,13 @@ APIs:
 /movie/<movie_id>/info
 /movie/<movie_id>/comments?n=5
     ???
+
+
+
+TODO:
+# fetch data - dana
+# db queries:
+ # actor_movies - dana
+ # movie_ratings - dana
+ # movies - edan and dor
+# front end - react

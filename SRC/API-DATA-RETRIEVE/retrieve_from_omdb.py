@@ -259,3 +259,6 @@ def insert_movies_with_random_id_from_imdb():
     movies = []
     get_from_ombd(movies)
     CONNECTION.close()
+
+
+insert_movies_from_csv()
