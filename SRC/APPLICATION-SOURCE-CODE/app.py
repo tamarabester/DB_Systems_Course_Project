@@ -26,10 +26,9 @@ def get_movie_names_for_autocomplete():
 
 @app.route('/random_rating')
 def get_random_rating():
-    number_of_entries = get_number_of_ratings()
-    random_id = random.randrange(number_of_entries)
-    rating_entry = get_rating_entry_by_id(random_id)
-    return json.dumps(rating_entry)
+    ratings = get_ratings_with_comments()
+    random_rating = random.sample(ratings, k=1)
+    return json.dumps(random_rating)
 
 
 @app.route('/staff_pick')
@@ -49,10 +48,7 @@ def get_top_n_user_rated():
     top_movies.sort(key=lambda m: -m["rating"])
     for i in range(len(top_movies)):
         movie = top_movies[i]
-        movie_id = movie["id"]
-
         movie["rank"] = i + 1
-        movie["title"] = get_title_for_movie_id(movie_id),
 
     return json.dumps(top_movies)
 
@@ -60,15 +56,12 @@ def get_top_n_user_rated():
 @app.route('/imdb_rated')
 def get_top_n_imdb_rated():
     n = int(request.args.get('n'))
-    top_movies = get_top_n_from_source(n, "imdb")
+    top_movies = get_top_n_from_source(n, "IMDB")
 
     top_movies.sort(key=lambda m: -m["rating"])
     for i in range(len(top_movies)):
         movie = top_movies[i]
-        movie_id = movie["id"]
-
         movie["rank"] = i + 1
-        movie["title"] = get_title_for_movie_id(movie_id),
 
     return json.dumps(top_movies)
 

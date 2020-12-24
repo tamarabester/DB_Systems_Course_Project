@@ -16,9 +16,9 @@ API_KEYS = ["d566f271", "e192dfe7",
             ]
 
 API_INDEX = 0
-OMDB_BASE = "http://www.omdbapi.com/?apikey={api_key}&t={title}"
+OMDB_BASE = "http://www.omdbapi.com/?apikey={api_key}"
 CONNECTION = None
-MAX_INSERT_RETRIES = 5
+MAX_INSERT_RETRIES = 2
 
 
 def init_db_connection():
@@ -41,10 +41,35 @@ def get_movie_names_from_csv():
 
 
 def format_movie_release_year(raw_year):
+    if not raw_year:
+        return None
+
     year = str(raw_year.replace(u'\u2013', '-'))
+    if year == "N/A":
+        return None
     if "-" in year:
         year = year.split("-")[0]
     return year
+
+
+def format_movie_plot(raw_plot):
+    if not raw_plot:
+        return None
+
+    plot = str(raw_plot)
+    if plot == "N/A":
+        return None
+    return plot
+
+
+def format_movie_poster_link(raw_link):
+    if not raw_link:
+        return None
+
+    link = str(raw_link)
+    if link == "N/A":
+        return None
+    return link
 
 
 def get_movie_id_from_title(title, db_cursor):
@@ -66,9 +91,9 @@ def insert_movie_data(response_data):
         parameters = dict(
             title=str(response_data["Title"]),
             genre=str(response_data["Genre"].split(",")[0]),
-            release_year=format_movie_release_year(response_data["Year"]),
-            plot_summary=str(response_data.get("Plot")),
-            poster_link=response_data.get("Poster")
+            release_year=format_movie_release_year(response_data.get("Year")),
+            plot_summary=format_movie_plot(response_data.get("Plot")),
+            poster_link=format_movie_poster_link(response_data.get("Poster"))
         )
 
         query = ("INSERT INTO movies "
@@ -93,16 +118,18 @@ def insert_rating_data(response_data, movie_id):
                            "VALUES (%(movie_id)s, %(original_rating)s, %(normalized_rating)s, %(rating_source)s)")
 
     if "imdbRating" in response_data:
-        imdb_rating = float(response_data["imdbRating"])
-        imdb_rating_parameters = dict(
-            movie_id=movie_id,
-            original_rating=imdb_rating,
-            normalized_rating=imdb_rating/2,
-            rating_source="IMDB"
-        )
-        print(f"Inserting movie rating from IMDB: {imdb_rating}")
-        db_cursor.execute(insert_rating_query, imdb_rating_parameters)
-        inserted += 1
+        raw_rating = response_data["imdbRating"]
+        if raw_rating != "N/A":
+            imdb_rating = float(raw_rating)
+            imdb_rating_parameters = dict(
+                movie_id=movie_id,
+                original_rating=imdb_rating,
+                normalized_rating=imdb_rating/2,
+                rating_source="IMDB"
+            )
+            print(f"Inserting movie rating from IMDB: {imdb_rating}")
+            db_cursor.execute(insert_rating_query, imdb_rating_parameters)
+            inserted += 1
 
     ratings = response_data["Ratings"]
     for rating in ratings:
@@ -113,7 +140,7 @@ def insert_rating_data(response_data, movie_id):
                 movie_id=movie_id,
                 original_rating=rt_rating,
                 normalized_rating=rt_rating_norm,
-                rating_source="Rotten Tomatoes"
+                rating_source="RT"
             )
             print(f"Inserting movie rating from RT: {rt_rating}")
             db_cursor.execute(insert_rating_query, rt_rating_parameters)
@@ -162,7 +189,10 @@ def insert_actors_data(response_data, movie_id):
     inserted = 0
 
     # format actors info and insert
-    actor_data_list = response_data["Actors"].split(",")
+    actors_data = response_data["Actors"]
+    if actors_data == "N/A":
+        return inserted
+    actor_data_list = actors_data.split(",")
     actor_data_list = [ac.strip() for ac in actor_data_list]
     actor_data_list = [ac.split(" ") for ac in actor_data_list]
 
@@ -180,7 +210,7 @@ def insert_actors_data(response_data, movie_id):
     return inserted
 
 
-def get_omdb_response(movie):
+def get_omdb_response(movie, search_by="title"):
     global API_INDEX
     tries = 0
     got_resp = False
@@ -191,7 +221,11 @@ def get_omdb_response(movie):
             print(f"Using api key: {API_INDEX}")
             tries += 1
             title = movie.replace(" ", "+")
-            url = OMDB_BASE.format(api_key=API_KEYS[API_INDEX], title=title)
+            url = OMDB_BASE.format(api_key=API_KEYS[API_INDEX])
+            if search_by == "title":
+                url += "&t={}".format(movie)
+            elif search_by == "imdb_id":
+                url += "&i={}".format(movie)
             response = requests.get(url).json()
 
             if "Error" in response:
@@ -210,7 +244,7 @@ def get_omdb_response(movie):
                 break
     return response
 
-def get_from_ombd(movie_names):
+def get_from_ombd(movie_names, search_by="title", inserted=None):
     """
     iterate over all of the movie names from the oscars csv,
     query omdb with title until we get a response (or until no more api keys to try)
@@ -222,11 +256,20 @@ def get_from_ombd(movie_names):
 
     :return: None
     """
-    inserted = 0
+    inserted = inserted or 0
     for index, movie in enumerate(movie_names):
-        response = get_omdb_response(movie)
+        response = get_omdb_response(movie, search_by)
         if not response:
             print(f"No response for movie {movie}\n")
+            continue
+
+        if "Title" not in response or "Genre" not in response:
+            continue
+        if response["Title"] == "N/A" or response["Genre"] == "N/A":
+            continue
+        if "Adult" in response["Genre"]:
+            continue
+        if response["Title"].startswith("Episode"):
             continue
 
         # check if movie exists
@@ -242,23 +285,28 @@ def get_from_ombd(movie_names):
             inserted += insert_actors_data(response, movie_id)
         except Exception as e:
             print(f"Error on movie {movie}:\nresp: {response}\nerror: {e}")
-            return
+            continue
 
         print(f"########## inserted total of {inserted} new lines to all tables so far ##########\n")
+    return inserted
 
 
 def insert_movies_from_csv():
     init_db_connection()
     movies = get_movie_names_from_csv()
-    get_from_ombd(movies)
+    inserted = get_from_ombd(movies)
     CONNECTION.close()
+    return inserted
 
 
-def insert_movies_with_random_id_from_imdb():
+def insert_movies_with_random_id_from_imdb(inserted):
     init_db_connection()
-    movies = []
-    get_from_ombd(movies)
+    imdb_ids = [random.randrange(1, 3135393) for i in range(1000)]
+    imdb_ids = [str(m_id).zfill(7) for m_id in imdb_ids]
+    imdb_ids = [f"tt{m_id}" for m_id in imdb_ids]
+    get_from_ombd(imdb_ids, "imdb_id", inserted)
     CONNECTION.close()
 
 
-insert_movies_from_csv()
+inserted = insert_movies_from_csv()
+insert_movies_with_random_id_from_imdb(inserted)

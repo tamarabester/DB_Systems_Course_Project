@@ -51,6 +51,7 @@ CREATE TABLE actors_movies (
 );
 
 CREATE INDEX  username_index ON users (username);
+CREATE INDEX  genre_index ON movies (genre);
 CREATE INDEX actor_name_index ON actors (first_name, last_name);
 CREATE INDEX user_movie_index ON movie_ratings (user_id, movie_id);
 CREATE INDEX actor_index ON actors_movies (actor_id);

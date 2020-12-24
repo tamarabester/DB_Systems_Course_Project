@@ -52,9 +52,17 @@ APIs:
     returns {
     title="",
     id=0,
-    summary=""}
+    summary="",
+    ratings={
+        user=avg_score,
+        IMDB=avg_score,
+        RT=avg_score
+        }
+    }
 
 /movie/<movie_id>/info
+    same as recommendation
+
 /movie/<movie_id>/comments?n=5
     ???
 
