@@ -13,6 +13,14 @@
   * top rated on IMDB
   * recommended for you
   * movie page
+  
+### get to know our movies
+* title with drop down menu:
+ * most popular genres
+ * most popular actors
+ * how many movies per genre
+ * movies with the most comments
+  ![](https://github.com/tamarabester/DB_Systems_Course_Project/blob/main/ui_planning/get_to_know_movies.png)
  
 ### top rated by our users:
   * table with rank, rating, title (top 20 or optional - load more) __QUERY #3__
