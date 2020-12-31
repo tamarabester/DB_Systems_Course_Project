@@ -53,6 +53,13 @@ function get_actor_names(movie){
   return names;
 }
 
+function get_top(rating_type,n){
+  var movie = {"title":"TITLE","ratings":{tomatoes_rank:"1", RT:"100"}};
+  var movie2 = {"title":"TITLE","ratings":{tomatoes_rank:"1", RT:"100"}};
+  var movie3 = {"title":"TITLE","ratings":{tomatoes_rank:"1", RT:"100"}};
+  return [movie,movie2,movie3];
+}
+
 /********************************** Home page *************************************** */
 
 var slideIndex;
@@ -227,6 +234,13 @@ function append_to_html(parent_id, html_tag ,class_name, inner_text){
   parent.appendChild(child)
   return child
 }
+
+function append_to_html_with_atterbutes(parent_id, html_tag ,class_name, inner_text, attributes_dict){
+  var new_elem = append_to_html(parent_id, html_tag ,class_name, inner_text)
+  for (attribute_name in attributes_dict){
+    new_elem.setAttribute(attribute_name,attributes_dict[attribute_name])
+  }
+}
 /******************************************************************************* */
 /******************************************************************************* */
 /******************************************************************************* */
@@ -254,26 +268,52 @@ function init_moviepage(){
   inset_user_comments("comments!", comments)
 }
 
+function append_row_to_table(table_id, row_id, row_class, cell_texts,cel_type_tag){
+  toprow_attributes = {"id":row_id}
+  append_to_html_with_atterbutes(table_id,"tr",row_class,"",toprow_attributes)
+
+  for (i in cell_texts){
+    append_to_html(row_id,cel_type_tag,"",cell_texts[i])
+  }
+}
+
+function init_toppage(rating_type, n){
+  var table_attributes;
+  const top_rated_movies = get_top(rating_type,n) // TODO
+
+  table_attributes = {"style":"width:100%", "id": "ratingtable"}
+  append_to_html_with_atterbutes("ratingtablecontainer","table","ratingtable","",table_attributes)
+  
+  append_row_to_table("ratingtable","toprow","ratingtabletop",["Rank","Title","Rating"],"th")  
+
+  for (i in top_rated_movies){
+    var movie = top_rated_movies[i]
+    console.log(movie)
+    text = [movie.ratings["tomatoes_rank"],movie.title,movie.ratings["RT"]]
+    append_row_to_table("ratingtable","row"+i,"",text,"td")
+  }
+}
 
 /******************************************************************************* */
 /* On page load */
 
+const links = [ ["Home","./Home.HTML"] ,["Recommended for you","./RecommendedForYou.HTML"]
+,["User recommendations","./UserRating.HTML"] ,["IMDB recommendations","./IMDB.HTML"]
+,["Get to know our films","./Tomatos.HTML"] ]
 
-
-
-
-init_navbar([["Home","./Home.HTML"]
-,["Recommended for you","./RecommendedForYou.HTML"]
-,["User recommendations","./UserRating.HTML"]
-,["IMDB recommendations","./IMDB.HTML"]
-,["Get to know our films","./Tomatos.HTML"]
-])
+init_navbar(links)
 
 var pageneme = document.currentScript.getAttribute('pagename')
 if (pageneme=="homepage") {
   init_homepage()
 } else if (pageneme=="MoviePage"){
   init_moviepage()
+} else if (pageneme=="TopUsers"){
+  init_toppage("users")
+} else if (pageneme=="TopImdb"){
+  init_toppage("imdb")
+} else if (pageneme=="TopTomatoes"){
+  init_toppage("tomatoes")
 } else{
   page_not_found()
 }
@@ -313,6 +353,3 @@ function searchMovieInDB(e){
     console.log("Enter key has been pressed!")
   }
 }
-
-/**************************************************************************************/
-

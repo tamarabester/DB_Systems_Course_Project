@@ -269,9 +269,6 @@ input[type="text"]
   from {opacity: .4}
   to {opacity: 1}
 }
-
-/************************/
-/******** img grid *****/
 .imggrid{
   height: 3%;
   width: auto;
@@ -282,3 +279,36 @@ input[type="text"]
   object-fit: contain;
 }
 
+
+img{
+  max-width:100%;
+  max-height: 100%;
+  margin-left:1%;
+  margin-right:1%;
+  object-fit: contain;
+  float: center;
+}
+
+.imggrid{
+  height: 3%;
+  width: auto;
+  float: center;
+  margin: 3px;
+  padding: 3px;
+  text-align: center;
+  object-fit: contain;
+}
+
+/************/
+table{
+  border-collapse: separate;
+  border-spacing: 0px 2px;
+}
+th{
+  background-color: #74b1a7;
+  text-align: left;
+}
+
+td{
+  background-color: #93E2D5;  
+}
