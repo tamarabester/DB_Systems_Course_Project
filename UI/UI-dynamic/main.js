@@ -1,8 +1,64 @@
+class usercomment {
+  constructor(name, film, text, rank) {
+    this.name = name;
+    this.film = film;
+    this.text = text;
+    this.rank = rank;
+  }
+}
+
+class movie {
+  constructor(title, plot, wiki, poster) {
+    this.title = title;
+    this.plot = plot;
+    this.wiki = wiki;
+    this.poster = poster;
+  }
+}
+
+class staffpick{
+  constructor(title, wiki_name,wiki_link,image,summary){
+    this.title = title;
+    this.wiki_name = wiki_name;
+    this.wiki_link = wiki_link;
+    this.image = image;
+    this.summary = summary;
+  }
+}
+
+/********************** TEMP *******************/
+const loem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo cons";
+const loem_short = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ulla"
+const loem_long = loem+loem+loem;
+const mov = new movie("this is title of movie", "plot", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ","./posters/9.jpg") 
+const comment1 = new usercomment("namename", "filmfilm","text","3/5") 
+const comment2 = new usercomment("namename2", "filmfilm","text.....","3/5") 
+const comment3 = new usercomment("namename2", "filmfilm","allalalalalal","3/5") 
+const  staff_pick = new staffpick("Mobvie the movie", "a","a","./posters/11.jpg", "texti text!")
+const mov2 = new movie("this is title of movie", "plot", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ",null) 
+ 
+function get_movie(){
+  var ratings, movv;
+  ratings = {"imdb":1, "tomatoes":2, "users":3}
+  movv = {"title": "MovieTITLE","ratings":ratings, "summary":loem_long, "poster":"./posters/11.jpg"}
+  return movv;
+}
+
+function get_comments_for_movie(movie){
+  return [comment1,comment2,comment3]
+}
+
+function get_actor_names(movie){
+  var names = ["name1", "namename", "name!"];
+  return names;
+}
+
 /********************************** Home page *************************************** */
 
 var slideIndex;
+var topinput;
 
-function init_homepage(){
+function init_carosal(){
   slideIndex = 1;
   showSlides(slideIndex);
 }
@@ -33,36 +89,6 @@ function showSlides(n) {
 }
 
 /************************************************************************************/
-
-class usercomment {
-  constructor(name, film, text, rank) {
-    this.name = name;
-    this.film = film;
-    this.text = text;
-    this.rank = rank;
-  }
-}
-
-class movie {
-  constructor(title, plot, wiki, poster) {
-    this.title = title;
-    this.plot = plot;
-    this.wiki = wiki;
-    this.poster = poster;
-  }
-}
-
-class staffpick{
-  constructor(title, wiki_name,wiki_link,image,summary){
-    this.title = title;
-    this.wiki_name = wiki_name;
-    this.wiki_link = wiki_link;
-    this.image = image;
-    this.summary = summary;
-  }
-}
-
-
 /************************************************************************************/
 
 function page_not_found() {
@@ -83,7 +109,7 @@ function init_navbar(link_list) {
   }
   
 
-  // inset seach bar
+  // inset search bar
   let searchcontainer, searchbar;
   searchcontainer = document.createElement('div')
   searchcontainer.setAttribute("class", "searchcontainer")
@@ -95,8 +121,14 @@ function init_navbar(link_list) {
   searchbar.setAttribute("name", "searchbar")
   searchbar.setAttribute("class","right")
   searchbar.setAttribute("id","searchbar")
+  searchbar.setAttribute("list","suggestions")
   searchbar.setAttribute("placeholder","Search a film..")
   searchcontainer.appendChild(searchbar)
+
+  topinput = document.querySelector('#searchbar');
+  topinput.addEventListener('input', userTypeInTopSearchbar);
+  document.querySelector('#searchbar').addEventListener('keypress', searchMovieInDB);
+
 }
 
 function init_footer(footer_text){
@@ -152,9 +184,9 @@ function insert_movie_description(id, movie, max_img_size){
     parentelem.appendChild(image)
   }
 
-  wiki = document.createElement('p')
-  wiki.innerText = movie.wiki
-  parentelem.appendChild(wiki)
+  summary = document.createElement('p')
+  summary.innerText = movie.summary
+  parentelem.appendChild(summary)
 
 }
 
@@ -165,6 +197,7 @@ function insert_staff_pick(pick, max_img_size){
   document.getElementById("picktitle").innerHTML = picktitle
 
   insert_movie_description(pick,max_img_size)
+  
   /*
   if (pick.image!=null){
     img = append_to_html("staffpickimage","img","staffpickimage","")
@@ -194,13 +227,40 @@ function append_to_html(parent_id, html_tag ,class_name, inner_text){
   parent.appendChild(child)
   return child
 }
+/******************************************************************************* */
+/******************************************************************************* */
+/******************************************************************************* */
+/* page init functions */
+
+function init_homepage(){
+  const max_img_size = 150;
+  const comment = get_random_comment(); // TODO
+  const pick = get_random_pick(); // TODO
+  init_carosal();
+  insert_comment_of_the_day(comment);
+  insert_staff_pick(pick, max_img_size);
+}
+
+
+function init_moviepage(){
+  const max_img_size = 200
+  const movie = get_movie() // TODO
+  const comments = get_comments_for_movie(movie) // TODO
+  document.getElementById("movietitle").innerHTML = movie.title
+  rating_text = "IMDB: "+movie.ratings["imdb"]+" | Rotten Tomatoes: "+movie.ratings["tomatoes"]+" | Our Users: "+movie.ratings["users"]
+  document.getElementById("movieratings").innerHTML = rating_text
+  document.getElementById("starring").innerHTML = "<b>Starring:</b> " + get_actor_names(movie) //TODO
+  insert_movie_description("Moviedescription", movie, max_img_size)
+  inset_user_comments("comments!", comments)
+}
+
 
 /******************************************************************************* */
 /* On page load */
 
-const loem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo cons";
-const loem_short = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ulla"
-const loem_long = loem+loem+loem;
+
+
+
 
 init_navbar([["Home","./Home.HTML"]
 ,["Recommended for you","./RecommendedForYou.HTML"]
@@ -209,45 +269,50 @@ init_navbar([["Home","./Home.HTML"]
 ,["Get to know our films","./Tomatos.HTML"]
 ])
 
-
-
 var pageneme = document.currentScript.getAttribute('pagename')
-
-
-if (pageneme=="Home"){
-
-  comment = new usercomment("username","this is the movie","texti text!","rank")
-  staff_pick = new staffpick("Mobvie the movie", "a","a","./posters/11.jpg", "texti text!")
-  insert_comment_of_the_day(comment)
-  insert_staff_pick(staff_pick)
-
-} else if (pageneme=="MoviePage"){
-  const mov = new movie("this is title of movie", "plot", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ","./posters/9.jpg") 
-  const mov2 = new movie("this is title of movie", "plot", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ",null) 
-  
-  insert_movie_description("Moviedescription", mov)
-
-  const comment1 = new usercomment("namename", "filmfilm","text","3/5") 
-  const comment2 = new usercomment("namename2", "filmfilm","text.....","3/5") 
-  const comment3 = new usercomment("namename2", "filmfilm","allalalalalal","3/5") 
-
-  const comments = [comment1,comment2,comment3]
-  inset_user_comments("comments!", comments)
-
-} else if (pageneme=="hometest") {
-  const comment1 = new usercomment("namename", "filmfilm",loem+"fknknvklvnfdlv","3/5") 
-  const staff_pick1 = new staffpick("Mobvie the movie", "a","a","./posters/11.jpg", "texti text!")
-  const staff_pick2 = new staffpick("Mobvie the movie", "a","a",null, "texti text!")
-  const mov = new movie("this is title of movie", "plot", loem_long, "./posters/11.jpg")
-  const max_img_size = 150;
-
+if (pageneme=="homepage") {
   init_homepage()
-  insert_comment_of_the_day(comment1)
-  insert_staff_pick(mov, max_img_size)
-  //insert_movie_description("description", mov,max_img_size)
-
-}else{
+} else if (pageneme=="MoviePage"){
+  init_moviepage()
+} else{
   page_not_found()
 }
 
-//init_footer("im the footer!")
+init_footer("im the footer!")
+
+
+/**************************************************************************************/
+
+/********************************* top searchbar **************************************/
+
+function getCompletionOptions(prefix){
+  return ["lalala", "bla bla", "123"]
+}
+
+function getAutoCompleteOptions(prefix){
+  options = getCompletionOptions(prefix)
+  datalist = append_to_html("searchbar","datalist","datalist","")
+  //datalist = append_to_html("searchbar","datalist","","")
+  datalist.setAttribute("id","suggestions")
+
+  for (option in options){
+    opt = append_to_html("suggestions",option,"","")
+    opt.setAttribute("value",option)
+  }
+  
+}
+
+function userTypeInTopSearchbar(e) {
+  getAutoCompleteOptions(e.target.value)
+  //console.log(e.target.value);
+}
+
+function searchMovieInDB(e){
+  // TODO! replace with movie search functionallity
+  if (e.key === 'Enter') {
+    console.log("Enter key has been pressed!")
+  }
+}
+
+/**************************************************************************************/
+

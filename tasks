@@ -21,6 +21,7 @@ APIs:
     ]
 
 / - home page, should return the html for the inital page
+
 /random_rating:
     returns {
     title="",
@@ -74,4 +75,6 @@ TODO:
  # actor_movies - dana
  # movie_ratings - dana
  # movies - edan and dor
-# front end - react
+# front:
+ # tamara - get to know our films, top movies pages, movie page, homepage
+ # edan&dor - search and autocomplete, top searchbar, recommended for you page
