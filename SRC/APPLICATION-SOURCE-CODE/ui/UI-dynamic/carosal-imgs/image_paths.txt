@@ -1,0 +1,5 @@
+./carosal-imgs/IMDB.png
+./carosal-imgs/you.jpg
+./carosal-imgs/tomatos.jpg
+./carosal-imgs/topuser.jpg
+./carosal-imgs/knowfilms.JPG

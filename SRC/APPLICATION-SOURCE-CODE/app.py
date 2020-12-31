@@ -1,19 +1,19 @@
 import json
 import random
 
-from flask import Flask, request
+from flask import Flask, request, send_from_directory
 
 from lib.movies.movie_utils import *
 from lib.staff_pick.staff_pick_utils import *
-from utils.db_connection import *
+from utils.config import *
 
 
 app = Flask(__name__)
 
 
 @app.route('/')
-def hello():
-    return 'Hello, World!'
+def return_homepage():
+    return send_from_directory(UI_FILES_DIR, "Homepage.html")
 
 
 @app.route('/movie_name')
@@ -101,12 +101,13 @@ def get_movie_comments(movie_id):
     return json.dumps(comments)
 
 
+
 if __name__ == '__main__':
         port = 45123
         try:
-            init_db_connection()
+            print(f"INIT DB CONNECTION {CONNECTION}")
             app.run(debug=True, host="delta-tomcat-vm", port=port)
         finally:
-            if DB_CONNECTION is not None:
-                DB_CONNECTION.close()
+            if CONNECTION is not None:
+                CONNECTION.close()
 

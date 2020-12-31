@@ -1,7 +1,8 @@
+from utils.config import *
 
 
 def create_ex(exclude):
-    if exclude == None or len(exlcude) == 0:
+    if exclude == None or len(exclude) == 0:
         return "()"
     ex = "("
     for id in exclude:
@@ -13,9 +14,9 @@ def create_ex(exclude):
 
 
 def get_movie_names_with_text(text):
-    query = "SELECT title \
-            FROM movies \
-            WHERE title LIKE '%{0}%'".format(text)
+    query = "SELECT title " \
+            "FROM movies " \
+            "WHERE title LIKE '%{0}%'".format(text)
     
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query)

@@ -1,8 +1,9 @@
+from utils.config import *
 
 
 def get_actors_for_movie_id(movie_id):
-    query = "SELECT first_name, last_name from actors, actors_movies" \
-            "WHERE actors.id = actors_movies.actor_id AND" \
+    query = "SELECT first_name, last_name from actors, actors_movies " \
+            "WHERE actors.id = actors_movies.actor_id AND " \
             "actors_movies.movie_id = %(movie_id)s"
 
     db_cursor = CONNECTION.cursor()
