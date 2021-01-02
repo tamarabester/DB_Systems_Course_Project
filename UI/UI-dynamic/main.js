@@ -52,12 +52,24 @@ function get_actor_names(movie){
   var names = ["name1", "namename", "name!"];
   return names;
 }
-
+/*
 function get_top(rating_type,n){
   var movie = {"title":"TITLE","ratings":{tomatoes_rank:"1", RT:"100"}};
   var movie2 = {"title":"TITLE","ratings":{tomatoes_rank:"1", RT:"100"}};
   var movie3 = {"title":"TITLE","ratings":{tomatoes_rank:"1", RT:"100"}};
   return [movie,movie2,movie3];
+}*/
+var port = "1234"
+var n
+function get_top(){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+     console.log(this.responseText);
+    }
+  };
+  xhttp.open("GET", "delta-tomacat-vm:"+port+"/imdb_rated?n="+n, true);
+  xhttp.send();
 }
 
 /********************************** Home page *************************************** */
