@@ -26,12 +26,12 @@ def return_analytics():
     return send_from_directory(UI_FILES_DIR, "KnowMovies.html")
 
 
-@app.route('/user_ratings')
+@app.route('/user_rating')
 def return_user_ratings():
     return send_from_directory(UI_FILES_DIR, "TopUsers.html")
 
 
-@app.route('/imdb_ratings')
+@app.route('/imdb_rating')
 def return_imdb_ratings():
     return send_from_directory(UI_FILES_DIR, "TopImdb.html")
 
