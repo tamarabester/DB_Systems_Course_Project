@@ -1,3 +1,4 @@
+import os
 import json
 import random
 
@@ -11,9 +12,48 @@ from utils.config import *
 app = Flask(__name__)
 
 
+################################
+######### STATIC PAGES #########
+################################
+
 @app.route('/')
 def return_homepage():
     return send_from_directory(UI_FILES_DIR, "Homepage.html")
+
+
+@app.route('/analytics')
+def return_analytics():
+    return send_from_directory(UI_FILES_DIR, "KnowMovies.html")
+
+
+@app.route('/user_ratings')
+def return_user_ratings():
+    return send_from_directory(UI_FILES_DIR, "TopUsers.html")
+
+
+@app.route('/imdb_ratings')
+def return_imdb_ratings():
+    return send_from_directory(UI_FILES_DIR, "TopImdb.html")
+
+
+@app.route('/recommended')
+def return_recommended():
+    return send_from_directory(UI_FILES_DIR, "RecommendedForYou.html")
+
+
+@app.route('/movie/<movie_id>')
+def return_movie_page(movie_id):
+    return send_from_directory(UI_FILES_DIR, "RecommendedForYou.html")
+
+
+@app.route('/ui/<path:filename>')
+def return_ui(filename):
+    return send_from_directory(UI_FILES_DIR, filename)
+
+
+################################
+######### API CALLS #########
+################################
 
 
 @app.route('/movie_name')

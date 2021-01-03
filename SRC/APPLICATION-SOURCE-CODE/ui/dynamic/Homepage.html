@@ -4,7 +4,7 @@
 <title>NAME - Home</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="./style.css">
+<link rel="stylesheet" href="./ui/style.css">
 </head>
 <body>
 
@@ -18,27 +18,27 @@
       <!-- Full-width images with number and caption text -->
       <div class="mySlides fade">
         <div class="numbertext">1 / 5</div>
-        <img src="./carosal-imgs/IMDB.png" style="width:80%">
+        <img src="./ui/carosal-imgs/IMDB.png" style="width:80%">
       </div>
 
       <div class="mySlides fade">
         <div class="numbertext">2 / 5</div>
-        <img src="./carosal-imgs/you.jpg" style="width:80%">
+        <img src="./ui/carosal-imgs/you.jpg" style="width:80%">
       </div>
 
       <div class="mySlides fade">
         <div class="numbertext">3 / 5</div>
-        <img src="./carosal-imgs/tomatos.jpg" style="width:80%">
+        <img src="./ui/carosal-imgs/tomatos.jpg" style="width:80%">
       </div>
 
       <div class="mySlides fade">
         <div class="numbertext">4 / 5</div>
-        <img src="./carosal-imgs/topuser.jpg" style="width:80%">
+        <img src="./ui/carosal-imgs/topuser.jpg" style="width:80%">
       </div>
 
       <div class="mySlides fade">
         <div class="numbertext">5 / 5</div>
-        <img src="./carosal-imgs/knowfilms.JPG" style="width:80%">
+        <img src="./ui/carosal-imgs/knowfilms.JPG" style="width:80%">
       </div>
 
       <!-- Next and previous buttons -->
@@ -68,7 +68,48 @@
 
 <div id="footer" class="footer"></div>
 
-<script src="./main.js" pagename="homepages"></script>
+<script type="module" src="./ui/main.js"></script>
+<script type="text/javascript">
+
+function get_random_comment() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText);
+      var comment = JSON.parse(this.responseText)[0];
+      const title_text = comment.username + " on " + comment.title
+      document.getElementById("title").innerHTML = title_text;
+      document.getElementById("text").innerHTML = comment.text;
+      document.getElementById("rank").innerHTML =" - "+comment.rating;
+    }
+  };
+  xhttp.open("GET", "/random_rating", true);
+  xhttp.send();
+}
+
+
+function get_random_pick(){
+      var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText);
+    }
+  };
+  xhttp.open("GET", "/staff_pick", true);
+  xhttp.send();
+}
+
+function init_homepage(){
+      const max_img_size = 150;
+      const comment = get_random_comment();
+      const pick = get_random_pick();
+      //init_carosal();
+      //insert_comment_of_the_day(comment);
+      //insert_staff_pick(pick, max_img_size);
+    }
+
+    init_homepage();
+</script>
 
 </body>
 </html>

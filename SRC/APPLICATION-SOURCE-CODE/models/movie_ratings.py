@@ -1,21 +1,23 @@
 from utils.config import *
 
 def get_ratings_with_comments():
-    query = "SELECT title, normalized_rating, comment " \
-            "FROM movies, movie_ratings " \
+    query = "SELECT title, normalized_rating, comment, username " \
+            "FROM movies, movie_ratings, users " \
             "WHERE movies.id = movie_ratings.movie_id " \
-            "AND movie_ratings.rating_source = 'users' LIMIT 500"
+            "AND movie_ratings.user_id = users.id " \
+            "AND movie_ratings.rating_source = 'user' LIMIT 500"
 
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query)
 
     ratings = []
     for result in db_cursor:
-        title, rating, comment = result[0], result[1], result[2]
+        title, rating, comment, username = result[0], result[1], result[2], result[3]
         rating = dict(
             title=title,
             rating=rating,
-            comment=comment
+            text=comment,
+            username=username
         )
         ratings.append(rating)
     db_cursor.close()

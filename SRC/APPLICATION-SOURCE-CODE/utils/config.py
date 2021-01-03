@@ -1,8 +1,9 @@
+import os
 import mysql.connector
 from utils.config import *
 
 
-UI_FILES_DIR = "./ui/UI-dynamic/"
+UI_FILES_DIR = os.getcwd() + "/ui/dynamic/"
 
 MYSQL_HOST = 'mysqlsrv1.cs.tau.ac.il'
 MYSQL_USER = 'DbMysql19'

@@ -1,3 +1,5 @@
+
+
 class usercomment {
   constructor(name, film, text, rank) {
     this.name = name;
@@ -143,7 +145,7 @@ function init_footer(footer_text){
   footerdiv = document.getElementById("footer");
   text = document.createElement('p');
   text.innerText = footer_text;
-  appendChildElement = footerdiv.appendChild(text);
+  footerdiv.appendChild(text);
 }
 
 function inset_user_comments(id, usercomments){
@@ -198,7 +200,7 @@ function insert_movie_description(id, movie, max_img_size){
 }
 
 function insert_staff_pick(pick, max_img_size){
-  staffmembers = ["Dana","Tamara","Dor","Eden"]
+  staffmembers = ["Dana","Tamara","Dor","Edan"]
   const random = Math.floor(Math.random() * 4);
 
   document.getElementById("picktitle").innerHTML = picktitle
@@ -218,12 +220,6 @@ function insert_staff_pick(pick, max_img_size){
 
 /** for home page **/
 
-function insert_comment_of_the_day(comment){
-  const title_text = comment.name + " on " + comment.film
-  document.getElementById("title").innerHTML = title_text;
-  document.getElementById("text").innerHTML =comment.text;
-  document.getElementById("rank").innerHTML =" - "+comment.rank;
-}
 
 function append_to_html(parent_id, html_tag ,class_name, inner_text){
   let parent, child;
@@ -297,26 +293,27 @@ function init_toppage(rating_type, n){
 /******************************************************************************* */
 /* On page load */
 
-const links = [ ["Home","./Home.HTML"] ,["Recommended for you","./RecommendedForYou.HTML"]
-,["User recommendations","./UserRating.HTML"] ,["IMDB recommendations","./IMDB.HTML"]
-,["Get to know our films","./Tomatos.HTML"] ]
+const links = [ ["Home","./"] ,["Recommended for you","./recommended"]
+,["User recommendations","./user_rating"] ,["IMDB recommendations","./imdb_rating"]
+,["Get to know our films","./analytics"] ]
 
 init_navbar(links)
 
-var pageneme = document.currentScript.getAttribute('pagename')
-if (pageneme=="homepage") {
-  init_homepage()
-} else if (pageneme=="MoviePage"){
-  init_moviepage()
-} else if (pageneme=="TopUsers"){
-  init_toppage("users")
-} else if (pageneme=="TopImdb"){
-  init_toppage("imdb")
-} else if (pageneme=="TopTomatoes"){
-  init_toppage("tomatoes")
-} else{
-  page_not_found()
-}
+//var pagename = document.currentScript.getAttribute('pagename');
+//console.log(pagename);
+//if (pagename=="homepage") {
+//  init_homepage()
+//} else if (pagename=="MoviePage"){
+//  init_moviepage()
+//} else if (pagename=="TopUsers"){
+//  init_toppage("users")
+//} else if (pagename=="TopImdb"){
+//  init_toppage("imdb")
+//} else if (pagename=="TopTomatoes"){
+//  init_toppage("tomatoes")
+//} else{
+//  page_not_found()
+//}
 
 init_footer("im the footer!")
 
