@@ -46,6 +46,11 @@ p { color: #f8f8f8; font-family: 'Raleway',sans-serif; font-size: 18px; font-wei
   flex: 70%;
   padding: 20px;
   margin-top: 4%;
+  min-height: 100%;
+
+  /* Equal to height of footer */
+  /* But also accounting for potential margin-bottom of last child */
+  margin-bottom: -50px;
 }
 /***********/
 
@@ -53,7 +58,7 @@ p { color: #f8f8f8; font-family: 'Raleway',sans-serif; font-size: 18px; font-wei
 #footer {
   padding: 1px;
   text-align: center;
-  bottom: 0;
+  bottom: 0px;
   position: relative;
   width:100%;
   z-index: 1;
@@ -61,6 +66,7 @@ p { color: #f8f8f8; font-family: 'Raleway',sans-serif; font-size: 18px; font-wei
 .footer p{
   font-size: 11px;
 }
+
 
 /***********/
 
@@ -312,3 +318,30 @@ th{
 td{
   background-color: #93E2D5;  
 }
+
+/************************/
+/******* togglebox******/
+
+.togglebox{
+  padding-left: 5px;
+  text-align: left;
+  background-color: #bbbbbb;
+}
+
+.togglebox h3{
+  text-align: left;
+}
+
+.togglebtn{
+  margin-left: 3px;
+  font-size: 18px!important;
+  cursor: pointer;
+  margin-bottom: 4px;
+  width:30px;
+}
+
+.togglep{
+  overflow:hidden;
+}
+
+

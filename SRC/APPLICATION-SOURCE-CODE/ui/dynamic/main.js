@@ -1,5 +1,3 @@
-
-
 class usercomment {
   constructor(name, film, text, rank) {
     this.name = name;
@@ -290,6 +288,14 @@ function init_toppage(rating_type, n){
   }
 }
 
+function init_analytics_page(){
+  insert_popular_genres()
+  insert_popular_actors()
+  insert_discussive_films()
+  insert_films_per_genre()
+  insert_films_per_year()
+}
+
 /******************************************************************************* */
 /* On page load */
 
@@ -298,6 +304,8 @@ const links = [ ["Home","./"] ,["Recommended for you","./recommended"]
 ,["Get to know our films","./analytics"] ]
 
 init_navbar(links)
+init_footer("im the footer!")
+
 
 //var pagename = document.currentScript.getAttribute('pagename');
 //console.log(pagename);
@@ -315,7 +323,6 @@ init_navbar(links)
 //  page_not_found()
 //}
 
-init_footer("im the footer!")
 
 
 /**************************************************************************************/
@@ -348,5 +355,53 @@ function searchMovieInDB(e){
   // TODO! replace with movie search functionallity
   if (e.key === 'Enter') {
     console.log("Enter key has been pressed!")
+  }
+}
+
+
+/************************************************************************************ */
+/*************************** Toggle for get to know page **************************** */
+function slideDown(el) {
+  var elem = document.getElementById(el);
+  elem.style.transition = "all 2s ease-in-out";
+  elem.style.height = "400px";
+}
+
+function toggleUp(btn,p){
+  p.style.transition = "all 1s ease-in-out";
+  p.style.height = "0px";
+  btn.innerHTML = "+";
+  btn.setAttribute("style","font-size:18px;")
+}
+
+function toggleDown(btn,p, pheight){
+  p.style.height = pheight;
+  p.style.transition = "all 1s ease-in-out";
+  btn.innerHTML = "-";
+}
+
+function toggleSwitch(btn,p, pheight){
+  if (p.style.height == "0px") {
+    toggleDown(btn,p,pheight)
+  } else {
+    toggleUp(btn,p)
+  }
+}
+
+function toggle(bid,pid,h) {
+  const togglebtns = ["btn1","btn2","btn3","btn4","btn5"]
+  const toggleps = ["p1","p2","p3","p4","p5"]
+  var p = document.getElementById(pid);
+  var btn = document.getElementById(bid);
+  const pheight = h+"px"
+
+  for (i in togglebtns){
+    if (togglebtns[i]==bid){
+      toggleSwitch(btn,p,pheight)
+    }else{
+      pp = document.getElementById(toggleps[i])
+      bb = document.getElementById(togglebtns[i])
+      toggleUp(bb,pp)
+    }
   }
 }
