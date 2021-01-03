@@ -65,4 +65,18 @@ def get_average_ratings_for_movie_id(movie_id):
 
 
 def get_n_comments_for_movie_id(movie_id, n):
-    pass
+    query = "SELECT comment " \
+    "FROM movie_ratings " \
+    "WHERE movie_id = %(movie_id)s " \
+    "LIMIT %(limit)s"
+
+    db_cursor = CONNECTION.cursor()
+    db_cursor.execute(query, dict(movie_id=movie_id, limit=n))
+
+    comments = []
+
+    for comment in db_cursor:
+        comments.append(comment)
+
+    db_cursor.close()
+    retrun comments
