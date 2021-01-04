@@ -81,4 +81,4 @@ def get_n_comments_for_movie_id(movie_id, n):
         comments.append(comment)
 
     db_cursor.close()
-    retrun comments
+    return comments
