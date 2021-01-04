@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>NAME - Home</title>
+<title>TEDD - Home</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="./ui/style.css">
@@ -66,55 +66,12 @@
     <p id="rank" class="usercommentcname"></p>
   </div>
 
-
-  
 </div>
 
 
 <div id="footer" class="footer"></div>
 
-<script type="module" src="./ui/main.js"></script>
-<script type="text/javascript">
-
-function get_random_comment() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      console.log(this.responseText);
-      var comment = JSON.parse(this.responseText)[0];
-      const title_text = comment.username + " on " + comment.title
-      document.getElementById("title").innerHTML = title_text;
-      document.getElementById("text").innerHTML = comment.text;
-      document.getElementById("rank").innerHTML =" - "+comment.rating;
-    }
-  };
-  xhttp.open("GET", "/random_rating", true);
-  xhttp.send();
-}
-
-
-function get_random_pick(){
-      var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      console.log(this.responseText);
-    }
-  };
-  xhttp.open("GET", "/staff_pick", true);
-  xhttp.send();
-}
-
-function init_homepage(){
-      const max_img_size = 150;
-      const comment = get_random_comment();
-      const pick = get_random_pick();
-      //init_carosal();
-      //insert_comment_of_the_day(comment);
-      //insert_staff_pick(pick, max_img_size);
-    }
-
-    init_homepage();
-</script>
+<script type="module" src="./ui/Homepage.js"></script>
 
 </body>
 </html>
