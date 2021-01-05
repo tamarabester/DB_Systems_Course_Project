@@ -4,6 +4,7 @@ from utils.config import *
 
 
 UI_FILES_DIR = os.getcwd() + "/ui/dynamic/"
+UI_IMG_DIR = os.getcwd() + "/images/"
 
 MYSQL_HOST = 'mysqlsrv1.cs.tau.ac.il'
 MYSQL_USER = 'DbMysql19'

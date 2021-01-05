@@ -39,25 +39,7 @@ function inset_user_comments(id, usercomments){
   }
 }
 
-function insert_movie_description(id, movie, max_img_size){
-  parentelem = document.getElementById(id)
 
-  if (movie.poster!=null){
-    // create image
-    image = document.createElement('img')
-    image.setAttribute("src","./posters/9.jpg")
-    image.setAttribute("alt","Movie's poster")
-    image.setAttribute("class","movieposter")
-    size = "height:"+max_img_size+"px;"
-    image.setAttribute("style",size)
-    parentelem.appendChild(image)
-  }
-
-  summary = document.createElement('p')
-  summary.innerText = movie.summary
-  parentelem.appendChild(summary)
-
-}
 
 
 /** for home page **/
@@ -105,17 +87,8 @@ function getAutoCompleteOptions(prefix){
   
 }
 
-function userTypeInTopSearchbar(e) {
-  getAutoCompleteOptions(e.target.value)
-  //console.log(e.target.value);
-}
 
-function searchMovieInDB(e){
-  // TODO! replace with movie search functionallity
-  if (e.key === 'Enter') {
-    console.log("Enter key has been pressed!")
-  }
-}
+
 
 
 /************************************************************************************ */

@@ -50,6 +50,10 @@ def return_movie_page(movie_id):
 def return_ui(filename):
     return send_from_directory(UI_FILES_DIR, filename)
 
+@app.route('/images/<path:filename>')
+def return_img(filename):
+    return send_from_directory(UI_IMG_DIR, filename)
+
 
 ################################
 ######### API CALLS ############
@@ -143,7 +147,7 @@ def get_movie_comments(movie_id):
 
 
 if __name__ == '__main__':
-        port = 45123
+        port = 45125
         try:
             print(f"INIT DB CONNECTION {CONNECTION}")
             app.run(debug=True, host="delta-tomcat-vm", port=port)

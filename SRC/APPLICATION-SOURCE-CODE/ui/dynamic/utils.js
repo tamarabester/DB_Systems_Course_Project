@@ -42,9 +42,21 @@ function append_to_html_with_atterbutes(parent_id, html_tag ,class_name, inner_t
     }
 }
 
+function userTypeInTopSearchbar(e) {
+    getAutoCompleteOptions(e.target.value)
+    //console.log(e.target.value);
+}
+
+function searchMovieInDB(e){
+    // TODO! replace with movie search functionallity
+    if (e.key === 'Enter') {
+      console.log("Enter key has been pressed!")
+    }
+}
+
  
 function init_navbar(link_list) {
-    let parentelem, childelem, appendChildElement;
+    let parentelem, childelem, topinput;
     parentelem = document.getElementById('navbar')
   
     // insert navbat links
@@ -52,7 +64,7 @@ function init_navbar(link_list) {
     childelem = document.createElement('a');
     childelem.href = link[1];
     childelem.innerText = link[0];
-    appendChildElement = parentelem.appendChild(childelem)
+    parentelem.appendChild(childelem)
     }
     
   
@@ -79,13 +91,33 @@ function init_navbar(link_list) {
 }
   
 function init_footer(footer_text){
-    util()
     let footerdiv, text;
     footerdiv = document.getElementById("footer");
     text = document.createElement('p');
     text.innerText = footer_text;
     footerdiv.appendChild(text);
 }
-  
 
-export {append_to_html, append_to_html_with_atterbutes, init_navbar, init_footer};
+
+function insert_movie_description(id, text, img, max_img_size){
+    let parentelem, image, size, summary;
+    parentelem = document.getElementById(id)
+  
+    if (img!=null){
+      // create image
+      image = document.createElement('img')
+      image.setAttribute("src",img)
+      image.setAttribute("alt","Movie's poster")
+      image.setAttribute("class","movieposter")
+      size = "height:"+max_img_size+"px;"
+      image.setAttribute("style",size)
+      parentelem.appendChild(image)
+    }
+  
+    summary = document.createElement('p')
+    summary.innerText = text
+    parentelem.appendChild(summary)
+  
+  }
+
+export {append_to_html, append_to_html_with_atterbutes, init_navbar, init_footer, insert_movie_description};

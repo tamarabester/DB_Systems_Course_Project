@@ -23,47 +23,55 @@
       <!-- Full-width images with number and caption text -->
       <div class="mySlides fade">
         <div class="numbertext">1 / 5</div>
-        <img src="./ui/carosal-imgs/IMDB.png" style="width:80%">
+        <a href="./imdb_rating"><img src="./ui/carosal-imgs/IMDB.png" style="width:80%"></a>
       </div>
 
       <div class="mySlides fade">
         <div class="numbertext">2 / 5</div>
-        <img src="./ui/carosal-imgs/you.jpg" style="width:80%">
+        <a href="./recommended"><img src="./ui/carosal-imgs/you.jpg" style="width:80%"></a>
       </div>
 
       <div class="mySlides fade">
         <div class="numbertext">3 / 5</div>
-        <img src="./ui/carosal-imgs/tomatos.jpg" style="width:80%">
+        <a><img src="./ui/carosal-imgs/tomatos.jpg" style="width:80%"></a>
       </div>
 
       <div class="mySlides fade">
         <div class="numbertext">4 / 5</div>
-        <img src="./ui/carosal-imgs/topuser.jpg" style="width:80%">
+        <a href="./user_rating"><img src="./ui/carosal-imgs/topuser.jpg" style="width:80%"></a>
       </div>
 
       <div class="mySlides fade">
         <div class="numbertext">5 / 5</div>
-        <img src="./ui/carosal-imgs/knowfilms.JPG" style="width:80%">
+        <a href="./analytics"><img src="./ui/carosal-imgs/knowfilms.JPG" style="width:80%"></a>
       </div>
 
-      <!-- Next and previous buttons -->
-      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-      <a class="next" onclick="plusSlides(1)">&#10095;</a>
+      <!-- Next and previous buttons 
+      <a class="prev" id="prev" onclick="plusSlides(-1)">&#10094;</a>
+      <a class="next" id="next" onclick="plusSlides(1)">&#10095;</a>-->
   </div>
   
   <br><br>
-  
-  <div id="pick" class="inline" style="width:55%; border-left:3px solid snow; padding-left:10px; vertical-align:top;">
-    <h2 style="text-align:left;">Staff's pick</h2>
-    <p id="picktitle" class="usercommenttittle"></p>
-    <div id="description"></div>
+
+  <div id="container" style="text-align:center; width:98%">
+    <div class="inline" ,="" style="width:55%; margin-right:2%">
+      <h3 style="margin-bottom:0px; text-align:left;">Staff's pick</h3>
+      <div id="pick" class="section" style="border-left:3px solid snow; padding-left:10px; padding-right:5px; vertical-align:top;">
+        <h2 style="text-align:left;" id="picktitle"></h2>
+        <div style="text-align:left;" id="description"></div>
+      </div>
+    </div>
+    <div class="inline" ,="" style="vertical-align:top; width:40%">
+      <h3 style="margin-bottom:0px; text-align:left;">User Comment of The day</h3>
+      <div id="commentoftheday" class="section" style="border-left:3px solid snow;  padding-left:10px; padding-right:5px;">
+        <h2 style="text-align:left;" id="title"></h2>
+        <p id="text"></p>
+        <p id="rank" class="usercommentcname"></p>
+      </div>
+    </div>
   </div>
 
-  <div id="commentoftheday" class="inline" style="width:40%; margin-right:2%; padding-left:10px;  border-left:3px solid snow;">
-    <h2 style="text-align:left;">User-comment of the day</h2>
-    <p id="title" class="usercommenttittle"></p>
-    <p id="text" class="usercommentcomment"></p>
-    <p id="rank" class="usercommentcname"></p>
+  
   </div>
 
 </div>
