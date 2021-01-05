@@ -144,7 +144,39 @@ def get_movie_comments(movie_id):
     comments = get_n_comments_for_movie_id(movie_id, n)
     return json.dumps(comments)
 
+############ TODO ################
+@app.route('/genres_popularity')
+def get_genres_popularity():
+    ## TODO
+    genres = [{"Name":"Comedy","Rank":1,"Score":10},{"Name":"Drama","Rank":2,"Score":9}]
+    return json.dumps(genres)
 
+
+@app.route('/actors_popularity')
+def get_actors_popularity():
+    ## TODO
+    actors = [{"Name":"Matt Damon","Rank":1,"Score":1000},{"Name":"Will Smith","Rank":2,"Score":9}]
+    return json.dumps(actors)
+
+
+@app.route('/discussive_films')
+def get_discussive_films():
+    ## TODO
+    films = [{"Name":"Dogma","Rank":1,"comment_num":1000},{"Name":"Man in Black","Rank":2,"comment_num":9}]
+    return json.dumps(films)
+
+@app.route('/film_per_genre')
+def get_film_per_genre():
+    ## TODO
+    genres = [{"Name":"Comedy","Rank":1,"num":1000},{"Name":"Sci-Fi","Rank":2,"num":999}]
+    return json.dumps(genres)
+
+@app.route('/film_per_year')
+def get_film_per_year():
+    ## TODO
+    years = [{"Year":1999,"Rank":1,"num":1000},{"Year":1979,"Rank":2,"num":999}]
+    return json.dumps(years)
+########################################
 
 if __name__ == '__main__':
         port = 45125
