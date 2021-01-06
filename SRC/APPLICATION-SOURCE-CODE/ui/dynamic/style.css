@@ -351,4 +351,12 @@ td{
   overflow:hidden;
 }
 
+#ratingtablecontainer{
+  width:50%;
+  margin-left:25%;
+}
+
+.td a{
+  cursor: pointer;
+}
 

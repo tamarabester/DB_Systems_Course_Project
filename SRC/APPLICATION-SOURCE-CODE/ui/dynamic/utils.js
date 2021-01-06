@@ -36,7 +36,8 @@ function append_to_html(parent_id, html_tag ,class_name, inner_text){
  * @return the new elemet. the same as: document.getElementById(<new element's id>)
  */
 function append_to_html_with_atterbutes(parent_id, html_tag ,class_name, inner_text, attributes_dict){
-    var new_elem = append_to_html(parent_id, html_tag ,class_name, inner_text)
+  var attribute_name;
+  var new_elem = append_to_html(parent_id, html_tag ,class_name, inner_text)
     for (attribute_name in attributes_dict){
       new_elem.setAttribute(attribute_name,attributes_dict[attribute_name])
     }
