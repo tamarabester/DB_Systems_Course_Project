@@ -1,5 +1,6 @@
 import json
 import random
+import sys
 
 from flask import Flask, request, send_from_directory
 
@@ -96,10 +97,10 @@ def get_staff_pick():
     return json.dumps(pick)
 
 
-@app.route('/user_rated')
-def get_top_n_user_rated():
+@app.route('/top_rated/<source>')
+def get_top_n_user_rated(source):
     n = int(request.args.get('n'))
-    top_movies = get_top_n_from_source(n, "users")
+    top_movies = get_top_n_from_source(n, source)
     add_rank_to_list(top_movies, lambda m: -m["rating"])
     return json.dumps(top_movies)
 
@@ -147,7 +148,7 @@ def get_movie_comments(movie_id):
     comments = get_n_comments_for_movie_id(movie_id, n)
     return json.dumps(comments)
 
-
+############ TODO ################
 @app.route('/genres_popularity')
 def get_genres_popularity():
     n = int(request.args.get('n'))
@@ -193,10 +194,14 @@ def get_movies_per_year():
 
 
 if __name__ == '__main__':
-    port = 45123
-    try:
-        print(f"INIT DB CONNECTION {CONNECTION}")
-        app.run(debug=True, host="delta-tomcat-vm", port=port)
-    finally:
-        if CONNECTION is not None:
-            CONNECTION.close()
+        if len(sys.argv) >1:
+            port = sys.argv[1]
+        else:
+            port = 45124
+
+        try:
+            print(f"INIT DB CONNECTION {CONNECTION}")
+            app.run(debug=True, host="delta-tomcat-vm", port=port)
+        finally:
+            if CONNECTION is not None:
+                CONNECTION.close()

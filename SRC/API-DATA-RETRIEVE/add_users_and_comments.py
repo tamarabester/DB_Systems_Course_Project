@@ -9,8 +9,8 @@ MYSQL_DB = 'DbMysql19'
 NUM_MOVIES = 1000
 NUM_USERS = 1000
 
-BAD_RATINGS = [0.0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5]
-GOOD_RATINGS = [2.5, 2.75, 3.0, 3.25, 3.5, 3.75, 4.0, 4.25, 4.5, 4.75, 5.0]
+BAD_RATINGS = [i/4 for i in range(21)]
+GOOD_RATINGS =[i+5 for i in BAD_RATINGS]
 
 BAD_COMMENTS = [
     "{title} is the WORST!!!!!1 Absolutely the worst film that came out in {year}, even {actor} couldn't save it",
@@ -189,7 +189,7 @@ def add_comment(user_id, comments_list, ratings):
             movie_id=movie_id,
             original_rating=rating,
             normalized_rating=rating,
-            rating_source="user",
+            rating_source="USER",
             comment=comment
         )
         db_cursor.execute(query, params)

@@ -31,3 +31,4 @@ export function append_header_row_to_table(table_id, row_id, row_class, cell_tex
   }
 }
   
+
