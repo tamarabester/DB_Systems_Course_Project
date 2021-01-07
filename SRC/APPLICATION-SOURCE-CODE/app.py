@@ -1,4 +1,3 @@
-import os
 import json
 import random
 
@@ -54,6 +53,18 @@ def return_ui(filename):
 @app.route('/images/<path:filename>')
 def return_img(filename):
     return send_from_directory(UI_IMG_DIR, filename)
+
+
+
+################################
+######### UTILS ################
+################################
+
+def add_rank_to_list(list_to_rank, ranking_function):
+    list_to_rank.sort(key=ranking_function)
+    for i in range(len(list_to_rank)):
+        item = list_to_rank[i]
+        item["rank"] = i + 1
 
 
 ################################
@@ -172,15 +183,17 @@ def get_movies_per_genre():
 @app.route('/movies_per_year')
 def get_movies_per_year():
     n = int(request.args.get('n'))
-    years = get_movies_per_genre_top_n(n)
+    years = get_movies_per_year_top_n(n)
     add_rank_to_list(years, lambda m: -m["movie_count"])
     return json.dumps(years)
 
 
 ########################################
 
+
+
 if __name__ == '__main__':
-    port = 45125
+    port = 45123
     try:
         print(f"INIT DB CONNECTION {CONNECTION}")
         app.run(debug=True, host="delta-tomcat-vm", port=port)

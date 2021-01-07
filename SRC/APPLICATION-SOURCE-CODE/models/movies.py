@@ -113,8 +113,8 @@ def get_top_movie_for_actor(actor, exclude=None):
 def get_movies_per_genre_top_n(n):
     query = "SELECT genre, COUNT(id) AS c " \
             "FROM movies " \
-            "GROUP BY genre" \
-            "ORDER BY c DESC" \
+            "GROUP BY genre " \
+            "ORDER BY c DESC " \
             "LIMIT %(limit)s"
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query, dict(limit=n))
@@ -134,8 +134,8 @@ def get_movies_per_genre_top_n(n):
 def get_movies_per_year_top_n(n):
     query = "SELECT release_year, COUNT(id) AS c " \
             "FROM movies " \
-            "GROUP BY release_year" \
-            "ORDER BY c DESC" \
+            "GROUP BY release_year " \
+            "ORDER BY c DESC " \
             "LIMIT %(limit)s"
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query, dict(limit=n))

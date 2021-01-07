@@ -88,8 +88,8 @@ def get_top_genres_by_ratings(n):
     query = "SELECT genre, AVG(movie_ratings.normalized_rating) AS r " \
             "FROM movies, movie_ratings " \
             "WHERE movie_id = movies.id " \
-            "GROUP BY genre" \
-            "ORDER BY r DESC" \
+            "GROUP BY genre " \
+            "ORDER BY r DESC " \
             "LIMIT %(limit)s"
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query, dict(limit=n))
@@ -112,8 +112,8 @@ def get_top_actors_by_ratings(n):
             "FROM actors, actors_movies, movie_ratings " \
             "WHERE actors.id = actors_movies.actor_id " \
             "AND actors_movies.movie_id = movie_ratings.movie_id " \
-            "GROUP BY first_name, last_name" \
-            "ORDER BY r DESC" \
+            "GROUP BY first_name, last_name " \
+            "ORDER BY r DESC " \
             "LIMIT %(limit)s"
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query, dict(limit=n))
@@ -140,8 +140,8 @@ def get_top_n_movies_with_most_user_ratings(n):
             "FROM movies, movie_ratings " \
             "WHERE movie_id = movies.id " \
             "AND rating_source = 'USER' " \
-            "GROUP BY title" \
-            "ORDER BY c DESC" \
+            "GROUP BY title  " \
+            "ORDER BY c DESC " \
             "LIMIT %(limit)s"
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query, dict(limit=n))
