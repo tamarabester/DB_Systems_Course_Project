@@ -318,11 +318,16 @@ table{
 th{
   background-color: #74b1a7;
   text-align: left;
+  font-family: Tahoma;
+  color: #363535;
 }
 
 td{
-  background-color: #93E2D5;  
-}
+  background-color: #93E2D5;
+  font-family: Tahoma;
+  color: #363535;
+} 
+
 
 /************************/
 /******* togglebox******/

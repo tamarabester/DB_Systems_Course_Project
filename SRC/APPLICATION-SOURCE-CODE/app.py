@@ -1,6 +1,7 @@
 import os
 import json
 import random
+import sys
 
 from flask import Flask, request, send_from_directory
 
@@ -84,10 +85,11 @@ def get_staff_pick():
     return json.dumps(pick)
 
 
-@app.route('/user_rated')
-def get_top_n_user_rated():
+@app.route('/top_rated/<source>')
+def get_top_n_user_rated(source):
     n = int(request.args.get('n'))
-    top_movies = get_top_n_from_source(n, "users")
+    top_movies = get_top_n_from_source(n, source)
+    print(top_movies)
 
     top_movies.sort(key=lambda m: -m["rating"])
     for i in range(len(top_movies)):
@@ -179,7 +181,10 @@ def get_film_per_year():
 ########################################
 
 if __name__ == '__main__':
-        port = 45125
+        if len(sys.argv) >1:
+            port = sys.argv[1]
+        else:
+            port = 45124
         try:
             print(f"INIT DB CONNECTION {CONNECTION}")
             app.run(debug=True, host="delta-tomcat-vm", port=port)
