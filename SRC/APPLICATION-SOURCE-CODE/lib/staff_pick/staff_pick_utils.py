@@ -1,4 +1,3 @@
-
 STAFF_PICK_MOVIES = [
     dict(title="Frozen",
          wiki_name="frozen (2013 film)",
@@ -19,5 +18,3 @@ STAFF_PICK_MOVIES = [
 ]
 
 STAFF_PICK_LEN = len(STAFF_PICK_MOVIES)
-
-

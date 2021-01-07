@@ -11,7 +11,7 @@ def get_actors_for_movie_id(movie_id):
 
     actors = []
     for result in db_cursor:
-        first_name, last_name =result[0], result[1]
+        first_name, last_name = result[0], result[1]
         if first_name and last_name:
             actors.append(f"{first_name} {last_name}")
         elif first_name:
@@ -19,4 +19,3 @@ def get_actors_for_movie_id(movie_id):
 
     db_cursor.close()
     return actors
-
