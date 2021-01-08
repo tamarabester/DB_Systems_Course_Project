@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <title>TEDD Recomends</title>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="./ui/style_for_demo3.css">
@@ -15,30 +16,32 @@
 
 <div class="navbar" id="navbar"></div>
 
+<form autocomplete="off" action="/action_page.php">
+  <form class="row">
 
-<div class="row">
+    <div class="main">
+      <h1>Recomended for You</h1>
+      <h2>Tell us which movie you liked, and we will recommend!</h2>
 
-  <div class="main">
-    <h1>Recomended for You</h1>
-    <h2>Tell us which movie you liked, and we will recommend!</h2>
-    
-    <div class="container">
-      <input type="text" name="searchbar" id="searchbar" placeholder="I liked..."> 
-      <a class="btn" onclick="EnterMovie()">Enter</a>
-      <br>
+      <div class="container">
+        <input type="text" name="searchbar" id="myInput" placeholder="I liked...">
+        <a class="btn" onclick="EnterMovie()">Enter</a>
+        <br>
 
-      <div class="optionalMovie"><a class="x">x</a><span class="optMovieText">opt1</span></div>
-      <div class="optionalMovie"><a class="x">x</a><span class="optMovieText">opt2</span></div>
-      <div class="optionalMovie"><a class="x">x</a><span class="optMovieText">opt3</span></div>
-      <br>
-      <a class="btn" onclick="searchRecommendation()" style="padding-left:20px;padding-right:20px;">Go    !</a>
-    </div>
-
-
-<div id="footer" class="footer"></div>
+        <div class="optionalMovie"><a class="x">x</a><span class="optMovieText">opt1</span></div>
+        <div class="optionalMovie"><a class="x">x</a><span class="optMovieText">opt2</span></div>
+        <div class="optionalMovie"><a class="x">x</a><span class="optMovieText">opt3</span></div>
+        <br>
+        <a class="btn" onclick="searchRecommendation()" style="padding-left:20px;padding-right:20px;">Go    !</a>
+      </div>
 
 
-</div>
+
+    <div id="footer" class="footer"></div>
+
+
+  </div>
+  </form>
 <script src="./ui/Recommended.js" type="module"></script>
 </body>
 </html>
