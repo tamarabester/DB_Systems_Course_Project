@@ -122,6 +122,6 @@ var xhttp = new XMLHttpRequest();
     };
 xhttp.open("GET", "/random_rating", true);
 xhttp.send();
-console.log(movies[0]);
+console.log(movies);
 autocomplete(document.getElementById("myInput"), countries);
 init_navbar(links);
