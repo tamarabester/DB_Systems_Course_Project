@@ -14,10 +14,10 @@ def create_ex(exclude):
 
 
 def create_titles(title1, title2, title3):
-    titles = "("
-    titles += title1 + ", "
-    titles += title2 + ", "
-    titles += title3 + ")"
+    titles = "('"
+    titles += title1 + "', '"
+    titles += title2 + "', '"
+    titles += title3 + "')"
     
     return titles
     
