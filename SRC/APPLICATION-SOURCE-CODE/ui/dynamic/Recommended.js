@@ -33,7 +33,7 @@ function autocomplete(inp, arr) {
                 var autocomplete = JSON.parse(this.responseText);
       }
     };
-    xhttp.open("GET", "/movie_name/har", true);
+    xhttp.open("GET", "/movie_name?text=har" , true);
     xhttp.send();
       /*close any already open lists of autocompleted values*/
       closeAllLists();
