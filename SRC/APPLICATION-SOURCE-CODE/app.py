@@ -197,9 +197,11 @@ def get_movies_per_year():
 
 @app.route('/id_for_title')
 def get_id_for_title():
-    title = request.args.get('title')
-    id = get_id_for_movie(title)
-    return json.dump(id)
+    title1 = request.args.get('title1')
+    title2 = request.args.get('title2')
+    title3 = request.args.get('title3')
+    ids = get_id_for_movie(title1, title2, title3)
+    return json.dump(ids)
 
 
 ########################################
