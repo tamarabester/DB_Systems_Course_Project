@@ -1,7 +1,23 @@
 import {insert_movie_description, init_navbar, init_footer} from './utils.js'
 import {links, footer_text} from "./constants.js"
 
+var options = ["", "", ""]
 
+function EnterMovie() {
+	var i; 
+	for(i= 0; i < 3; i++){
+		if(options[i] == ""){
+			document.getElementById("opt".concat((i+1).toString())).innerHTML = document.getElementById("myInput").value;
+			options[i] = document.getElementById("myInput").value;
+			break;
+		}
+	}
+}
+
+function RemoveOption(i) {
+	document.getElementById("opt".concat((i+1).toString())).innerHTML = "option ".concat((i+1).toString());
+	options[i] = "";
+}
 
 function autocomplete(inp, arr) {
   /*the autocomplete function takes two arguments,
@@ -9,7 +25,7 @@ function autocomplete(inp, arr) {
   var currentFocus;
   /*execute a function when someone writes in the text field:*/
   inp.addEventListener("input", function(e) {
-      var a, b, i, val = this.value;
+      var a, b, i, j, val = this.value;
       var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
@@ -17,7 +33,7 @@ function autocomplete(inp, arr) {
                 var autocomplete = JSON.parse(this.responseText);
       }
     };
-    xhttp.open("GET", "/movie_name", true);
+    xhttp.open("GET", "/movie_name/har", true);
     xhttp.send();
       /*close any already open lists of autocompleted values*/
       closeAllLists();
@@ -32,24 +48,30 @@ function autocomplete(inp, arr) {
       /*for each item in the array...*/
       for (i = 0; i < arr.length; i++) {
         /*check if the item starts with the same letters as the text field value:*/
-        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+        for (j = 0; j < arr[i].length - val.length; j++){
+        	if (arr[i].substr(j, val.length).toUpperCase() == val.toUpperCase()) {
           /*create a DIV element for each matching element:*/
-          b = document.createElement("DIV");
+          		b = document.createElement("DIV");
           /*make the matching letters bold:*/
-          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-          b.innerHTML += arr[i].substr(val.length);
+          		b.innerHTML = arr[i].substr(0, j);
+          		b.innerHTML += "<strong>" + arr[i].substr(j, val.length) + "</strong>";
+          		b.innerHTML += arr[i].substr(val.length + j);
           /*insert a input field that will hold the current array item's value:*/
-          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          		b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
           /*execute a function when someone clicks on the item value (DIV element):*/
-          b.addEventListener("click", function(e) {
+          		b.addEventListener("click", function(e) {
               /*insert the value for the autocomplete text field:*/
-              inp.value = this.getElementsByTagName("input")[0].value;
+              		inp.value = this.getElementsByTagName("input")[0].value;
               /*close the list of autocompleted values,
               (or any other open lists of autocompleted values:*/
-              closeAllLists();
-          });
-          a.appendChild(b);
+            		closeAllLists();
+          		});
+          		a.appendChild(b);
+          		break;
+        	}
+
         }
+        
       }
   });
   /*execute a function presses a key on the keyboard:*/
@@ -123,5 +145,7 @@ var xhttp = new XMLHttpRequest();
 xhttp.open("GET", "/random_rating", true);
 xhttp.send();
 console.log(movies);
-autocomplete(document.getElementById("searchbar"), countries);
+autocomplete(document.getElementById("myInput"), countries);
 init_navbar(links);
+window.EnterMovie = EnterMovie;
+window.RemoveOption = RemoveOption;
