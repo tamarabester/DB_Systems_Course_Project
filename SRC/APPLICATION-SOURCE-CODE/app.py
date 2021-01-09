@@ -114,30 +114,30 @@ def get_top_n_imdb_rated():
     return json.dumps(top_movies)
 
 
-#
-# @app.route('/recommendation')
-# def get_top_n_user_rated():
-#     movie1 = request.args.get('movie1')
-#     movie2 = request.args.get('movie2')
-#     movie3 = request.args.get('movie3')
-#
-#     
-#     id1 = get_id_for_movie(movie1)
-#     id2 = get_id_for_movie(movie2)
-#     id3 = get_id_for_movie(movie3)
-#
-#     movies = [id1, id2, id3]
-#     majority_genre = get_majority_genre(movies)
-#     majority_actor = get_majority_actor(movies)
-#     if majority_genre is not None:
-#         recommendation_id = get_top_movie_for_genre(majority_genre, exclude=movies)
-#     elif majority_actor is not None:
-#         recommendation_id = get_top_movie_for_actor(majority_genre, exclude=movies)
-#     else:
-#         recommendation_id = get_top_movie(exclude=movies)
-#
-#     recommendation = get_full_recommendation(recommendation_id)
-#     return json.dumps(recommendation)
+
+@app.route('/recommendation')
+def get_top_n_user_rated():
+    movie1 = request.args.get('movie1')
+    movie2 = request.args.get('movie2')
+    movie3 = request.args.get('movie3')
+
+    
+    id1 = get_id_for_movie(movie1)
+    id2 = get_id_for_movie(movie2)
+    id3 = get_id_for_movie(movie3)
+
+    movies = [id1, id2, id3]
+    majority_genre = get_majority_genre(movies)
+    majority_actor = get_majority_actor(movies)
+    if majority_genre is not None:
+        recommendation_id = get_top_movie_for_genre(majority_genre, exclude=movies)
+    elif majority_actor is not None:
+        recommendation_id = get_top_movie_for_actor(majority_genre, exclude=movies)
+    else:
+        recommendation_id = get_top_movie(exclude=movies)
+
+    recommendation = get_full_recommendation(recommendation_id)
+    return json.dumps(recommendation)
 
 
 @app.route('/movie/<movie_id>/info')
