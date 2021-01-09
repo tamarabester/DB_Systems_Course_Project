@@ -114,7 +114,6 @@ def get_top_n_imdb_rated():
     return json.dumps(top_movies)
 
 
-
 @app.route('/recommendation')
 def get_recommendation():
     movie1 = request.args.get('movie1')
@@ -122,11 +121,8 @@ def get_recommendation():
     movie3 = request.args.get('movie3')
 
     
-    id1 = get_id_for_movie(movie1)
-    id2 = get_id_for_movie(movie2)
-    id3 = get_id_for_movie(movie3)
+    movies = get_id_for_movie(movie1, movie2, movie3)
 
-    movies = [id1, id2, id3]
     majority_genre = get_majority_genre(movies)
     majority_actor = get_majority_actor(movies)
     if majority_genre is not None:
@@ -195,13 +191,12 @@ def get_movies_per_year():
     return json.dumps(years)
 
 
-@app.route('/id_for_title')
-def get_id_for_title():
-    title1 = request.args.get('title1')
-    title2 = request.args.get('title2')
-    title3 = request.args.get('title3')
+@app.route('/id_for_title/<title1>/<title2>/<title3>')
+def get_id_for_title(title1, title2, title3):
     ids = get_id_for_movie(title1, title2, title3)
-    return json.dump(ids)
+    return json.dumps(ids)
+
+
 
 
 ########################################
