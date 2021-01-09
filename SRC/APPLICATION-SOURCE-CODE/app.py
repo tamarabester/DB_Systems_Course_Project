@@ -121,7 +121,12 @@ def get_top_n_imdb_rated():
 #     movie2 = request.args.get('movie2')
 #     movie3 = request.args.get('movie3')
 #
-#     movies = [movie1, movie2, movie3]
+#     
+#     id1 = get_id_for_movie(movie1)
+#     id2 = get_id_for_movie(movie2)
+#     id3 = get_id_for_movie(movie3)
+#
+#     movies = [id1, id2, id3]
 #     majority_genre = get_majority_genre(movies)
 #     majority_actor = get_majority_actor(movies)
 #     if majority_genre is not None:
