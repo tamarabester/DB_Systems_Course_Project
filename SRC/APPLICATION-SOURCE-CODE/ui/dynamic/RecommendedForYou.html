@@ -5,7 +5,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="./ui/style_for_demo3.css">
+<link rel="stylesheet" href="./ui/style.css">
 <link rel="apple-touch-icon" sizes="180x180" href="/ui/favicon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/ui/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/ui/favicon/favicon-16x16.png">
@@ -21,19 +21,20 @@
 
     <div class="main">
       <h1>Recomended for You</h1>
-      <h2>Tell us which movie you liked, and we will recommend!</h2>
+      <h2>Tell us which movies you liked, and we will recommend some more!</h2>
 
-      <div class="container">
+      <div class="autocomplete">
         <input type="text" name="searchbar" id="myInput" placeholder="I liked...">
-        <a class="btn" onclick="EnterMovie()">Enter</a>
-        <br>
-
-        <div class="optionalMovie"><a class="x">x</a><span class="optMovieText" id = "opt1">opt1</span></div>
-        <div class="optionalMovie"><a class="x">x</a><span class="optMovieText" id = "opt1">opt2</span></div>
-        <div class="optionalMovie"><a class="x">x</a><span class="optMovieText" id = "opt1">opt3</span></div>
-        <b2>
-        <a class="btn" onclick="searchRecommendation()" style="padding-left:20px;padding-right:20px;">Go    !</a>
       </div>
+
+      <a class="btn" type = "submit" onclick="EnterMovie()">Enter</a>
+
+      <br>
+        <div class="optionalMovie"><a class="x" onclick = "RemoveOption(0)">x</a><span class="optMovieText" id = "opt1">option 1</span></div>
+        <div class="optionalMovie"><a class="x" onclick = "RemoveOption(1)">x</a><span class="optMovieText" id = "opt2">option 2</span></div>
+        <div class="optionalMovie"><a class="x" onclick = "RemoveOption(2)">x</a><span class="optMovieText" id = "opt3">option 3</span></div>
+        <a class="btn" onclick="searchRecommendation()" style="padding-left:20px;padding-right:20px;">Go    !</a>
+      <b2>
 
 
 
