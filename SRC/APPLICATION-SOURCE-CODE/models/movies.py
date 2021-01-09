@@ -167,14 +167,12 @@ def get_id_for_movie(title1, title2, title3):
             "FROM movies " \
             "WHERE title IN %(titles)s"
     db_cursor = CONNECTION.cursor()
-    db_cursor.execute(query, dict(titles = create_titles(title1, title2, title3))
+    db_cursor.execute(query, dict(titles = create_titles(title1, title2, title3)))
 
-    movie = db_cursor[0]
-
-    if movie == None:
-        movie_id = None
-    else:
-        movie_id = movie[1]
-
+    movie_ids = []
+    for result in db_cursor:
+        title, movie_id = result[0], result[1]
+        movie_ids.append(movie_id)
+    
     db_cursor.close()
-    return movie_id
+    return movie_ids
