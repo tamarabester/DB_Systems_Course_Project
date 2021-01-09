@@ -6,7 +6,7 @@ from flask import Flask, request, send_from_directory
 
 from lib.movies.movie_utils import *
 from lib.staff_pick.staff_pick_utils import *
-from lib.general import *
+#from lib.general import *
 from utils.config import *
 
 app = Flask(__name__)
