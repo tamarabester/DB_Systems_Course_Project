@@ -154,7 +154,7 @@ def get_movies_per_year_top_n(n):
     return genres
 
 def get_id_for_movie(title1, title2, title3):
-    query = "SELECT id " \
+    query = "SELECT title, id " \
             "FROM movies " \
             "WHERE title = %(title)s"
 
@@ -163,19 +163,20 @@ def get_id_for_movie(title1, title2, title3):
     cursor1.execute(query, dict(title = title1))
 
     for result in cursor1:
-    	movie_ids += [result[0]]
+    	movie_ids += [result[1]]
+
     cursor1.close()
     cursor2 = CONNECTION.cursor()
     cursor2.execute(query, dict(title = title2))
 
     for result in cursor2:
-    	movie_ids += [result[0]]
+    	movie_ids += [result[1]]
     cursor2.close()
     cursor3 = CONNECTION.cursor()
     cursor3.execute(query, dict(title = title3))
 
     for result in cursor3:
-    	movie_ids += [result[0]]
+    	movie_ids += [result[1]]
 
     # for result in db_cursor:
     #     title, movie_id = result[0], result[1]
