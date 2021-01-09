@@ -116,7 +116,7 @@ def get_top_n_imdb_rated():
 
 
 @app.route('/recommendation')
-def get_top_n_user_rated():
+def get_recommendation():
     movie1 = request.args.get('movie1')
     movie2 = request.args.get('movie2')
     movie3 = request.args.get('movie3')
