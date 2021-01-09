@@ -3,7 +3,7 @@ from utils.config import *
 
 def create_ex(exclude):
     if exclude == None or len(exclude) == 0:
-        return "('Not Exist Movie2')"
+        return "('Not Exist movie2')"
     ex = "("
     for id in exclude:
         ex += "{}, ".format(id)
@@ -25,7 +25,7 @@ def get_movie_names_with_text(text):
     for result in db_cursor:
         movies.append(result[0])
     db_cursor.close()
-    return result
+    return movies
 
 
 def get_genre_for_movie_id(movie_id):
@@ -74,9 +74,11 @@ def get_top_movie(exclude=None):
 def get_top_movie_for_genre(genre, exclude=None):
     # TODO return id
     ex = create_ex(exclude)
-    query = "SELECT id \
-            FROM movie_ratings \
-            WHERE genre = {0} AND id NOT IN {1} \
+    query = "SELECT movie_ratings.movie_id \
+            FROM movie_ratings, movies \
+            WHERE movies.id = movie_ratings.movie_id \
+            AND movies.genre = {0} \
+            AND movie_ratings.movie_id NOT IN {1} \
             ORDER BY normalized_rating \
             LIMIT 1".format(genre, ex)
 
@@ -92,7 +94,7 @@ def get_top_movie_for_genre(genre, exclude=None):
 def get_top_movie_for_actor(actor, exclude=None):
     # TODO return id
     ex = create_ex(exclude)
-    query = "SELECT id \
+    query = "SELECT movies.id \
             FROM movies, movie_ratings, actors_movies \
             WHERE movies.id = movie_ratings.movie_id \
             AND movies.id = actors_movies.movie_id \
@@ -150,3 +152,20 @@ def get_movies_per_year_top_n(n):
         genres.append(genre)
     db_cursor.close()
     return genres
+
+def get_id_for_movie(movie_title):
+    query = "SELECT title, id " \
+            "FROM movies " \
+            "WHERE title = %(title)s"
+    db_cursor = CONNECTION.cursor()
+    db_cursor.execute(query, dict(title = movie_title))
+
+    movie = db_cursor[0]
+
+    if movie == None:
+        movie_id = None
+    else:
+        movie_id = movie[1]
+
+    db_cursor.close()
+    return movie_id
