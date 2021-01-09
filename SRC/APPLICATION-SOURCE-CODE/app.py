@@ -114,14 +114,15 @@ def get_top_n_imdb_rated():
     return json.dumps(top_movies)
 
 
-@app.route('/recommendation')
-def get_recommendation():
-    movie1 = request.args.get('movie1')
-    movie2 = request.args.get('movie2')
-    movie3 = request.args.get('movie3')
-
+@app.route('/recommendation/<movie1>/<movie2>/<movie3>')
+def get_recommendation(movie1, movie2, movie3):
+    # movie1 = request.args.get('movie1')
+    # movie2 = request.args.get('movie2')
+    # movie3 = request.args.get('movie3')
     
+    print("movie1: ", movie1)
     movies = get_id_for_movie(movie1, movie2, movie3)
+    print("movie ids: ", movies)
 
     majority_genre = get_majority_genre(movies)
     majority_actor = get_majority_actor(movies)
