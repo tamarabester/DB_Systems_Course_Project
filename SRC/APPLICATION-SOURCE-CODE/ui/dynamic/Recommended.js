@@ -1,8 +1,39 @@
 import {insert_movie_description, init_navbar, init_footer} from './utils.js'
 import {links, footer_text} from "./constants.js"
 
-var options = ["", "", ""]
+var options = ["", "", ""];
 
+
+function searchRecommendation(){
+	var i;
+	for (i = 0; i < 3; i++){
+		if(options[i] == ""){
+			console.log("good");
+			return;
+		}
+	}
+
+	var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+           	console.log(this.responseText);
+            movies = JSON.parse(this.responseText);
+   //          var xhttp1 = new XMLHttpRequest();
+	  //  		xhttp1.onreadystatechange = function() {
+	  //  			if (this.readyState == 4 && this.status == 200) {
+   //         			console.log(this.responseText);
+	  //          		movies = JSON.parse(this.responseText);
+	  //          	}
+	  //    	};
+	    
+			// xhttp1.open("GET", "/id_for_title?title1="+document.getElementById("opt1").innerHTML+"?title2="+document.getElementById("opt2").innerHTML+"?title3="+document.getElementById("opt3").innerHTML, true);
+			// xhttp1.send();
+		}
+    };
+	xhttp.open("GET", "/recommendation/"+document.getElementById("opt1").innerHTML+"/"+document.getElementById("opt2").innerHTML+"/"+document.getElementById("opt3").innerHTML, true);
+	xhttp.send();
+
+}
 function EnterMovie() {
 	var i; 
 	for(i= 0; i < 3; i++){
@@ -19,7 +50,7 @@ function RemoveOption(i) {
 	options[i] = "";
 }
 
-function autocomplete(inp, arr) {
+function autocomplete(inp) {
   /*the autocomplete function takes two arguments,
   the text field element and an array of possible autocompleted values:*/
   var currentFocus;
@@ -29,50 +60,50 @@ function autocomplete(inp, arr) {
       var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
-                var autocomplete = JSON.parse(this.responseText);
-      }
-    };
-    xhttp.open("GET", "/movie_name?text=har" , true);
-    xhttp.send();
-      /*close any already open lists of autocompleted values*/
-      closeAllLists();
-      if (!val) { return false;}
-      currentFocus = -1;
-      /*create a DIV element that will contain the items (values):*/
-      a = document.createElement("DIV");
-      a.setAttribute("id", this.id + "autocomplete-list");
-      a.setAttribute("class", "autocomplete-items");
-      /*append the DIV element as a child of the autocomplete container:*/
-      this.parentNode.appendChild(a);
-      /*for each item in the array...*/
-      for (i = 0; i < arr.length; i++) {
-        /*check if the item starts with the same letters as the text field value:*/
-        for (j = 0; j < arr[i].length - val.length; j++){
-        	if (arr[i].substr(j, val.length).toUpperCase() == val.toUpperCase()) {
-          /*create a DIV element for each matching element:*/
-          		b = document.createElement("DIV");
-          /*make the matching letters bold:*/
-          		b.innerHTML = arr[i].substr(0, j);
-          		b.innerHTML += "<strong>" + arr[i].substr(j, val.length) + "</strong>";
-          		b.innerHTML += arr[i].substr(val.length + j);
-          /*insert a input field that will hold the current array item's value:*/
-          		b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-          /*execute a function when someone clicks on the item value (DIV element):*/
-          		b.addEventListener("click", function(e) {
-              /*insert the value for the autocomplete text field:*/
-              		inp.value = this.getElementsByTagName("input")[0].value;
-              /*close the list of autocompleted values,
-              (or any other open lists of autocompleted values:*/
-            		closeAllLists();
-          		});
-          		a.appendChild(b);
-          		break;
-        	}
+               var arr = JSON.parse(this.responseText);
+		      /*close any already open lists of autocompleted values*/
+		      closeAllLists();
+		      if (!val) { return false;}
+		      currentFocus = -1;
+		      /*create a DIV element that will contain the items (values):*/
+		      a = document.createElement("DIV");
+		      a.setAttribute("id", this.id + "autocomplete-list");
+		      a.setAttribute("class", "autocomplete-items");
+		      /*append the DIV element as a child of the autocomplete container:*/
+		      document.getElementById("myInput").parentNode.appendChild(a);
+		      /*for each item in the array...*/
+		      for (i = 0; i < arr.length; i++) {
+		        /*check if the item starts with the same letters as the text field value:*/
+		        for (j = 0; j < arr[i].length - val.length; j++){
+		        	if (arr[i].substr(j, val.length).toUpperCase() == val.toUpperCase()) {
+		          /*create a DIV element for each matching element:*/
+		          		b = document.createElement("DIV");
+		          /*make the matching letters bold:*/
+		          		b.innerHTML = arr[i].substr(0, j);
+		          		b.innerHTML += "<strong>" + arr[i].substr(j, val.length) + "</strong>";
+		          		b.innerHTML += arr[i].substr(val.length + j);
+		          /*insert a input field that will hold the current array item's value:*/
+		          		b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+		          /*execute a function when someone clicks on the item value (DIV element):*/
+		          		b.addEventListener("click", function(e) {
+		              /*insert the value for the autocomplete text field:*/
+		              		inp.value = this.getElementsByTagName("input")[0].value;
+		              /*close the list of autocompleted values,
+		              (or any other open lists of autocompleted values:*/
+		            		closeAllLists();
+		          		});
+		          		a.appendChild(b);
+		          		break;
+		        	}
 
-        }
+		        }
         
       }
+      }
+    };
+    xhttp.open("GET", "/movie_name?text="+document.getElementById("myInput").value, true);
+    xhttp.send();
+    
   });
   /*execute a function presses a key on the keyboard:*/
   inp.addEventListener("keydown", function(e) {
@@ -136,16 +167,9 @@ var countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla"
 
 /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
 var movies;
-var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                movies = JSON.parse(this.responseText);
-      }
-    };
-xhttp.open("GET", "/random_rating", true);
-xhttp.send();
 console.log(movies);
-autocomplete(document.getElementById("myInput"), countries);
+autocomplete(document.getElementById("myInput"));
 init_navbar(links);
 window.EnterMovie = EnterMovie;
 window.RemoveOption = RemoveOption;
+window.searchRecommendation = searchRecommendation;
