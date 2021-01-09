@@ -13,6 +13,15 @@ def create_ex(exclude):
     return ex
 
 
+def create_titles(title1, title2, title3):
+    titles = "("
+    titles += title1 + ", "
+    titles += title2 + ", "
+    titles += title3 + ")"
+    
+    return titles
+    
+    
 def get_movie_names_with_text(text):
     query = "SELECT title " \
             "FROM movies " \
@@ -153,12 +162,12 @@ def get_movies_per_year_top_n(n):
     db_cursor.close()
     return genres
 
-def get_id_for_movie(movie_title):
+def get_id_for_movie(title1, title2, title3):
     query = "SELECT title, id " \
             "FROM movies " \
-            "WHERE title = %(title)s"
+            "WHERE title IN %(titles)s"
     db_cursor = CONNECTION.cursor()
-    db_cursor.execute(query, dict(title = movie_title))
+    db_cursor.execute(query, dict(titles = create_titles(title1, title2, title3))
 
     movie = db_cursor[0]
 
