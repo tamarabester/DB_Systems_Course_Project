@@ -130,7 +130,7 @@ def get_recommendation():
     elif majority_actor is not None:
         recommendation_id = get_top_movie_for_actor(majority_genre, exclude=movies)
     else:
-        recommendation_id = get_top_movie(exclude=movies)
+        recommendation_id = get_top_movie_for_genre(get_genre_for_movie_id(movies[0]), exclude=movies)
 
     recommendation = get_full_recommendation(recommendation_id)
     return json.dumps(recommendation)
