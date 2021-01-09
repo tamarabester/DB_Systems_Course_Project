@@ -12,15 +12,6 @@ def create_ex(exclude):
 
     return ex
 
-
-def create_titles(title1, title2, title3):
-    titles = "('"
-    titles += title1 + "', '"
-    titles += title2 + "', '"
-    titles += title3 + "')"
-    
-    return titles
-    
     
 def get_movie_names_with_text(text):
     query = "SELECT title " \
@@ -45,7 +36,7 @@ def get_genre_for_movie_id(movie_id):
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query)
 
-    genre = db_cursor[0][0]
+    genre = [result[0] for result in db_cursor][0]
     db_cursor.close()
     return genre
 
@@ -58,7 +49,7 @@ def get_title_for_movie_id(movie_id):
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query)
 
-    title = db_cursor[0][0]
+    title = [result[0] for result in db_cursor][0]
     db_cursor.close()
     return title
 
@@ -75,7 +66,7 @@ def get_top_movie(exclude=None):
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query)
 
-    movie = db_cursor[0][0]
+    movie = [result[0] for result in db_cursor][0]
     db_cursor.close()
     return movie
 
@@ -94,7 +85,7 @@ def get_top_movie_for_genre(genre, exclude=None):
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query)
 
-    movie = db_cursor[0][0]
+    movie = [result[0] for result in db_cursor][0]
 
     db_cursor.close()
     return movie
@@ -115,7 +106,7 @@ def get_top_movie_for_actor(actor, exclude=None):
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query)
 
-    movie = db_cursor[0][0]
+    movie = [result[0] for result in db_cursor][0]
 
     db_cursor.close()
     return movie
@@ -163,16 +154,32 @@ def get_movies_per_year_top_n(n):
     return genres
 
 def get_id_for_movie(title1, title2, title3):
-    query = "SELECT title, id " \
+    query = "SELECT id " \
             "FROM movies " \
-            "WHERE title IN %(titles)s"
-    db_cursor = CONNECTION.cursor()
-    db_cursor.execute(query, dict(titles = create_titles(title1, title2, title3)))
+            "WHERE title = %(title)s"
 
     movie_ids = []
-    for result in db_cursor:
-        title, movie_id = result[0], result[1]
-        movie_ids.append(movie_id)
+    cursor1 = CONNECTION.cursor()
+    cursor1.execute(query, dict(title = title1))
+
+    for result in cursor1:
+    	movie_ids += [result[0]]
+    cursor1.close()
+    cursor2 = CONNECTION.cursor()
+    cursor2.execute(query, dict(title = title2))
+
+    for result in cursor2:
+    	movie_ids += [result[0]]
+    cursor2.close()
+    cursor3 = CONNECTION.cursor()
+    cursor3.execute(query, dict(title = title3))
+
+    for result in cursor3:
+    	movie_ids += [result[0]]
+
+    # for result in db_cursor:
+    #     title, movie_id = result[0], result[1]
+    #     movie_ids.append(movie_id)
     
-    db_cursor.close()
+    cursor3.close()
     return movie_ids
