@@ -75,8 +75,9 @@ def add_rank_to_list(list_to_rank, ranking_function):
 
 @app.route('/movie_name')
 def get_movie_names_for_autocomplete():
-    data = json.loads(request.data)
-    search_text = data["text"]
+    #data = json.loads(request.data)
+    #search_text = data["text"]
+    search_text = request.args.get('text')
     movie_names = get_movie_names_with_text(search_text)
     return json.dumps(movie_names)
 
