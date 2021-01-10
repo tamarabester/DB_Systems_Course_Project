@@ -42,9 +42,9 @@ def get_genre_for_movie_id(movie_id):
 
 
 def get_title_for_movie_id(movie_id):
-    query = "SELECT title \
-            FROM movies \
-            WHERE id = {}".format(movie_id)
+    query = "SELECT title, id " \
+            "FROM movies " \
+            "WHERE id = {}".format(movie_id)
 
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query)
@@ -57,11 +57,11 @@ def get_title_for_movie_id(movie_id):
 def get_top_movie(exclude=None):
     # TODO return id
     ex = create_ex(exclude)
-    query = "SELECT id \
-            FROM movie_ratings \
-            WHERE id NOT IN {0} \
-            ORDER BY normalized_rating \
-            LIMIT 1".format(ex)
+    query = "SELECT movie_id " \
+            "FROM movie_ratings " \
+            "WHERE id NOT IN {0} " \
+            "ORDER BY normalized_rating " \
+            "LIMIT 1".format(ex)
 
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query)
@@ -74,13 +74,13 @@ def get_top_movie(exclude=None):
 def get_top_movie_for_genre(genre, exclude=None):
     # TODO return id
     ex = create_ex(exclude)
-    query = "SELECT movie_ratings.movie_id \
-            FROM movie_ratings, movies \
-            WHERE movies.id = movie_ratings.movie_id \
-            AND movies.genre = {0} \
-            AND movie_ratings.movie_id NOT IN {1} \
-            ORDER BY normalized_rating \
-            LIMIT 1".format(genre, ex)
+    query = "SELECT movie_ratings.movie_id " \
+            "FROM movie_ratings, movies " \
+            "WHERE movies.id = movie_ratings.movie_id " \
+            "AND movies.genre = \'{0}\' " \
+            "AND movie_ratings.movie_id NOT IN {1} " \
+            "ORDER BY normalized_rating " \
+            "LIMIT 1".format(genre, ex)
 
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query)
@@ -94,14 +94,14 @@ def get_top_movie_for_genre(genre, exclude=None):
 def get_top_movie_for_actor(actor, exclude=None):
     # TODO return id
     ex = create_ex(exclude)
-    query = "SELECT movies.id \
-            FROM movies, movie_ratings, actors_movies \
-            WHERE movies.id = movie_ratings.movie_id \
-            AND movies.id = actors_movies.movie_id \
-            AND actors_movies.actor_id = {0} \
-            AND movies.id NOT IN {1} \
-            ORDER BY movie_rating.normalized_rating \
-            LIMIT 1".format(actor, ex)
+    query = "SELECT movies.id " \
+            "FROM movies, movie_ratings, actors_movies " \
+            "WHERE movies.id = movie_ratings.movie_id " \
+            "AND movies.id = actors_movies.movie_id " \
+            "AND actors_movies.actor_id = {0} " \
+            "AND movies.id NOT IN {1} " \
+            "ORDER BY movie_rating.normalized_rating " \
+            "LIMIT 1".format(actor, ex)
 
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query)
