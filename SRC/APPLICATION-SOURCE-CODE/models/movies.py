@@ -3,7 +3,7 @@ from utils.config import *
 
 def create_ex(exclude):
     if exclude == None or len(exclude) == 0:
-        return "('Not Exist movie2')"
+        return "(-1)"
     ex = "("
     for id in exclude:
         ex += "{}, ".format(id)
