@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>TEDD - Top Rated Films</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./ui/style.css">
+<!--<link rel="stylesheet" href="./style.css">-->
+<link rel="apple-touch-icon" sizes="180x180" href="/ui/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/ui/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/ui/favicon/favicon-16x16.png">
+<link rel="manifest" href="/ui/favicon/site.webmanifest">
+</head>
+<body>
+
+
+<div class="navbar" id="navbar"></div>
+
+
+<div class="main" id="main">
+    <h1>Top Rated Films</h1>
+    
+    <h3>Rated by...</h3>
+    <div style="text-align:center;">
+      <a class="ratingSourceBtn" onclick="loadRatingView('USER',10)">Our Users</a>
+      <a class="ratingSourceBtn" onclick="loadRatingView('RT',10)">Rotten Tomatoes</a>
+      <a class="ratingSourceBtn" onclick="loadRatingView('IMDB',10)">IMDB</a>
+    </div>
+    <br><br>
+    <div class="ratingtablecontainer" id="ratingtablecontainer_USER"></div>
+    <div class="ratingtablecontainer" id="ratingtablecontainer_RT"></div>
+    <div class="ratingtablecontainer" id="ratingtablecontainer_IMDB"></div>
+
+    <br><br>
+    <!--
+    <div class="imggrid" id="grid1"></div>
+    <div class="imggrid" id="grid2"></div>
+    <div class="imggrid" id="grid3"></div>-->
+    <div class="imggrid">
+      <img src="./ui/posters/9.jpg" alt="one_movie"  style="height:150px;">
+      <img src="./ui/posters/10.jpg" alt="one_movie" style="height:150px;">
+      <img src="./ui/posters/11.jpg" alt="one_movie" style="height:150px;">
+      <img src="./ui/posters/12.jpg" alt="one_movie" style="height:150px;">
+      <img src="./ui/posters/13.jpg" alt="one_movie" style="height:150px;">
+      <img src="./ui/posters/14.jpg" alt="one_movie" style="height:150px;">
+      <img src="./ui/posters/15.jpg" alt="one_movie" style="height:150px;">
+    </div>
+
+</div>
+
+<script src="./ui/TopRating.js" type="module"></script>
+</body>
+</html>

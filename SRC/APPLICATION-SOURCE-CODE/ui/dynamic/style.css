@@ -356,7 +356,7 @@ td{
   overflow:hidden;
 }
 
-#ratingtablecontainer{
+.ratingtablecontainer{
   width:50%;
   margin-left:25%;
 }
@@ -425,4 +425,20 @@ input[type=submit] {
 .autocomplete-active {
   background-color: DodgerBlue !important;
   color: #ffffff;
+}
+
+
+/** ratingSourceBtn **/
+
+.ratingSourceBtn{
+  background-color: #5c7ab1;
+  margin-left: 1%;
+  padding:3px;
+  border-radius: 3px;
+  color:snow;
+  cursor: pointer;
+}
+
+.ratingSourceBtn:hover {
+  background-color: #526b9b;
 }

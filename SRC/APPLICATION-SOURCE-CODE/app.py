@@ -30,6 +30,9 @@ def return_analytics():
 def return_user_ratings():
     return send_from_directory(UI_FILES_DIR, "TopUsers.html")
 
+@app.route('/top_rating')
+def return_top_ratings():
+    return send_from_directory(UI_FILES_DIR, "TopRating.html")
 
 @app.route('/imdb_rating')
 def return_imdb_ratings():

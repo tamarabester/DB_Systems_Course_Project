@@ -100,7 +100,7 @@ function insert_discussive_films(){
         document.getElementById("p3").innerHTML = pre;
       }
     };
-    xhttp.open("GET", "/discussive_films", true);
+    xhttp.open("GET", "/movies_with_most_user_ratings", true);
     xhttp.send();
 
 }
@@ -121,12 +121,12 @@ function insert_films_per_genre(){
         document.getElementById("p4").innerHTML = pre;
       }
     };
-    xhttp.open("GET", "/film_per_genre", true);
+    xhttp.open("GET", "/movies_per_genre", true);
     xhttp.send();
 }
 
 function insert_films_per_year(){
-    console.log("in film per genre!")
+    //console.log("in film per !")
 
     var i;
     var pre = "Below are the number of films our collection has per year<br>"
@@ -142,7 +142,7 @@ function insert_films_per_year(){
         document.getElementById("p5").innerHTML = pre;
       }
     };
-    xhttp.open("GET", "/film_per_year", true);
+    xhttp.open("GET", "/movies_per_year", true);
     xhttp.send();
 
 }
@@ -153,7 +153,7 @@ function insert_films_per_year(){
 var genres_h, actors_h, disscusive_h, films_genres_h, films_year_h
 
 init_navbar(links);
-insert_popular_genres();
+//insert_popular_genres();
 insert_popular_actors();
 insert_discussive_films();
 insert_films_per_genre(films_genres_h);
