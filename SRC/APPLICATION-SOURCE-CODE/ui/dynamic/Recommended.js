@@ -18,6 +18,7 @@ function searchRecommendation(){
         if (this.readyState == 4 && this.status == 200) {
            	console.log(this.responseText);
             movies = JSON.parse(this.responseText);
+            window.location.replace("/movie/" + movies["Id"].toString());
    //          var xhttp1 = new XMLHttpRequest();
 	  //  		xhttp1.onreadystatechange = function() {
 	  //  			if (this.readyState == 4 && this.status == 200) {
@@ -28,6 +29,7 @@ function searchRecommendation(){
 	    
 			// xhttp1.open("GET", "/id_for_title?title1="+document.getElementById("opt1").innerHTML+"?title2="+document.getElementById("opt2").innerHTML+"?title3="+document.getElementById("opt3").innerHTML, true);
 			// xhttp1.send();
+
 		}
     };
 	xhttp.open("GET", "/recommendation/"+document.getElementById("opt1").innerHTML+"/"+document.getElementById("opt2").innerHTML+"/"+document.getElementById("opt3").innerHTML, true);
