@@ -6,7 +6,7 @@ from flask import Flask, request, send_from_directory
 
 from lib.movies.movie_utils import *
 from lib.staff_pick.staff_pick_utils import *
-#from lib.general import *
+# from lib.general import *
 from utils.config import *
 
 app = Flask(__name__)
@@ -30,9 +30,11 @@ def return_analytics():
 def return_user_ratings():
     return send_from_directory(UI_FILES_DIR, "TopUsers.html")
 
+
 @app.route('/top_rating')
 def return_top_ratings():
     return send_from_directory(UI_FILES_DIR, "TopRating.html")
+
 
 @app.route('/imdb_rating')
 def return_imdb_ratings():
@@ -59,7 +61,6 @@ def return_img(filename):
     return send_from_directory(UI_IMG_DIR, filename)
 
 
-
 ################################
 ######### UTILS ################
 ################################
@@ -78,8 +79,8 @@ def add_rank_to_list(list_to_rank, ranking_function):
 
 @app.route('/movie_name')
 def get_movie_names_for_autocomplete():
-    #data = json.loads(request.data)
-    #search_text = data["text"]
+    # data = json.loads(request.data)
+    # search_text = data["text"]
     search_text = request.args.get('text')
     movie_names = get_movie_names_with_text(search_text)
     return json.dumps(movie_names)
@@ -119,10 +120,6 @@ def get_top_n_imdb_rated():
 
 @app.route('/recommendation/<movie1>/<movie2>/<movie3>')
 def get_recommendation(movie1, movie2, movie3):
-    # movie1 = request.args.get('movie1')
-    # movie2 = request.args.get('movie2')
-    # movie3 = request.args.get('movie3')
-    
     print("movie1: ", movie1)
     movies = get_id_for_movie(movie1, movie2, movie3)
     print("movie ids: ", movies)
@@ -154,7 +151,7 @@ def get_movie_comments(movie_id):
     comments = get_n_comments_for_movie_id(movie_id, n)
     return json.dumps(comments)
 
-############ TODO ################
+
 @app.route('/genres_popularity')
 def get_genres_popularity():
     n = int(request.args.get('n'))
@@ -201,21 +198,19 @@ def get_id_for_title(title1, title2, title3):
     return json.dumps(ids)
 
 
-
-
 ########################################
 
 
 
 if __name__ == '__main__':
-        if len(sys.argv) >1:
-            port = sys.argv[1]
-        else:
-            port = 45124
+    if len(sys.argv) > 1:
+        port = sys.argv[1]
+    else:
+        port = 45124
 
-        try:
-            print(f"INIT DB CONNECTION {CONNECTION}")
-            app.run(debug=True, host="delta-tomcat-vm", port=port)
-        finally:
-            if CONNECTION is not None:
-                CONNECTION.close()
+    try:
+        print(f"INIT DB CONNECTION {CONNECTION}")
+        app.run(debug=True, host="delta-tomcat-vm", port=port)
+    finally:
+        if CONNECTION is not None:
+            CONNECTION.close()

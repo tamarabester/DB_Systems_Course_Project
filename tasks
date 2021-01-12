@@ -82,7 +82,6 @@ APIs:
     returns a list of dicts - dict(release_year:int, movie_count:int, rank:int)
 
 
-TODO:
 # fetch data - dana
 # db queries:
  # actor_movies - dana
@@ -92,8 +91,13 @@ TODO:
  # tamara - get to know our films, top movies pages, movie page, homepage
  # edan&dor - search and autocomplete, top searchbar, recommended for you page
 
-Tamara Todo:
+Tamara
  # in hompage: add links to movie page for staff_pick and user_comment of the day
  # in analytics: once the queries are done, check data's height and adjust toggle boxes
  # in top-pages - add link from title to moviepage
 
+
+
+TODO:
+dana:
+    * create new db data with user rating normalized to 5

@@ -1,5 +1,6 @@
 from utils.config import *
 
+
 def get_ratings_with_comments():
     query = "SELECT title, normalized_rating, comment, username " \
             "FROM movies, movie_ratings, users " \
@@ -25,7 +26,6 @@ def get_ratings_with_comments():
 
 
 def get_top_n_from_source(n, source):
-    # TODO return list of {id, rating}
     query = "SELECT title, movie_id, normalized_rating " \
             "FROM movie_ratings, movies " \
             "WHERE movies.id = movie_ratings.movie_id " \
@@ -140,7 +140,7 @@ def get_top_n_movies_with_most_user_ratings(n):
             "FROM movies, movie_ratings " \
             "WHERE movie_id = movies.id " \
             "AND rating_source = 'USER' " \
-            "GROUP BY title  " \
+            "GROUP BY title " \
             "ORDER BY c DESC " \
             "LIMIT %(limit)s"
     db_cursor = CONNECTION.cursor()
