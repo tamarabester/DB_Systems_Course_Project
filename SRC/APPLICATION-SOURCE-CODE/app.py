@@ -46,8 +46,8 @@ def return_recommended():
     return send_from_directory(UI_FILES_DIR, "RecommendedForYou.html")
 
 
-@app.route('/movie/<movie_id>')
-def return_movie_page(movie_id):
+@app.route('/movie')
+def return_movie_page():
     return send_from_directory(UI_FILES_DIR, "RecommendedForYou.html")
 
 

@@ -67,9 +67,10 @@ def get_average_ratings_for_movie_id(movie_id):
 
 
 def get_n_comments_for_movie_id(movie_id, n):
-    query = "SELECT comment " \
-    "FROM movie_ratings " \
-    "WHERE movie_id = %(movie_id)s " \
+    query = "SELECT username, comment, normalized_rating " \
+    "FROM movie_ratings, users " \
+    "WHERE movie_ratings.user_id = users.id " \
+    "AND movie_id = %(movie_id)s " \
     "LIMIT %(limit)s"
 
     db_cursor = CONNECTION.cursor()
@@ -77,8 +78,9 @@ def get_n_comments_for_movie_id(movie_id, n):
 
     comments = []
 
-    for comment in db_cursor:
-        comments.append(comment)
+    for result in db_cursor:
+        username, comment, rating  = result[0], result[1], result[2]
+        comments.append(dict(comment=comment, username=username, rating=rating))
 
     db_cursor.close()
     return comments
