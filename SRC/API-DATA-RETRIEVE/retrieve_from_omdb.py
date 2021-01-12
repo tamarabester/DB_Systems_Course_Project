@@ -19,6 +19,7 @@ API_INDEX = 0
 OMDB_BASE = "http://www.omdbapi.com/?apikey={api_key}"
 CONNECTION = None
 MAX_INSERT_RETRIES = 2
+RANDOM_MOVIES_TO_ADD = 2000
 
 
 def init_db_connection():
@@ -301,7 +302,7 @@ def insert_movies_from_csv():
 
 def insert_movies_with_random_id_from_imdb(inserted):
     init_db_connection()
-    imdb_ids = [random.randrange(1, 3135393) for i in range(1000)]
+    imdb_ids = [random.randrange(1, 3135393) for i in range(RANDOM_MOVIES_TO_ADD)]
     imdb_ids = [str(m_id).zfill(7) for m_id in imdb_ids]
     imdb_ids = [f"tt{m_id}" for m_id in imdb_ids]
     get_from_ombd(imdb_ids, "imdb_id", inserted)

@@ -1,4 +1,5 @@
 import random
+import numpy as np
 import mysql.connector
 
 CONNECTION = None
@@ -7,10 +8,10 @@ MYSQL_USER = 'DbMysql19'
 MYSQL_PASSWORD = 'DbMysql19'
 MYSQL_DB = 'DbMysql19'
 NUM_MOVIES = 1000
-NUM_USERS = 1000
+NUM_USERS = 1500
 
-BAD_RATINGS = [i/4 for i in range(21)]
-GOOD_RATINGS =[i+5 for i in BAD_RATINGS]
+BAD_RATINGS = [i for i in np.arange(0, 2.5, 0.1)] + [2.5]
+GOOD_RATINGS = [i for i in np.arange(2.6, 5.0, 0.1)] + [5]
 
 BAD_COMMENTS = [
     "{title} is the WORST!!!!!1 Absolutely the worst film that came out in {year}, even {actor} couldn't save it",
@@ -33,6 +34,13 @@ GOOD_COMMENTS = [
     "perfection. {plot}",
     "loved it! {plot}",
     "Such a great holiday movie! we watch it with the whole family every year",
+    "I loved {title}. {actor} is my favourite actor of all times!"
+    "I loved {title}. The humour of the movie is inevitably more visual than that of the book; no belly laughs, but a lot of smiles. Some punchlines have changed, but the reasons why the jokes are funny remain the same. Not knowing exactly what's coming next is a good thing! It's all kept tasteful, classy and above the belt; there's nothing to cringe about."
+    "I loved {title}. Two and a half hours is not long to explore a wonderful, magical world. Furthermore, the directors have bowed to the inevitable temptation to show us things that cannot be communicated so effectively in a book. The consequence is the feeling of a slightly breathless sprint in places.",
+    "We live in a world where economics is hard. This forces practical limitations when making a movie. Time and money are sadly finite, cinema owners need to be pleased as well as fans and computer animation ain't perfect. Given these limitations, this film is about as close to human perfection as it is possible to achieve.",
+    "The feel of the whole movie is everything fans could have hoped for. The dialogue is intensely measured, the colouring is suitably epic, the selection of what to leave in is really tightly considered. You get chills in your spine at the right places; you feel the triumphs as all-encompassing endorphin highs. It's clear that the production have thought long, hard and lovingly. They are true fans of the story, they are the right people for the job, it all bodes very well for the second film.",
+    "As good an adaption as could ever be expected. I loved {title} so much",
+    "Epic fim. One of my favourites! {plot}"
 ]
 
 
@@ -60,6 +68,22 @@ def get_user_id_from_username(username):
     db_cursor.close()
 
     return user_id
+
+
+def get_username_from_user_id(user_id):
+    username = None
+    user_id_query = "SELECT username from users WHERE id=%(id)s"
+    db_cursor = CONNECTION.cursor()
+    db_cursor.execute(user_id_query, dict(id=user_id))
+
+    for user_id_tuple in db_cursor:
+        username = user_id_tuple[0]
+        break
+
+    CONNECTION.commit()
+    db_cursor.close()
+
+    return username
 
 
 def read_names_from_file():
@@ -164,8 +188,25 @@ def format_comment(comment, movie_id):
     return comment
 
 
-def add_comment(user_id, comments_list, ratings):
+def has_rating(user_id, movie_id):
+    user_id_query = "SELECT id from movie_ratings " \
+                    "WHERE user_id=%(user_id)s " \
+                    "AND movie_id=%(movie_id)s"
+    db_cursor = CONNECTION.cursor()
+    db_cursor.execute(user_id_query, dict(user_id=user_id, movie_id=movie_id))
+
+
+    results = [r for r in db_cursor]
+    db_cursor.close()
+    return True if results else False
+
+
+def add_comment(user_id, comments_list, ratings, movie_id=None):
     inserted = 0
+    if not movie_id:
+        movie_id = random.randint(1, NUM_MOVIES)
+    if has_rating(user_id, movie_id):
+        return inserted
 
     db_cursor = CONNECTION.cursor()
     query = "INSERT INTO movie_ratings" \
@@ -173,16 +214,9 @@ def add_comment(user_id, comments_list, ratings):
             "VALUES (%(user_id)s, %(movie_id)s, %(original_rating)s, %(normalized_rating)s," \
             " %(rating_source)s, %(comment)s)"
 
-    ind = random.randrange(len(comments_list))
-    movie_id = random.randint(1, NUM_MOVIES)
-    comment = format_comment(comments_list[ind], movie_id)
     rating = random.choice(ratings)
-
-    try:
-        print(f"Comment: {comment}")
-    except UnicodeEncodeError:
-        print("cannot print")
-
+    ind = random.randrange(len(comments_list))
+    comment = format_comment(comments_list[ind], movie_id)
     if comment:
         params = dict(
             user_id=user_id,
@@ -206,17 +240,31 @@ def main():
 
     names = read_names_from_file()
     random_names = random.sample(names, k=NUM_USERS)
+    inserted = 0
     for name in random_names:
-        add_username(name)
+        added = add_username(name)
+        if added:
+            inserted += 1
+    print(f"inserted {inserted} users total")
 
+
+    inserted = 0
+    top_movies = [i for i in range(150,185) if any(get_movie_info_from_movie_id(i))]
     for user_id in range(NUM_USERS):
-        try:
-            add_comment(user_id, BAD_COMMENTS, BAD_RATINGS)
-            add_comment(user_id, BAD_COMMENTS, BAD_RATINGS)
-            add_comment(user_id, GOOD_COMMENTS, GOOD_RATINGS)
-            add_comment(user_id, GOOD_COMMENTS, GOOD_RATINGS)
-        except:
+        if not get_username_from_user_id(user_id):
             continue
+
+        inserted += add_comment(user_id, GOOD_COMMENTS, GOOD_RATINGS)
+        inserted += add_comment(user_id, GOOD_COMMENTS, GOOD_RATINGS)
+        inserted += add_comment(user_id, BAD_COMMENTS, BAD_RATINGS)
+        inserted += add_comment(user_id, BAD_COMMENTS, BAD_RATINGS)
+
+        top_movie = random.choice(top_movies)
+        inserted += add_comment(user_id, GOOD_COMMENTS, GOOD_RATINGS, movie_id=top_movie)
+    print(f"inserted {inserted} comments total")
+
+    if CONNECTION is not None:
+        CONNECTION.close()
 
 
 if __name__ == "__main__":
