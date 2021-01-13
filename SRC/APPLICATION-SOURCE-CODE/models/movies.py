@@ -12,7 +12,7 @@ def create_ex(exclude):
 
     return ex
 
-
+    
 def get_movie_names_with_text(text):
     query = "SELECT title " \
             "FROM movies " \
@@ -41,19 +41,6 @@ def get_genre_for_movie_id(movie_id):
     return genre
 
 
-def get_poster_for_movie_id(movie_id):
-    query = "SELECT poster_link \
-            FROM movies \
-            WHERE id = {}".format(movie_id)
-
-    db_cursor = CONNECTION.cursor()
-    db_cursor.execute(query)
-
-    link = [result[0] for result in db_cursor][0]
-    db_cursor.close()
-    return link
-
-
 def get_title_for_movie_id(movie_id):
     query = "SELECT title, id " \
             "FROM movies " \
@@ -68,6 +55,7 @@ def get_title_for_movie_id(movie_id):
 
 
 def get_top_movie(exclude=None):
+    # TODO return id
     ex = create_ex(exclude)
     query = "SELECT movie_id " \
             "FROM movie_ratings " \
@@ -165,7 +153,6 @@ def get_movies_per_year_top_n(n):
     db_cursor.close()
     return genres
 
-
 def get_id_for_movie(title1, title2, title3):
     query = "SELECT title, id " \
             "FROM movies " \
@@ -173,27 +160,24 @@ def get_id_for_movie(title1, title2, title3):
 
     movie_ids = []
     cursor1 = CONNECTION.cursor()
-    cursor1.execute(query, dict(title=title1))
+    cursor1.execute(query, dict(title = title1))
 
     for result in cursor1:
-        movie_ids += [result[1]]
+    	movie_ids += [result[1]]
 
     cursor1.close()
     cursor2 = CONNECTION.cursor()
-    cursor2.execute(query, dict(title=title2))
+    cursor2.execute(query, dict(title = title2))
 
     for result in cursor2:
-        movie_ids += [result[1]]
+    	movie_ids += [result[1]]
     cursor2.close()
     cursor3 = CONNECTION.cursor()
-    cursor3.execute(query, dict(title=title3))
+    cursor3.execute(query, dict(title = title3))
 
     for result in cursor3:
-        movie_ids += [result[1]]
+    	movie_ids += [result[1]]
 
-    # for result in db_cursor:
-    #     title, movie_id = result[0], result[1]
-    #     movie_ids.append(movie_id)
-
+    
     cursor3.close()
     return movie_ids
