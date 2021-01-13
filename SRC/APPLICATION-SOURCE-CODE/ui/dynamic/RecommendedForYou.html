@@ -14,7 +14,6 @@
 <body>
 
 
-<div class="navbar" id="navbar"></div>
 
 <form autocomplete="off" action="/action_page.php">
   <form class="row">
@@ -23,6 +22,7 @@
       <h1>Recomended for You</h1>
       <h2>Tell us which movies you liked, and we will recommend some more!</h2>
 
+      <div class="navbar" id="navbar"></div>
       <div class="autocomplete">
         <input type="text" name="searchbar" id="myInput" placeholder="I liked...">
       </div>
@@ -30,9 +30,9 @@
       <a class="btn" type = "submit" onclick="EnterMovie()">Enter</a>
 
       <br>
-        <div class="optionalMovie"><a class="x" onclick = "RemoveOption(0)">x</a><span class="optMovieText" id = "opt1">option 1</span></div>
-        <div class="optionalMovie"><a class="x" onclick = "RemoveOption(1)">x</a><span class="optMovieText" id = "opt2">option 2</span></div>
-        <div class="optionalMovie"><a class="x" onclick = "RemoveOption(2)">x</a><span class="optMovieText" id = "opt3">option 3</span></div>
+        <div class="optionalMovie"><a class="x" onclick = "RemoveOption(0)">x</a><span class="optMovieText" id = "opt1">movie 1</span></div>
+        <div class="optionalMovie"><a class="x" onclick = "RemoveOption(1)">x</a><span class="optMovieText" id = "opt2">movie 2</span></div>
+        <div class="optionalMovie"><a class="x" onclick = "RemoveOption(2)">x</a><span class="optMovieText" id = "opt3">movie 3</span></div>
         <a class="btn" onclick="searchRecommendation()" style="padding-left:20px;padding-right:20px;">Go    !</a>
       <b2>
 
