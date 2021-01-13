@@ -3,12 +3,10 @@ import {links, footer_text} from "./constants.js"
 
 var options = ["", "", ""];
 
-
 function searchRecommendation(){
 	var i;
 	for (i = 0; i < 3; i++){
 		if(options[i] == ""){
-			console.log("good");
 			return;
 		}
 	}
@@ -18,17 +16,7 @@ function searchRecommendation(){
         if (this.readyState == 4 && this.status == 200) {
            	console.log(this.responseText);
             movies = JSON.parse(this.responseText);
-            window.location.replace("/movie/" + movies["Id"].toString());
-   //          var xhttp1 = new XMLHttpRequest();
-	  //  		xhttp1.onreadystatechange = function() {
-	  //  			if (this.readyState == 4 && this.status == 200) {
-   //         			console.log(this.responseText);
-	  //          		movies = JSON.parse(this.responseText);
-	  //          	}
-	  //    	};
-	    
-			// xhttp1.open("GET", "/id_for_title?title1="+document.getElementById("opt1").innerHTML+"?title2="+document.getElementById("opt2").innerHTML+"?title3="+document.getElementById("opt3").innerHTML, true);
-			// xhttp1.send();
+            window.location.replace("/movie?movie=" + movies["Id"].toString());
 
 		}
     };
@@ -37,18 +25,39 @@ function searchRecommendation(){
 
 }
 function EnterMovie() {
-	var i; 
-	for(i= 0; i < 3; i++){
-		if(options[i] == ""){
-			document.getElementById("opt".concat((i+1).toString())).innerHTML = document.getElementById("myInput").value;
-			options[i] = document.getElementById("myInput").value;
-			break;
-		}
-	}
+	var i, val;
+  val = document.getElementById("myInput").value; 
+  if(val == options[0] || val == options[1] || val == options[2]){
+    alert("You already picked that movie!");
+    return;
+  }
+
+  var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          console.log(this.responseText);
+          movies = JSON.parse(this.responseText);
+          if(movies == -1){
+            alert("This movie does not exist!");
+            return;
+          }
+          for(i= 0; i < 3; i++){
+            if(options[i] == ""){
+              document.getElementById("opt".concat((i+1).toString())).innerHTML = val;
+              options[i] = document.getElementById("myInput").value;
+              break;
+    }
+  }
+
+    }
+    };
+  xhttp.open("GET", "/id_for_title/" + val, true);
+  xhttp.send();
+
 }
 
 function RemoveOption(i) {
-	document.getElementById("opt".concat((i+1).toString())).innerHTML = "option ".concat((i+1).toString());
+	document.getElementById("opt".concat((i+1).toString())).innerHTML = "movie ".concat((i+1).toString());
 	options[i] = "";
 }
 
@@ -79,13 +88,14 @@ function autocomplete(inp) {
 		        for (j = 0; j < arr[i].length - val.length; j++){
 		        	if (arr[i].substr(j, val.length).toUpperCase() == val.toUpperCase()) {
 		          /*create a DIV element for each matching element:*/
+                  console.log(arr[i]);
 		          		b = document.createElement("DIV");
 		          /*make the matching letters bold:*/
 		          		b.innerHTML = arr[i].substr(0, j);
 		          		b.innerHTML += "<strong>" + arr[i].substr(j, val.length) + "</strong>";
 		          		b.innerHTML += arr[i].substr(val.length + j);
 		          /*insert a input field that will hold the current array item's value:*/
-		          		b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+		          		b.innerHTML += "<input type='hidden' value='" + str_process(arr[i]) + "'>";
 		          /*execute a function when someone clicks on the item value (DIV element):*/
 		          		b.addEventListener("click", function(e) {
 		              /*insert the value for the autocomplete text field:*/
@@ -132,6 +142,20 @@ function autocomplete(inp) {
         }
       }
   });
+
+  function str_process(str){
+    var i, new_str;
+    new_str = "";
+    for(i = 0; i < str.length; i++){
+      if(str.charAt(i) == "'"){
+        new_str += "&#39"
+      }
+      else{
+        new_str += str.charAt(i)
+      }
+    }
+    return new_str
+  }
   function addActive(x) {
     /*a function to classify an item as "active":*/
     if (!x) return false;
@@ -163,9 +187,6 @@ function autocomplete(inp) {
       closeAllLists(e.target);
   });
 }
-
-/*An array containing all the country names in the world:*/
-var countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia & Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre & Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts & Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad & Tobago","Tunisia","Turkey","Turkmenistan","Turks & Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
 
 /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
 var movies;
