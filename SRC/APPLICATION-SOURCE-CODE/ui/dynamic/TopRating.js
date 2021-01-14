@@ -1,5 +1,5 @@
 import {init_navbar, append_to_html_with_atterbutes} from './utils.js'
-import {links, footer_text} from "./constants.js"
+import {links} from "./constants.js"
 import {append_row_to_table, append_header_row_to_table} from "./TopPagesUtil.js"
 
 
@@ -63,7 +63,7 @@ function loadRatingTable(id, source, n){
           var film = tops[i];
           var title_link_text = film.title
           row_text = [film.rank , title_link_text, film.rating]
-          append_row_to_table("ratingtable","row"+i,"",row_text,"td")
+          append_row_to_table("ratingtable","row"+i,"",row_text,"td","/movie?id="+film.id)
       }
     }
   };

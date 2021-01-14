@@ -1,5 +1,5 @@
-import {insert_movie_description, init_navbar, init_footer} from './utils.js'
-import {links, footer_text} from "./constants.js"
+import {insert_movie_description, init_navbar} from './utils.js'
+import {links} from "./constants.js"
 
 
 // Next/previous controls
@@ -62,7 +62,7 @@ function insert_comment_of_the_day() {
         var comment = JSON.parse(this.responseText)[0];
         const title_text = "<u>"+comment.username+"</u>" + ' on "' + comment.title + '" ';
         document.getElementById("title").innerHTML = title_text;
-        document.getElementById("text").innerHTML = '"<i>'+comment.text+'"</i> - <b>' +comment.rating +"/10</b>";
+        document.getElementById("text").innerHTML = '"<i>'+comment.text+'"</i> - <b>' +comment.rating.toFixed(2) +"/5</b>";
       }
     };
     xhttp.open("GET", "/random_rating", true);
@@ -82,8 +82,7 @@ function get_random_pick(){
       const picktitle = staffmembers[random] + " recommeds" + " '"+ pick.title + "'"
       document.getElementById("picktitle").innerHTML = picktitle
       insert_movie_description("description",pick.summary, pick.image, 300);
-      //document.getElementById("pickimg").setAttribute("src", pick.image)
-      //document.getElementById("description").innerHTML = pick.summary
+      //document.getElementById("staffpicklink") = ?
     }
   };
   xhttp.open("GET", "/staff_pick", true);

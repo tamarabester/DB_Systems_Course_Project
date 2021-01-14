@@ -48,7 +48,7 @@ def return_recommended():
 
 @app.route('/movie')
 def return_movie_page():
-    return send_from_directory(UI_FILES_DIR, "RecommendedForYou.html")
+    return send_from_directory(UI_FILES_DIR, "MoviePage.html")
 
 
 @app.route('/ui/<path:filename>')
@@ -79,8 +79,6 @@ def add_rank_to_list(list_to_rank, ranking_function):
 
 @app.route('/movie_name')
 def get_movie_names_for_autocomplete():
-    # data = json.loads(request.data)
-    # search_text = data["text"]
     search_text = request.args.get('text')
     movie_names = get_movie_names_with_text(search_text)
     return json.dumps(movie_names)
@@ -191,10 +189,38 @@ def get_movies_per_year():
     return json.dumps(years)
 
 
-@app.route('/id_for_title/<title>')
-def get_id_for_title(title):
-    movie_id = get_movie_id_for_title(title)
-    return json.dumps([movie_id])
+@app.route('/id_for_title/<title1>/<title2>/<title3>')
+def get_id_for_title(title1, title2, title3):
+    movie_ids = [get_movie_id_for_title(t) for t in [title1, title2, title3]]
+    return json.dumps(movie_ids)
+
+
+@app.route('/all_info_for_analitics')
+def get_all_info_for_analitics():
+    all_info = {}
+    n = int(request.args.get('n'))
+
+    years = get_movies_per_year_top_n(n)
+    add_rank_to_list(years, lambda m: -m["movie_count"])
+    all_info["years"] = years
+
+    genres = get_movies_per_genre_top_n(n)
+    add_rank_to_list(genres, lambda m: -m["movie_count"])
+    all_info["genres"] = genres
+
+    movies = get_top_n_movies_with_most_user_ratings(n)
+    add_rank_to_list(movies, lambda m: -m["num_ratings"])
+    all_info["movies"] = movies
+
+    top_actors = get_top_actors_by_ratings(n)
+    add_rank_to_list(top_actors, lambda m: -m["avg_rating"])
+    all_info["top_actors"] = top_actors
+
+    top_genres = get_top_genres_by_ratings(n)
+    add_rank_to_list(top_genres, lambda m: -m["avg_rating"])
+    all_info["top_genres"] = top_genres
+
+    return json.dumps(all_info)
 
 
 ########################################
