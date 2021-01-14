@@ -6,7 +6,7 @@ from flask import Flask, request, send_from_directory
 
 from lib.movies.movie_utils import *
 from lib.staff_pick.staff_pick_utils import *
-#from lib.general import *
+# from lib.general import *
 from utils.config import *
 
 app = Flask(__name__)
@@ -30,9 +30,11 @@ def return_analytics():
 def return_user_ratings():
     return send_from_directory(UI_FILES_DIR, "TopUsers.html")
 
+
 @app.route('/top_rating')
 def return_top_ratings():
     return send_from_directory(UI_FILES_DIR, "TopRating.html")
+
 
 @app.route('/imdb_rating')
 def return_imdb_ratings():
@@ -44,9 +46,9 @@ def return_recommended():
     return send_from_directory(UI_FILES_DIR, "RecommendedForYou.html")
 
 
-@app.route('/movie/<movie_id>')
-def return_movie_page(movie_id):
-    return send_from_directory(UI_FILES_DIR, "RecommendedForYou.html")
+@app.route('/movie')
+def return_movie_page():
+    return send_from_directory(UI_FILES_DIR, "MoviePage.html")
 
 
 @app.route('/ui/<path:filename>')
@@ -57,7 +59,6 @@ def return_ui(filename):
 @app.route('/images/<path:filename>')
 def return_img(filename):
     return send_from_directory(UI_IMG_DIR, filename)
-
 
 
 ################################
@@ -78,8 +79,8 @@ def add_rank_to_list(list_to_rank, ranking_function):
 
 @app.route('/movie_name')
 def get_movie_names_for_autocomplete():
-    #data = json.loads(request.data)
-    #search_text = data["text"]
+    # data = json.loads(request.data)
+    # search_text = data["text"]
     search_text = request.args.get('text')
     movie_names = get_movie_names_with_text(search_text)
     return json.dumps(movie_names)
@@ -119,10 +120,6 @@ def get_top_n_imdb_rated():
 
 @app.route('/recommendation/<movie1>/<movie2>/<movie3>')
 def get_recommendation(movie1, movie2, movie3):
-    # movie1 = request.args.get('movie1')
-    # movie2 = request.args.get('movie2')
-    # movie3 = request.args.get('movie3')
-    
     print("movie1: ", movie1)
     movies = get_id_for_movie(movie1, movie2, movie3)
     print("movie ids: ", movies)
@@ -154,45 +151,81 @@ def get_movie_comments(movie_id):
     comments = get_n_comments_for_movie_id(movie_id, n)
     return json.dumps(comments)
 
-############ TODO ################
-@app.route('/genres_popularity')
-def get_genres_popularity():
+@app.route('/movie/<movie_id>/info_and_comments')
+def get_movie_info_and_comments(movie_id):
     n = int(request.args.get('n'))
-    genres = get_top_genres_by_ratings(n)
-    add_rank_to_list(genres, lambda m: -m["avg_rating"])
-    return json.dumps(genres)
+    movie_id = int(movie_id)
+    comments = get_n_comments_for_movie_id(movie_id, n)
+    info = get_movie_info_for_movie_id(movie_id)
+    ret = [comments, info]
+    return json.dumps(ret)
 
 
-@app.route('/actors_popularity')
-def get_actors_popularity():
+# @app.route('/genres_popularity')
+# def get_genres_popularity():
+#     n = int(request.args.get('n'))
+#     genres = get_top_genres_by_ratings(n)
+#     add_rank_to_list(genres, lambda m: -m["avg_rating"])
+#     return json.dumps(genres)
+
+
+# @app.route('/actors_popularity')
+# def get_actors_popularity():
+#     n = int(request.args.get('n'))
+#     actors = get_top_actors_by_ratings(n)
+#     add_rank_to_list(actors, lambda m: -m["avg_rating"])
+#     return json.dumps(actors)
+
+
+# @app.route('/movies_with_most_user_ratings')
+# def get_movies_with_most_user_ratings():
+#     n = int(request.args.get('n'))
+#     movies = get_top_n_movies_with_most_user_ratings(n)
+#     add_rank_to_list(movies, lambda m: -m["num_ratings"])
+#     return json.dumps(movies)
+
+
+# @app.route('/movies_per_genre')
+# def get_movies_per_genre():
+#     n = int(request.args.get('n'))
+#     genres = get_movies_per_genre_top_n(n)
+#     add_rank_to_list(genres, lambda m: -m["movie_count"])
+#     return json.dumps(genres)
+
+
+# @app.route('/movies_per_year')
+# def get_movies_per_year():
+#     n = int(request.args.get('n'))
+#     years = get_movies_per_year_top_n(n)
+#     add_rank_to_list(years, lambda m: -m["movie_count"])
+#     return json.dumps(years)
+
+@app.route('/all_info_for_analitics')
+def get_all_info_for_analitics():
+    all_info = {}
     n = int(request.args.get('n'))
-    actors = get_top_actors_by_ratings(n)
-    add_rank_to_list(actors, lambda m: -m["avg_rating"])
-    return json.dumps(actors)
 
-
-@app.route('/movies_with_most_user_ratings')
-def get_movies_with_most_user_ratings():
-    n = int(request.args.get('n'))
-    movies = get_top_n_movies_with_most_user_ratings(n)
-    add_rank_to_list(movies, lambda m: -m["num_ratings"])
-    return json.dumps(movies)
-
-
-@app.route('/movies_per_genre')
-def get_movies_per_genre():
-    n = int(request.args.get('n'))
-    genres = get_movies_per_genre_top_n(n)
-    add_rank_to_list(genres, lambda m: -m["movie_count"])
-    return json.dumps(genres)
-
-
-@app.route('/movies_per_year')
-def get_movies_per_year():
-    n = int(request.args.get('n'))
     years = get_movies_per_year_top_n(n)
     add_rank_to_list(years, lambda m: -m["movie_count"])
-    return json.dumps(years)
+    all_info["years"] = years
+
+    genres = get_movies_per_genre_top_n(n)
+    add_rank_to_list(genres, lambda m: -m["movie_count"])
+    all_info["genres"] = genres
+
+    movies = get_top_n_movies_with_most_user_ratings(n)
+    add_rank_to_list(movies, lambda m: -m["num_ratings"])
+    all_info["movies"] = movies
+
+    top_actors = get_top_actors_by_ratings(n)
+    add_rank_to_list(top_actors, lambda m: -m["avg_rating"])
+    all_info["top_actors"] = top_actors
+
+    top_genres = get_top_genres_by_ratings(n)
+    add_rank_to_list(top_genres, lambda m: -m["avg_rating"])
+    all_info["top_genres"] = top_genres
+    
+    return json.dumps(all_info)
 
 
 @app.route('/id_for_title/<title1>/<title2>/<title3>')
@@ -201,21 +234,19 @@ def get_id_for_title(title1, title2, title3):
     return json.dumps(ids)
 
 
-
-
 ########################################
 
 
 
 if __name__ == '__main__':
-        if len(sys.argv) >1:
-            port = sys.argv[1]
-        else:
-            port = 45124
+    if len(sys.argv) > 1:
+        port = sys.argv[1]
+    else:
+        port = 45124
 
-        try:
-            print(f"INIT DB CONNECTION {CONNECTION}")
-            app.run(debug=True, host="delta-tomcat-vm", port=port)
-        finally:
-            if CONNECTION is not None:
-                CONNECTION.close()
+    try:
+        print(f"INIT DB CONNECTION {CONNECTION}")
+        app.run(debug=True, host="delta-tomcat-vm", port=port)
+    finally:
+        if CONNECTION is not None:
+            CONNECTION.close()

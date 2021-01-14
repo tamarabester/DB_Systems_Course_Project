@@ -5,10 +5,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="./ui/style.css">
-<link rel="apple-touch-icon" sizes="180x180" href="/ui/favicon/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/ui/favicon/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/ui/favicon/favicon-16x16.png">
-<link rel="manifest" href="/ui/favicon/site.webmanifest">
+<!--<link rel="stylesheet" href="./style.css">-->
+<link rel="apple-touch-icon" sizes="180x180" href="./ui/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./ui/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./ui/favicon/favicon-16x16.png">
+<link rel="manifest" href="./ui/favicon/site.webmanifest">
 </head>
 <body>
 
@@ -22,15 +23,82 @@
   <p id="starring"></p>
   <br>
 
-  <div id="Moviedescription" style="width:95%;"></div>
+  <h1 id="pagetitle"></h1>
+  <p id="ratings" style="text-align:center"></p>
+
+  <div style="display: flex; justify-content: center;">
+    <div id="plotcontainer" style="width:85%;">
+      <h3 style="margin-bottom:0px; text-align:left;"></h3>
+      <div id="info" class="section" style="border-left:3px solid snow; padding-left:10px; padding-right:5px; vertical-align:top;">
+        <p id="genre" style="margin:2px;"></p>
+        <p id="featuring" style="margin:2px;"></p>
+        <br>
+        <h2 id="summarytitle" style="text-align:left;" id="picktitle"></h2>
+        <div style="text-align:left;" class="section" id="description"></div>
+      </div>
+    </div>
+  </div>
 
   <br>
-  <h2 style="text-align:left;">Our users say..</h2>
-  <div id="comments!"></div>
+  <div id="commentsection" style="width:85%;"></div>
+
+  <div style=" display: flex; justify-content: center;">
+  <div class="row" style="width:85%;">
+    <h2 id="featuredcomments"></h2>
+    <div class="column" style="border-left:2px solid; padding-left:5px; margin-right:1%;">
+      <h2 style="text-align:left;" id="username0"></h2>
+      <h3 style="text-align:left;" id="rating0"></h3>
+      <p><i id="commenttext0"></i></p>
+    
+    </div>
+
+    <div class="column" style="border-left:2px solid; padding-left:5px; margin-right:1%;">
+      <h2 style="text-align:left;" id="username1"></h2>
+      <h3 style="text-align:left;" id="rating1"></h3>
+      <p><i id="commenttext1"></i></p>
+    
+    </div>
+
+    <div class="column" id="3rdcol" style="border-left:2px solid; padding-left:5px; margin-right:1%;">
+      <h2 style="text-align:left;" id="username2"></h2>
+      <h3 style="text-align:left;" id="rating2"></h3>
+      <p><i id="commenttext2"></i></p>
+    
+    </div>
+
+  </div>
+  </div>
 </div>
 
-<div id="footer" class="footer"></div>
 
-<script src="./ui/MoviePage.html" type="module"></script>
+<script src="./ui/MoviePage.js" type="module"></script>
+<!--
+<script>
+function load1(){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText);
+      }
+  };
+  // IMDB, RT, USER
+  xhttp.open("GET", "/movie/314/info", true);
+  xhttp.send();
+}
+
+function load2(){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText);
+      }
+    };
+  // IMDB, RT, USER
+  xhttp.open("GET", "/movie/314/comments?n=10", true);
+  xhttp.send();
+}
+load1();
+load2();
+</script>-->
 </body>
 </html>

@@ -47,8 +47,10 @@ def get_movie_info_for_movie_id(movie_id):
     movie_info = dict(
         title=get_title_for_movie_id(movie_id),
         genre=get_genre_for_movie_id(movie_id),
+        poster_link=get_poster_for_movie_id(movie_id),
         ratings=get_average_ratings_for_movie_id(movie_id),
-        Id=movie_id,
+        actors=get_actors_for_movie_id(movie_id),
+        id=movie_id,
     )
 
     # try to add summary from wiki

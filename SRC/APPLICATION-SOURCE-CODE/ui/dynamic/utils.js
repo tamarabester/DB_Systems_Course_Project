@@ -119,6 +119,6 @@ function insert_movie_description(id, text, img, max_img_size){
     summary.innerText = text
     parentelem.appendChild(summary)
   
-  }
+}
 
 export {append_to_html, append_to_html_with_atterbutes, init_navbar, init_footer, insert_movie_description};

@@ -1,5 +1,6 @@
 from utils.config import *
 
+
 def get_ratings_with_comments():
     query = "SELECT title, normalized_rating, comment, username " \
             "FROM movies, movie_ratings, users " \
@@ -25,7 +26,6 @@ def get_ratings_with_comments():
 
 
 def get_top_n_from_source(n, source):
-    # TODO return list of {id, rating}
     query = "SELECT title, movie_id, normalized_rating " \
             "FROM movie_ratings, movies " \
             "WHERE movies.id = movie_ratings.movie_id " \
@@ -67,9 +67,10 @@ def get_average_ratings_for_movie_id(movie_id):
 
 
 def get_n_comments_for_movie_id(movie_id, n):
-    query = "SELECT comment " \
-    "FROM movie_ratings " \
-    "WHERE movie_id = %(movie_id)s " \
+    query = "SELECT username, comment, normalized_rating " \
+    "FROM movie_ratings, users " \
+    "WHERE movie_ratings.user_id = users.id " \
+    "AND movie_id = %(movie_id)s " \
     "LIMIT %(limit)s"
 
     db_cursor = CONNECTION.cursor()
@@ -77,8 +78,9 @@ def get_n_comments_for_movie_id(movie_id, n):
 
     comments = []
 
-    for comment in db_cursor:
-        comments.append(comment)
+    for result in db_cursor:
+        username, comment, rating  = result[0], result[1], result[2]
+        comments.append(dict(comment=comment, username=username, rating=rating))
 
     db_cursor.close()
     return comments
@@ -140,7 +142,7 @@ def get_top_n_movies_with_most_user_ratings(n):
             "FROM movies, movie_ratings " \
             "WHERE movie_id = movies.id " \
             "AND rating_source = 'USER' " \
-            "GROUP BY title  " \
+            "GROUP BY title " \
             "ORDER BY c DESC " \
             "LIMIT %(limit)s"
     db_cursor = CONNECTION.cursor()

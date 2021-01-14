@@ -1,5 +1,5 @@
 import {insert_movie_description, init_navbar, init_footer} from './utils.js'
-import {links, footer_text} from "./constants.js"
+import {links} from "./constants.js"
 
 var options = ["", "", ""];
 

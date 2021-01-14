@@ -1,5 +1,5 @@
 import {init_navbar, append_to_html_with_atterbutes} from './utils.js'
-import {links, footer_text} from "./constants.js"
+import {links} from "./constants.js"
 import {append_row_to_table, append_header_row_to_table} from "./TopPagesUtil.js"
 
 

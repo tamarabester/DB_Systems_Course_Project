@@ -442,3 +442,21 @@ input[type=submit] {
 .ratingSourceBtn:hover {
   background-color: #526b9b;
 }
+
+
+
+/******* comments in moviepage ******/
+.column {
+  float: left;
+  width: 32%;
+  background-color: #aaa9a9;
+  color:snow;
+  
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
