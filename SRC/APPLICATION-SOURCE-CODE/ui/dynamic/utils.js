@@ -191,7 +191,7 @@ function SearchMovie(){
               alert("not a valid movie!")
               return
             }
-            window.location.replace("/movie?movie=" + movies[0].toString());
+            window.location.replace("/movie?id=" + movies[0].toString());
 
     }
     };
