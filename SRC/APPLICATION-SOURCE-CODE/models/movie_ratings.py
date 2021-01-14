@@ -1,4 +1,5 @@
 from utils.config import *
+from models.movies import *
 
 
 def get_ratings_with_comments():
@@ -162,25 +163,34 @@ def get_top_n_movies_with_most_user_ratings(n):
 
 
 def get_users_also_liked(movie_id):
-    query = "(" \
-            "SELECT user_id AS uid1" \
+    query = "SELECT res2.movie_id " \
+            "FROM (" \
+            "SELECT user_id " \
             "FROM movie_ratings " \
             "WHERE rating_source='USER' " \
-            "AND movie_id = %(movie_id1)s " \
+            "AND movie_id = %(m1)s " \
             "ORDER BY normalized_rating DESC " \
-            "LIMIT 3" \
-            ")" \
+            "LIMIT 10" \
+            ") AS res1 " \
             "INNER JOIN " \
             "(" \
-            "SELECT user_id AS uid2, movie_id, normalized_rating " \
+            "SELECT user_id, MIN(movie_id) AS movie_id " \
             "FROM movie_ratings " \
-            "WHERE normalized_rating = (" \
-            "SELECT user_id, MAX(normalized_rating) " \
-            "FROM movie_ratings " \
-            "WHERE rating_source='USER' " \
-            "GROUP BY user_id " \
-            ") " \
-            "AND rating_source='USER' " \
-            "AND movie_id != %(movie_id2)s " \
-            ") ON uid1 = uid2"
+            "WHERE normalized_rating > 4.5 " \
+            "AND user_id IS NOT NULL " \
+            "AND movie_id != %(m2)s " \
+            "GROUP BY user_id" \
+            ") AS res2 " \
+            "ON res1.user_id  = res2.user_id"
+    db_cursor = CONNECTION.cursor()
+    db_cursor.execute(query, dict(m1=movie_id, m2=movie_id))
+
+    titles = []
+    for result in db_cursor:
+        movie_id = result[0]
+        title = get_title_for_movie_id(movie_id)
+        titles.append(title)
+    db_cursor.close()
+    return titles
+
 
