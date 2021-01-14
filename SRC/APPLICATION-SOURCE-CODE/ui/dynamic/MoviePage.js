@@ -28,17 +28,24 @@ function load2(){
 }
 
 function insert_info(info){
+    console.log(info)
     document.getElementById("pagetitle").innerHTML = info.title
     var rating = "";
     if (info.ratings.USER!=undefined){
         rating += "Our users: "+ info.ratings.USER.toFixed(2)
-        if (info.ratings.IMDB!=undefined){
+        if (info.ratings.IMDB!=undefined |info.ratings.RT!=undefined){
             rating += " | "
         }
     }
     if (info.ratings.IMDB!=undefined){
-        rating += "IMDB rating: " + info.ratings.IMDB
+        rating += "IMDB rating: " + info.ratings.IMDB.toFixed(2);
+        if (info.ratings.RT!=undefined){
+          rating += " | "
+      }
     }
+    if (info.ratings.IMDB!=undefined){
+      rating += "Rotten Tomatoes rating: " + info.ratings.RT.toFixed(2);
+  }
     document.getElementById("ratings").innerHTML = rating
     if (info.genre != undefined){
         document.getElementById("genre").innerHTML = "<b>Genre: </b>"+info.genre
@@ -52,7 +59,7 @@ function insert_info(info){
         insert_movie_description("description",info.summary, info.poster_link, 300);
         document.getElementById("info").style.height="500px";
     }
-    if (info.users_also_liked.length>0){
+    if (info.users_also_liked!=undefined && info.users_also_liked.length>0){
       var i;
       var pre ="";
       for (i in info.users_also_liked){
@@ -68,8 +75,8 @@ function insert_comments(comments){
         return;
     }
     append_to_html("commentsection","h2","","Featured comments")
-    featuredcomments
-    for (i in comments){
+    for (let i = 0; i < 3; i++){
+        console.log(i)
         username = comments[i].username;
         comment  = comments[i].comment;
         rating   = comments[i].rating.toFixed(2);
