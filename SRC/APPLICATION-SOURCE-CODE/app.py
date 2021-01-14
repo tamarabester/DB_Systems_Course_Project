@@ -120,7 +120,7 @@ def get_top_n_imdb_rated():
 
 @app.route('/recommendation/<movie1>/<movie2>/<movie3>')
 def get_recommendation(movie1, movie2, movie3):
-    movies = get_id_for_movie(movie1, movie2, movie3)
+    movies = [get_movie_id_for_title(m) for m in [movie1, movie2, movie3]]
 
     majority_genre = get_majority_genre(movies)
     majority_actor = get_majority_actor(movies)
@@ -191,10 +191,10 @@ def get_movies_per_year():
     return json.dumps(years)
 
 
-@app.route('/id_for_title/<title1>')
-def get_id_for_title(title1):
-    ids = get_id_for_movie(title1, "not_a_movie@", "not_a_movie@")
-    return json.dumps(ids)
+@app.route('/id_for_title/<title>')
+def get_id_for_title(title):
+    movie_id = get_movie_id_for_title(title)
+    return json.dumps([movie_id])
 
 
 ########################################
