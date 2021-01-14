@@ -12,7 +12,9 @@ create TABLE movies (
 create TABLE users (
     id int NOT NULL AUTO_INCREMENT,
     username VARCHAR(32) NOT NULL UNIQUE,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    CONSTRAINT unique_username UNIQUE (username)
+
 );
 
 
@@ -47,12 +49,15 @@ create TABLE actors_movies (
     PRIMARY KEY (id),
     FOREIGN KEY (actor_id) REFERENCES actors(id),
     FOREIGN KEY (movie_id) REFERENCES movies(id),
-    UNIQUE(actor_id, movie_id)
+    CONSTRAINT unique_actor_movie_appearance UNIQUE(actor_id, movie_id)
 );
 
 create INDEX  username_index ON users (username);
 create INDEX  genre_index ON movies (genre);
 create INDEX actor_name_index ON actors (first_name, last_name);
-create INDEX user_movie_index ON movie_ratings (user_id, movie_id);
+
+create INDEX movie_rating_index ON movie_ratings (movie_id);
+create INDEX rating_source_index ON movie_ratings (rating_source);
+
 create INDEX actor_index ON actors_movies (actor_id);
 create INDEX movie_index ON actors_movies (movie_id);

@@ -121,18 +121,19 @@ def add_username(name):
 
 
 def get_movie_info_from_movie_id(movie_id):
-    title, genre, year, plot = None, None, None, None
-    query = "SELECT title, genre, release_year, plot_summary from movies WHERE id=%(movie_id)s"
+    title, genre, year, plot, link = None, None, None, None, None
+    query = "SELECT title, genre, release_year, plot_summary, poster_link " \
+            "from movies WHERE id=%(movie_id)s"
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query, dict(movie_id=movie_id))
 
     for res in db_cursor:
-        title, genre, year, plot = res[0], res[1], res[2], res[3]
+        title, genre, year, plot, link = res[0], res[1], res[2], res[3], res[4]
         break
 
     db_cursor.close()
 
-    return title, genre, year, plot
+    return title, genre, year, plot, link
 
 
 def get_first_actor_for_movie_id(movie_id):
@@ -162,7 +163,7 @@ def get_first_actor_for_movie_id(movie_id):
 
 
 def format_comment(comment, movie_id):
-    title, genre, year, plot = get_movie_info_from_movie_id(movie_id)
+    title, genre, year, plot, link = get_movie_info_from_movie_id(movie_id)
     if not title or not genre:
         return None
 
@@ -249,18 +250,19 @@ def main():
 
 
     inserted = 0
-    top_movies = [i for i in range(150,185) if any(get_movie_info_from_movie_id(i))]
+    top_movies = [i for i in range(1,400, 2) if all(get_movie_info_from_movie_id(i))]
+    print(f"running on {len(top_movies)} top movies")
     for user_id in range(NUM_USERS):
         if not get_username_from_user_id(user_id):
             continue
 
-        inserted += add_comment(user_id, GOOD_COMMENTS, GOOD_RATINGS)
-        inserted += add_comment(user_id, GOOD_COMMENTS, GOOD_RATINGS)
         inserted += add_comment(user_id, BAD_COMMENTS, BAD_RATINGS)
         inserted += add_comment(user_id, BAD_COMMENTS, BAD_RATINGS)
 
-        top_movie = random.choice(top_movies)
-        inserted += add_comment(user_id, GOOD_COMMENTS, GOOD_RATINGS, movie_id=top_movie)
+        for i in range(3):
+            top_movie = random.choice(top_movies)
+            inserted += add_comment(user_id, GOOD_COMMENTS, GOOD_RATINGS, movie_id=top_movie)
+
     print(f"inserted {inserted} comments total")
 
     if CONNECTION is not None:

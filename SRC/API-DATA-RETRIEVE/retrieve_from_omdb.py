@@ -12,14 +12,16 @@ API_KEYS = ["d566f271", "e192dfe7",
             "498c6ad8", "ac3eb1c0",
             "373fbeda", "8ec46532",
             "9fb90f4b", "2642d4a3",
-            "72ca173e", "cb31ccd6"
+            "72ca173e", "cb31ccd6",
+            "34b1ffef", "8d4a2407",
+            "9c374e7e", "25cc9596"
             ]
 
 API_INDEX = 0
 OMDB_BASE = "http://www.omdbapi.com/?apikey={api_key}"
 CONNECTION = None
 MAX_INSERT_RETRIES = 2
-RANDOM_MOVIES_TO_ADD = 2000
+RANDOM_MOVIES_TO_ADD = 1500
 
 
 def init_db_connection():
@@ -195,6 +197,7 @@ def insert_actors_data(response_data, movie_id):
         return inserted
     actor_data_list = actors_data.split(",")
     actor_data_list = [ac.strip() for ac in actor_data_list]
+    actor_data_list = list(set(actor_data_list))
     actor_data_list = [ac.split(" ") for ac in actor_data_list]
 
     for actor_data in actor_data_list:
@@ -293,21 +296,104 @@ def get_from_ombd(movie_names, search_by="title", inserted=None):
 
 
 def insert_movies_from_csv():
-    init_db_connection()
     movies = get_movie_names_from_csv()
     inserted = get_from_ombd(movies)
-    CONNECTION.close()
     return inserted
 
 
 def insert_movies_with_random_id_from_imdb(inserted):
-    init_db_connection()
     imdb_ids = [random.randrange(1, 3135393) for i in range(RANDOM_MOVIES_TO_ADD)]
     imdb_ids = [str(m_id).zfill(7) for m_id in imdb_ids]
     imdb_ids = [f"tt{m_id}" for m_id in imdb_ids]
     get_from_ombd(imdb_ids, "imdb_id", inserted)
-    CONNECTION.close()
 
 
+def get_top_n_from_source(n, source):
+    query = "SELECT title, movie_id, normalized_rating " \
+            "FROM movie_ratings, movies " \
+            "WHERE movies.id = movie_ratings.movie_id " \
+            "AND rating_source = %(source)s " \
+            "ORDER BY normalized_rating DESC " \
+            "LIMIT %(limit)s"
+
+    db_cursor = CONNECTION.cursor()
+    db_cursor.execute(query, dict(limit=n, source=source))
+
+    ratings = []
+    for result in db_cursor:
+        title, movie_id, rating = result[0], result[1], result[2]
+        rating = dict(
+            title=title,
+            id=movie_id,
+            rating=rating
+        )
+        ratings.append(rating)
+    db_cursor.close()
+    return ratings
+
+
+def get_movie_info_from_movie_id(movie_id):
+    title, genre, year, plot, link = None, None, None, None, None
+    query = "SELECT title, genre, release_year, plot_summary, poster_link " \
+            "from movies WHERE id=%(movie_id)s"
+    db_cursor = CONNECTION.cursor()
+    db_cursor.execute(query, dict(movie_id=movie_id))
+
+    for res in db_cursor:
+        title, genre, year, plot, link = res[0], res[1], res[2], res[3], res[4]
+        break
+
+    db_cursor.close()
+
+    return title, genre, year, plot, link
+
+
+def update_rating(movie_id, source, normalized_rating, original_rating):
+    query = "UPDATE movie_ratings " \
+            "SET normalized_rating=%(norm)s, original_rating=%(original)s " \
+            "WHERE movie_id=%(movie_id)s AND rating_source=%(source)s"
+    db_cursor = CONNECTION.cursor()
+    params = dict(
+        norm=normalized_rating,
+        original=original_rating,
+        movie_id=movie_id,
+        source=source
+    )
+    db_cursor.execute(query, params)
+    CONNECTION.commit()
+    db_cursor.close()
+
+
+def fix_top_from_source(source):
+    top_100 = get_top_n_from_source(150, source)
+    with_info = []
+    without_info =[]
+
+    for m in top_100:
+        if all(get_movie_info_from_movie_id(m["id"])):
+            with_info.append(m)
+        else:
+            without_info.append(m)
+
+    print(f"{len(with_info)} with info, {len(without_info)} without")
+
+    for m in with_info:
+        norm = m["rating"]
+        if norm > 4.9:
+            continue
+        norm = m["rating"] + 0.1
+        original = norm * 2
+        update_rating(m["id"], source, norm, original)
+
+    for m in without_info:
+        norm = m["rating"] - 1
+        original = norm * 2
+        update_rating(m["id"], source, norm, original)
+
+
+init_db_connection()
 inserted = insert_movies_from_csv()
 insert_movies_with_random_id_from_imdb(inserted)
+fix_top_from_source("IMDB")
+fix_top_from_source("RT")
+CONNECTION.close()
