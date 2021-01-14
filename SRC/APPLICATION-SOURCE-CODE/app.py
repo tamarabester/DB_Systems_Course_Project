@@ -134,19 +134,11 @@ def get_recommendation(movie1, movie2, movie3):
 
 
 
-@app.route('/movie/<movie_id>/info')
-def get_movie_info(movie_id):
-    movie_id = int(movie_id)
+@app.route('/movie/info')
+def get_movie_info():
+    movie_id = int(request.args.get('id'))
     info = get_movie_info_for_movie_id(movie_id)
     return json.dumps(info)
-
-
-@app.route('/movie/<movie_id>/comments')
-def get_movie_comments(movie_id):
-    n = int(request.args.get('n'))
-    movie_id = int(movie_id)
-    comments = get_n_comments_for_movie_id(movie_id, n)
-    return json.dumps(comments)
 
 
 @app.route('/genres_popularity')

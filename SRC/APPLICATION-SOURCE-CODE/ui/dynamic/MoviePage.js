@@ -52,6 +52,14 @@ function insert_info(info){
         insert_movie_description("description",info.summary, info.poster_link, 300);
         document.getElementById("info").style.height="500px";
     }
+    if (info.users_also_liked.length>0){
+      var i;
+      var pre ="";
+      for (i in info.users_also_liked){
+        pre+= info.users_also_liked[i]+"| "
+      }
+      document.getElementById("also_liked").innerHTML = "<b>Users who liked this film also liked: </b>"+info.genre
+    }
 }
 
 function insert_comments(comments){
@@ -79,16 +87,14 @@ function load12(id){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
-        comments = JSON.parse(this.responseText)[0];
-        console.log("comments", comments);
-        info = JSON.parse(this.responseText)[1];
-        console.log("info", info);
+        info = JSON.parse(this.responseText);
+        comments =info["comments"];
         insert_comments(comments);
         insert_info(info);
         }
       };
     // IMDB, RT, USER
-    xhttp.open("GET", "/movie/"+id+"/info_and_comments?n=10", true);
+    xhttp.open("GET", "/movie/info?id="+id, true);
     xhttp.send();
   }
 //load1();
