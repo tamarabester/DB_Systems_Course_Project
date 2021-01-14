@@ -82,8 +82,7 @@ function get_random_pick(){
       const picktitle = staffmembers[random] + " recommeds" + " '"+ pick.title + "'"
       document.getElementById("picktitle").innerHTML = picktitle
       insert_movie_description("description",pick.summary, pick.image, 300);
-      //document.getElementById("pickimg").setAttribute("src", pick.image)
-      //document.getElementById("description").innerHTML = pick.summary
+      //document.getElementById("staffpicklink") = ?
     }
   };
   xhttp.open("GET", "/staff_pick", true);

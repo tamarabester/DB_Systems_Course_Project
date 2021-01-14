@@ -63,7 +63,7 @@ function loadRatingTable(id, source, n){
           var film = tops[i];
           var title_link_text = film.title
           row_text = [film.rank , title_link_text, film.rating]
-          append_row_to_table("ratingtable","row"+i,"",row_text,"td")
+          append_row_to_table("ratingtable","row"+i,"",row_text,"td","/movie?id="+film.id)
       }
     }
   };
