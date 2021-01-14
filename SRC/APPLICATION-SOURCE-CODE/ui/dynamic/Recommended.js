@@ -3,6 +3,34 @@ import {links} from "./constants.js"
 
 var options = ["", "", ""];
 
+function insert_movie_info(info){
+  document.getElementById("movie_link").setAttribute("href", "/movie?id=" + info.id)
+  document.getElementById("pagetitle").innerHTML = info.title
+    var rating = "";
+    if (info.ratings.USER!=undefined){
+        rating += "Our users: "+ info.ratings.USER.toFixed(2)
+        if (info.ratings.IMDB!=undefined){
+            rating += " | "
+        }
+    }
+    if (info.ratings.IMDB!=undefined){
+        rating += "IMDB rating: " + info.ratings.IMDB
+    }
+    document.getElementById("ratings").innerHTML = rating
+    if (info.genre != undefined){
+        document.getElementById("genre").innerHTML = "<b>Genre: </b>"+info.genre
+    }
+    if (info.actors.length > 0){
+        console.log(info.actors.length)
+        document.getElementById("featuring").innerHTML = "<b>Featuring: </b>"+info.actors
+    }
+    if (info.summary != undefined){
+        document.getElementById("summarytitle").innerHTML = "Plot summary"
+        insert_movie_description("description",info.summary, info.poster_link, 300);
+        document.getElementById("info").style.height="300px";
+    }
+}
+
 function searchRecommendation(){
 	var i;
 	for (i = 0; i < 3; i++){
@@ -15,8 +43,11 @@ function searchRecommendation(){
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
            	console.log(this.responseText);
-            movies = JSON.parse(this.responseText);
-            window.location.replace("/movie?movie=" + movies["Id"].toString());
+            var movies = JSON.parse(this.responseText);
+            var display = document.getElementById("movie")
+            display.setAttribute("style", "display:block")
+            insert_movie_info(movies)
+            
 
 		}
     };
