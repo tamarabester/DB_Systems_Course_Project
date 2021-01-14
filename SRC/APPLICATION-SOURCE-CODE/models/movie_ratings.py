@@ -159,3 +159,28 @@ def get_top_n_movies_with_most_user_ratings(n):
         movies.append(movie)
     db_cursor.close()
     return movies
+
+
+def get_users_also_liked(movie_id):
+    query = "(" \
+            "SELECT user_id AS uid1" \
+            "FROM movie_ratings " \
+            "WHERE rating_source='USER' " \
+            "AND movie_id = %(movie_id1)s " \
+            "ORDER BY normalized_rating DESC " \
+            "LIMIT 3" \
+            ")" \
+            "INNER JOIN " \
+            "(" \
+            "SELECT user_id AS uid2, movie_id, normalized_rating " \
+            "FROM movie_ratings " \
+            "WHERE normalized_rating = (" \
+            "SELECT user_id, MAX(normalized_rating) " \
+            "FROM movie_ratings " \
+            "WHERE rating_source='USER' " \
+            "GROUP BY user_id " \
+            ") " \
+            "AND rating_source='USER' " \
+            "AND movie_id != %(movie_id2)s " \
+            ") ON uid1 = uid2"
+

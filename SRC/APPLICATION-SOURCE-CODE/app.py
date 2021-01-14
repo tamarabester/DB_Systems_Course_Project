@@ -195,8 +195,8 @@ def get_id_for_title(title1, title2, title3):
     return json.dumps(movie_ids)
 
 
-@app.route('/all_info_for_analitics')
-def get_all_info_for_analitics():
+@app.route('/analytics_data')
+def get_all_info_for_analytics():
     all_info = {}
     n = int(request.args.get('n'))
 

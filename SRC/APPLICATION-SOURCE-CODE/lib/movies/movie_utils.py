@@ -50,15 +50,19 @@ def get_movie_info_for_movie_id(movie_id):
         poster_link=get_poster_for_movie_id(movie_id),
         ratings=get_average_ratings_for_movie_id(movie_id),
         actors=get_actors_for_movie_id(movie_id),
+        users_also_liked=get_users_also_liked(movie_id),
+        comments=get_n_comments_for_movie_id(movie_id, 5),
+        summary=get_plot_for_movie_id(movie_id),
         id=movie_id,
     )
 
     # try to add summary from wiki
-    try:
-        wiki_summary = wikipedia.summary(movie_info["title"], sentences=5)
-        movie_info["summary"] = wiki_summary
-    except Exception as e:
-        pass
+    if not movie_info["summary"]:
+        try:
+            wiki_summary = wikipedia.summary(movie_info["title"], sentences=5)
+            movie_info["summary"] = wiki_summary
+        except Exception as e:
+            pass
 
     return movie_info
 

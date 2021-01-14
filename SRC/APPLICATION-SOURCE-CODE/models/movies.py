@@ -41,6 +41,19 @@ def get_genre_for_movie_id(movie_id):
     return genre
 
 
+def get_plot_for_movie_id(movie_id):
+    query = "SELECT plot_summary \
+            FROM movies \
+            WHERE id = {}".format(movie_id)
+
+    db_cursor = CONNECTION.cursor()
+    db_cursor.execute(query)
+
+    plot = [result[0] for result in db_cursor][0]
+    db_cursor.close()
+    return plot
+
+
 def get_poster_for_movie_id(movie_id):
     query = "SELECT poster_link \
             FROM movies \
