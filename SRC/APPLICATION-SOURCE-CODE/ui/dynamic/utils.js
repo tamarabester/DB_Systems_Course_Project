@@ -1,3 +1,17 @@
+  function str_process(str){
+    var i, new_str;
+    new_str = "";
+    for(i = 0; i < str.length; i++){
+      if(str.charAt(i) == "'"){
+        new_str += "&#39"
+      }
+      else{
+        new_str += str.charAt(i)
+      }
+    }
+    return new_str
+  }
+
 
 function autocomplete(inp) {
   /*the autocomplete function takes two arguments,
@@ -34,7 +48,7 @@ function autocomplete(inp) {
                   b.innerHTML += "<strong>" + arr[i].substr(j, val.length) + "</strong>";
                   b.innerHTML += arr[i].substr(val.length + j);
               /*insert a input field that will hold the current array item's value:*/
-                  b.innerHTML += "<input type='hidden' value='" + arr[i] + "' + padding-left:20px'>";
+                  b.innerHTML += "<input type='hidden' value='" + str_process(arr[i]) + "' + padding-left:20px'>";
 
                   /*b.getElementsByTagName('input').setAttribute("type", "");
                   b.getElementsByTagName('input').setAttribute("style", "padding-left:20px")*/
@@ -208,12 +222,11 @@ function init_navbar(link_list) {
     form.setAttribute("action", "/action_page.php")
     searchcontainer = document.createElement('div')
     searchcontainer.setAttribute("class", "autocomplete")
-    parentelem.appendChild(form)
+    document.getElementById("containercontainer").appendChild(form)
     form.appendChild(searchcontainer)
   
     searchbar = document.createElement('input')
     searchbar.setAttribute("type","text")
-    searchbar.setAttribute("style","width:50%;")
     searchbar.setAttribute("name", "searchbar")
     searchbar.setAttribute("id","searchbar")
     searchbar.setAttribute("list","suggestions")
@@ -226,7 +239,7 @@ function init_navbar(link_list) {
     button.setAttribute("onclick", "SearchMovie()")
     button.innerHTML = "Search"
 
-    parentelem.appendChild(button)
+    containercontainer.appendChild(button)
   
     autocomplete(searchbar)
     button.addEventListener("click", SearchMovie)
