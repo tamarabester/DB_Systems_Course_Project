@@ -1,5 +1,5 @@
-import {insert_movie_description, init_navbar, init_footer} from './utils.js'
-import {links, footer_text} from "./constants.js"
+import {insert_movie_description, init_navbar} from './utils.js'
+import {links} from "./constants.js"
 
 var options = ["", "", ""];
 
@@ -22,7 +22,7 @@ function insert_movie_info(info){
     }
     if (info.actors.length > 0){
         console.log(info.actors.length)
-        document.getElementById("featuring").innerHTML = "<b>Featuring: </b>"+info.actors
+        document.getElementById("featuring").innerHTML = "<b>Featuring: </b>"+info.actors.join(", ")
     }
     if (info.summary != undefined){
         document.getElementById("summarytitle").innerHTML = "Plot summary"

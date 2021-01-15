@@ -1,3 +1,4 @@
+import random
 from utils.config import *
 from models.movies import *
 
@@ -198,3 +199,13 @@ def get_users_also_liked(movie_id):
     return titles
 
 
+
+def get_random_high_rated_movie(exclude):
+    top_users = get_top_n_from_source(20, 'USERS')
+    top_imdb = get_top_n_from_source(20, 'IMDB')
+    top_rt = get_top_n_from_source(20, 'RT')
+
+    all_top = top_users + top_imdb + top_rt
+    all_top = [m for m in all_top if m["id"] not in exclude]
+    index = random.randrange(len(all_top))
+    return all_top[index]["id"]
