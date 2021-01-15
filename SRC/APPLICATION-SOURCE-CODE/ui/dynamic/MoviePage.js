@@ -18,7 +18,7 @@ function insert_info(info){
           rating += " | "
       }
     }
-    if (info.ratings.IMDB!=undefined){
+    if (info.ratings.RT!=undefined){
       rating += "Rotten Tomatoes rating: " + info.ratings.RT.toFixed(2);
   }
     document.getElementById("ratings").innerHTML = rating
@@ -40,7 +40,7 @@ function insert_info(info){
       for (i in info.users_also_liked){
         pre+= info.users_also_liked[i]+"| "
       }
-      var also_liked = info.users_also_liked..slice(3).join(", ")
+      var also_liked = info.users_also_liked.slice(3).join(", ")
       document.getElementById("also_liked").innerHTML = "<b>Users who liked this movie also liked: </b>" + also_liked
     }
 }
