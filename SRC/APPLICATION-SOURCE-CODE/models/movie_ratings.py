@@ -1,4 +1,6 @@
+import random
 from utils.config import *
+from models.movies import *
 
 
 def get_ratings_with_comments():
@@ -26,11 +28,12 @@ def get_ratings_with_comments():
 
 
 def get_top_n_from_source(n, source):
-    query = "SELECT title, movie_id, normalized_rating " \
+    query = "SELECT title, movie_id, rating_source, AVG(normalized_rating) " \
             "FROM movie_ratings, movies " \
             "WHERE movies.id = movie_ratings.movie_id " \
             "AND rating_source = %(source)s " \
-            "ORDER BY normalized_rating DESC " \
+            "GROUP BY title, movie_id, rating_source " \
+            "ORDER BY AVG(normalized_rating) DESC " \
             "LIMIT %(limit)s"
 
     db_cursor = CONNECTION.cursor()
@@ -38,11 +41,11 @@ def get_top_n_from_source(n, source):
 
     ratings = []
     for result in db_cursor:
-        title, movie_id, rating = result[0], result[1], result[2]
+        title, movie_id, rating = result[0], result[1], result[3]
         rating = dict(
             title=title,
             id=movie_id,
-            rating=rating
+            rating=round(rating, 3)
         )
         ratings.append(rating)
     db_cursor.close()
@@ -66,24 +69,26 @@ def get_average_ratings_for_movie_id(movie_id):
     return ratings
 
 
-def get_n_comments_for_movie_id(movie_id, n):
+def get_comments_for_movie_id(movie_id):
     query = "SELECT username, comment, normalized_rating " \
     "FROM movie_ratings, users " \
     "WHERE movie_ratings.user_id = users.id " \
     "AND movie_id = %(movie_id)s " \
-    "LIMIT %(limit)s"
+    "LIMIT 20"
 
     db_cursor = CONNECTION.cursor()
-    db_cursor.execute(query, dict(movie_id=movie_id, limit=n))
+    db_cursor.execute(query, dict(movie_id=movie_id))
 
     comments = []
-
+    comments_set = set()
     for result in db_cursor:
         username, comment, rating  = result[0], result[1], result[2]
-        comments.append(dict(comment=comment, username=username, rating=rating))
+        if comment not in comments_set:
+            comments_set.add(comment)
+            comments.append(dict(comment=comment, username=username, rating=rating))
 
     db_cursor.close()
-    return comments
+    return comments[:3]
 
 
 def get_top_genres_by_ratings(n):
@@ -162,25 +167,45 @@ def get_top_n_movies_with_most_user_ratings(n):
 
 
 def get_users_also_liked(movie_id):
-    query = "(" \
-            "SELECT user_id AS uid1" \
+    query = "SELECT res2.movie_id " \
+            "FROM (" \
+            "SELECT user_id " \
             "FROM movie_ratings " \
             "WHERE rating_source='USER' " \
-            "AND movie_id = %(movie_id1)s " \
+            "AND movie_id = %(m1)s " \
             "ORDER BY normalized_rating DESC " \
-            "LIMIT 3" \
-            ")" \
+            "LIMIT 10" \
+            ") AS res1 " \
             "INNER JOIN " \
             "(" \
-            "SELECT user_id AS uid2, movie_id, normalized_rating " \
+            "SELECT user_id, MIN(movie_id) AS movie_id " \
             "FROM movie_ratings " \
-            "WHERE normalized_rating = (" \
-            "SELECT user_id, MAX(normalized_rating) " \
-            "FROM movie_ratings " \
-            "WHERE rating_source='USER' " \
-            "GROUP BY user_id " \
-            ") " \
-            "AND rating_source='USER' " \
-            "AND movie_id != %(movie_id2)s " \
-            ") ON uid1 = uid2"
+            "WHERE normalized_rating > 4.5 " \
+            "AND user_id IS NOT NULL " \
+            "AND movie_id != %(m2)s " \
+            "GROUP BY user_id" \
+            ") AS res2 " \
+            "ON res1.user_id  = res2.user_id"
+    db_cursor = CONNECTION.cursor()
+    db_cursor.execute(query, dict(m1=movie_id, m2=movie_id))
+    results = [res for res in db_cursor]
+    db_cursor.close()
 
+    titles = []
+    for result in results:
+        movie_id = result[0]
+        title = get_title_for_movie_id(movie_id)
+        titles.append(title)
+    return titles
+
+
+
+def get_random_high_rated_movie(exclude):
+    top_users = get_top_n_from_source(20, 'USERS')
+    top_imdb = get_top_n_from_source(20, 'IMDB')
+    top_rt = get_top_n_from_source(20, 'RT')
+
+    all_top = top_users + top_imdb + top_rt
+    all_top = [m for m in all_top if m["id"] not in exclude]
+    index = random.randrange(len(all_top))
+    return all_top[index]["id"]
