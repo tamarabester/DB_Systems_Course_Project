@@ -195,15 +195,14 @@ def get_movies_per_year_top_n(n):
 
 def count_rows(table_name):
     query = "SELECT COUNT(id) " \
-            "FROM %(table)s "
+            f"FROM {table_name}"
 
     db_cursor = CONNECTION.cursor()
-    db_cursor.execute(query, dict(table=table_name))
+    db_cursor.execute(query)
 
     count = [result[0] for result in db_cursor][0]
     db_cursor.close()
     return count
-
 
 
 def get_general_data_info():
