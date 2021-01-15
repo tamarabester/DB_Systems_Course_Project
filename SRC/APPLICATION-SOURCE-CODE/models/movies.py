@@ -191,3 +191,27 @@ def get_movies_per_year_top_n(n):
         genres.append(genre)
     db_cursor.close()
     return genres
+
+
+def count_rows(table_name):
+    query = "SELECT COUNT(id) " \
+            "FROM %(table)s "
+
+    db_cursor = CONNECTION.cursor()
+    db_cursor.execute(query, dict(table=table_name))
+
+    count = [result[0] for result in db_cursor][0]
+    db_cursor.close()
+    return count
+
+
+
+def get_general_data_info():
+    info = dict(
+        movies=count_rows("movies"),
+        users=count_rows("users"),
+        actors=count_rows("actors"),
+        ratings=count_rows("movie_ratings"),
+        appearences=count_rows("actors_movies")
+    )
+    return info
