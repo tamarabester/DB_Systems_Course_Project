@@ -1,31 +1,6 @@
-import {insert_movie_description,init_navbar, append_to_html, append_to_html_with_atterbutes} from './utils.js'
+import {insert_movie_description,init_navbar, append_to_html} from './utils.js'
 import {links} from "./constants.js"
 
-
-function load1(){
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        console.log(this.responseText);
-        }
-    };
-    // IMDB, RT, USER
-    xhttp.open("GET", "/movie/314/info", true);
-    xhttp.send();
-}
-
-
-function load2(){
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      console.log(this.responseText);
-      }
-    };
-  // IMDB, RT, USER
-  xhttp.open("GET", "/movie/314/comments?n=10", true);
-  xhttp.send();
-}
 
 function insert_info(info){
     document.getElementById("pagetitle").innerHTML = info.title
@@ -65,7 +40,8 @@ function insert_info(info){
 function insert_comments(comments){
     var i, username, comment, rating;
     if (comments.length<2){
-        return;
+      document.getElementById("commentsection").style.display = "none";
+      return;
     }
     append_to_html("commentsection","h2","","Featured comments")
     featuredcomments
@@ -83,7 +59,7 @@ function insert_comments(comments){
 }
 
 
-function load12(id){
+function loadpage(id){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
@@ -97,14 +73,16 @@ function load12(id){
     xhttp.open("GET", "/movie/info?id="+id, true);
     xhttp.send();
   }
-//load1();
-//load2();
+
+
+/* on page load */
 var info, comments;
 init_navbar(links);
+
 // get movie id from URL
-var queryString = window.location.search
-const urlParams = new URLSearchParams(queryString)
-const id = urlParams.get('id')
+var queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const id = urlParams.get('id');
 console.log(queryString, urlParams,id)
-load12(id);
-// load_page_(id)
+
+loadpage(id);
