@@ -126,11 +126,15 @@ function autocomplete(inp) {
 		      a.setAttribute("class", "autocomplete-items");
 		      /*append the DIV element as a child of the autocomplete container:*/
 		      document.getElementById("myInput").parentNode.appendChild(a);
+		      var check = 0
 		      /*for each item in the array...*/
 		      for (i = 0; i < arr.length; i++) {
 		        /*check if the item starts with the same letters as the text field value:*/
+			if(arr[i].toUpperCase() == val.toUpperCase()){
+			  check = 1
+			}
 		        for (j = 0; j < arr[i].length - val.length; j++){
-		        	if (arr[i].substr(j, val.length).toUpperCase() == val.toUpperCase()) {
+		        	if (arr[i].substr(j, val.length).toUpperCase() == val.toUpperCase() || (check == 1 && j == 0)) {
 		          /*create a DIV element for each matching element:*/
 		          		b = document.createElement("DIV");
 		          /*make the matching letters bold:*/
@@ -150,7 +154,7 @@ function autocomplete(inp) {
 		          		a.appendChild(b);
 		          		break;
 		        	}
-
+			  check = 0;
 		        }
         
       }
