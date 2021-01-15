@@ -18,7 +18,7 @@ def get_movie_names_with_text(text):
             "FROM movies " \
             "WHERE title LIKE '%{0}%' " \
             "OR title = '{1}' " \
-            "OR LOWER(title) = {2}".format(text, text, text)
+            "OR LOWER(title) = '{2}'".format(text, text, text)
 
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query)
