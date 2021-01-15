@@ -130,11 +130,14 @@ function autocomplete(inp) {
 		      /*for each item in the array...*/
 		      for (i = 0; i < arr.length; i++) {
 		        /*check if the item starts with the same letters as the text field value:*/
+			console.log(arr[i])
 			if(arr[i].toUpperCase() == val.toUpperCase()){
+			  console.log("hello")
 			  check = 1
 			}
 		        for (j = 0; j < arr[i].length - val.length; j++){
 		        	if (arr[i].substr(j, val.length).toUpperCase() == val.toUpperCase() || (check == 1 && j == 0)) {
+					console.log("hey")
 		          /*create a DIV element for each matching element:*/
 		          		b = document.createElement("DIV");
 		          /*make the matching letters bold:*/
