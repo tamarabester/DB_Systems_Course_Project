@@ -461,6 +461,14 @@ input[type=submit] {
   clear: both;
 }
 
+.optionalMovie{
+    display: inline-block;
+    margin: 20px;
+    background-color: #bbb;
+    border-radius: 15px;
+}
+
+
 .btn{
     background-color:  #577797;
     padding:5px;
