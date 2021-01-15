@@ -18,7 +18,7 @@ function insert_info(info){
           rating += " | "
       }
     }
-    if (info.ratings.IMDB!=undefined){
+    if (info.ratings.RT!=undefined){
       rating += "Rotten Tomatoes rating: " + info.ratings.RT.toFixed(2);
   }
     document.getElementById("ratings").innerHTML = rating

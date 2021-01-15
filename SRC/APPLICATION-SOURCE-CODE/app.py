@@ -120,8 +120,10 @@ def get_recommendation(movie1, movie2, movie3):
     majority_genre = get_majority_genre(movies)
     majority_actor = get_majority_actor(movies)
     if majority_genre is not None:
+        print("genre")
         recommendation_id = get_top_movie_for_genre(majority_genre, exclude=movies)
     elif majority_actor is not None:
+        print("actor")
         recommendation_id = get_top_movie_for_actor(majority_genre, exclude=movies)
     else:
         recommendation_id = get_random_high_rated_movie(movies)

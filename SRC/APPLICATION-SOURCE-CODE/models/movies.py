@@ -16,7 +16,8 @@ def create_ex(exclude):
 def get_movie_names_with_text(text):
     query = "SELECT title " \
             "FROM movies " \
-            "WHERE title LIKE '%{0}%'".format(text)
+            "WHERE title LIKE '%{0}%' " \
+            "OR title = '{1}'".format(text, text)
 
     db_cursor = CONNECTION.cursor()
     db_cursor.execute(query)
@@ -25,6 +26,7 @@ def get_movie_names_with_text(text):
     for result in db_cursor:
         movies.append(result[0])
     db_cursor.close()
+    print(movies)
     return movies
 
 
@@ -109,12 +111,13 @@ def get_top_movie(exclude=None):
 
 def get_top_movie_for_genre(genre, exclude=None):
     ex = create_ex(exclude)
-    query = "SELECT movie_ratings.movie_id " \
+    query = "SELECT movie_ratings.movie_id,  AVG(movie_ratings.normalized_rating) " \
             "FROM movie_ratings, movies " \
             "WHERE movies.id = movie_ratings.movie_id " \
             "AND movies.genre = \'{0}\' " \
             "AND movie_ratings.movie_id NOT IN {1} " \
-            "ORDER BY normalized_rating " \
+            "GROUP BY  movie_ratings.movie_id " \
+            "ORDER BY  AVG(movie_ratings.normalized_rating) DESC " \
             "LIMIT 1".format(genre, ex)
 
     db_cursor = CONNECTION.cursor()
@@ -128,13 +131,14 @@ def get_top_movie_for_genre(genre, exclude=None):
 
 def get_top_movie_for_actor(actor, exclude=None):
     ex = create_ex(exclude)
-    query = "SELECT movies.id " \
+    query = "SELECT movies.id, AVG(movie_ratings.normalized_rating) " \
             "FROM movies, movie_ratings, actors_movies " \
             "WHERE movies.id = movie_ratings.movie_id " \
             "AND movies.id = actors_movies.movie_id " \
             "AND actors_movies.actor_id = {0} " \
             "AND movies.id NOT IN {1} " \
-            "ORDER BY movie_rating.normalized_rating " \
+            "GROUP BY movies.id " \
+            "ORDER BY AVG(movie_ratings.normalized_rating) DESC " \
             "LIMIT 1".format(actor, ex)
 
     db_cursor = CONNECTION.cursor()
