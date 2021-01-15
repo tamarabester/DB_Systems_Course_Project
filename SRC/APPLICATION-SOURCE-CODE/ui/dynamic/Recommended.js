@@ -58,17 +58,18 @@ function searchRecommendation(){
 
 }
 function EnterMovie() {
-	var i, val;
+  var i, val;
+  if("" != options[0] && "" != options[1] && "" != options[2]){
+    alert("You have already entered three movies!");
+    return;
+  }
+	
   val = document.getElementById("myInput").value; 
   if(val == options[0] || val == options[1] || val == options[2]){
     alert("You already picked that movie!");
     return;
   }
-	
-  if("" != options[0] && "" != options[1] && "" != options[2]){
-    alert("You have already entered three movies!");
-    return;
-  }
+
 
   var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
