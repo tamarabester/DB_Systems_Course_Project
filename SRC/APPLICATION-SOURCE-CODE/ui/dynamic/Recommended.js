@@ -132,7 +132,6 @@ function autocomplete(inp) {
 		        for (j = 0; j < arr[i].length - val.length; j++){
 		        	if (arr[i].substr(j, val.length).toUpperCase() == val.toUpperCase()) {
 		          /*create a DIV element for each matching element:*/
-                  console.log(arr[i]);
 		          		b = document.createElement("DIV");
 		          /*make the matching letters bold:*/
 		          		b.innerHTML = arr[i].substr(0, j);
