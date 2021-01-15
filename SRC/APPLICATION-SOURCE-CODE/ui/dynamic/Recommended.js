@@ -35,6 +35,7 @@ function searchRecommendation(){
 	var i;
 	for (i = 0; i < 3; i++){
 		if(options[i] == ""){
+			alert("You must enter exactly three movies!")
 			return;
 		}
 	}
@@ -60,6 +61,11 @@ function EnterMovie() {
   val = document.getElementById("myInput").value; 
   if(val == options[0] || val == options[1] || val == options[2]){
     alert("You already picked that movie!");
+    return;
+  }
+	
+  if("" != options[0] && "" != options[1] && "" != options[2]){
+    alert("You have already entered three movies!");
     return;
   }
 
