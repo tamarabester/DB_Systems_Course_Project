@@ -239,7 +239,7 @@ function init_navbar(link_list) {
     button.setAttribute("onclick", "SearchMovie()")
     button.innerHTML = "Search"
 
-    searchbar.appendChild(button)
+    searchcontainer.appendChild(button)
   
     autocomplete(searchbar)
     button.addEventListener("click", SearchMovie)
