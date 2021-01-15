@@ -13,8 +13,7 @@
 </head>
 <body>
 
-<div class="navbar" id="navbar"></div>
-<div id = "containercontainer" style = "margin-top:70px"></div>
+
 
 <form autocomplete="off" action="/action_page.php">
   <form class="row">
@@ -23,6 +22,7 @@
       <h1>Recomended for You</h1>
       <h2>Tell us which movies you liked, and we will recommend some more!</h2>
 
+      <div class="navbar" id="navbar"></div>
       <div class="autocomplete">
         <input type="text" name="searchbar" id="myInput" placeholder="I liked...">
       </div>
@@ -35,6 +35,28 @@
         <div class="optionalMovie"><a class="x" onclick = "RemoveOption(2)">x</a><span class="optMovieText" id = "opt3">movie 3</span></div>
         <a class="btn" onclick="searchRecommendation()" style="padding-left:20px;padding-right:20px;">Go    !</a>
       <b2>
+
+      <div id="movie" style = "display:none">
+        <a id = "movie_link">
+          <h1 id="pagetitle"></h1>
+        </a>
+        <p id="ratings" style="text-align:center"></p>
+
+        <div style="display: flex; justify-content: center;">
+        <div id="plotcontainer" style="width:85%;">
+        <h3 style="margin-bottom:0px; text-align:left;"></h3>
+        <div id="info" class="section" style="border-left:3px solid snow; padding-left:10px; padding-right:5px; vertical-align:top;">
+          <p id="genre" style="margin:2px;"></p>
+          <p id="featuring" style="margin:2px;"></p>
+          <br>
+          <h2 id="summarytitle" style="text-align:left;" id="picktitle"></h2>
+          <div style="text-align:left;" class="section" id="description"></div>
+        </div>
+      </div>
+
+
+      </div>
+
 
 
 
