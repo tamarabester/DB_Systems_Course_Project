@@ -4,12 +4,6 @@ import {links} from "./constants.js"
 var options = ["", "", ""];
 
 function insert_movie_info(info){
-  document.getElementById("pagetitle").innerHTML = ""
-  document.getElementById("ratings").innerHTML = ""
-  document.getElementById("genre").innerHTML = ""
-  document.getElementById("featuring").innerHTML = ""
-  document.getElementById("summarytitle").innerHTML = ""
-  document.getElementById("description").innerHTML = ""
   document.getElementById("movie_link").setAttribute("href", "/movie?id=" + info.id)
   document.getElementById("pagetitle").innerHTML = info.title
     var rating = "";
@@ -41,7 +35,6 @@ function searchRecommendation(){
 	var i;
 	for (i = 0; i < 3; i++){
 		if(options[i] == ""){
-			alert("You must enter exactly three movies!")
 			return;
 		}
 	}
@@ -54,7 +47,7 @@ function searchRecommendation(){
             var display = document.getElementById("movie")
             display.setAttribute("style", "display:block")
             insert_movie_info(movies)
-
+            
 
 		}
     };
@@ -63,18 +56,12 @@ function searchRecommendation(){
 
 }
 function EnterMovie() {
-  var i, val;
-  if("" != options[0] && "" != options[1] && "" != options[2]){
-    alert("You have already entered three movies!");
-    return;
-  }
-
-  val = document.getElementById("myInput").value;
+	var i, val;
+  val = document.getElementById("myInput").value; 
   if(val == options[0] || val == options[1] || val == options[2]){
     alert("You already picked that movie!");
     return;
   }
-
 
   var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -126,16 +113,13 @@ function autocomplete(inp) {
 		      a.setAttribute("class", "autocomplete-items");
 		      /*append the DIV element as a child of the autocomplete container:*/
 		      document.getElementById("myInput").parentNode.appendChild(a);
-		      var check = 0
 		      /*for each item in the array...*/
 		      for (i = 0; i < arr.length; i++) {
 		        /*check if the item starts with the same letters as the text field value:*/
-			if(arr[i].toUpperCase() == val.toUpperCase()){
-			  check = 1
-			}
 		        for (j = 0; j < arr[i].length - val.length; j++){
-		        	if (arr[i].substr(j, val.length).toUpperCase() == val.toUpperCase() || (check == 1 && j == 0)) {
+		        	if (arr[i].substr(j, val.length).toUpperCase() == val.toUpperCase()) {
 		          /*create a DIV element for each matching element:*/
+                  console.log(arr[i]);
 		          		b = document.createElement("DIV");
 		          /*make the matching letters bold:*/
 		          		b.innerHTML = arr[i].substr(0, j);
@@ -154,7 +138,7 @@ function autocomplete(inp) {
 		          		a.appendChild(b);
 		          		break;
 		        	}
-			  check = 0;
+
 		        }
         
       }

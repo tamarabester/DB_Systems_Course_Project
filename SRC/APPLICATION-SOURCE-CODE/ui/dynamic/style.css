@@ -30,7 +30,6 @@ body {
 
 .section{
   background-color: #aaa9a9;
-  cursor: pointer;
 }
 
 h1 { color: #ffffff; font-family: 'Raleway',sans-serif; font-size: 62px; font-weight: 800; line-height: 72px; margin: 10px; text-align: center; text-transform: uppercase; }

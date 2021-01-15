@@ -65,13 +65,13 @@ function autocomplete(inp) {
               }
 
             }
-
+        
       }
       }
     };
     xhttp.open("GET", "/movie_name?text="+document.getElementById("searchbar").value, true);
     xhttp.send();
-
+    
   });
   /*execute a function presses a key on the keyboard:*/
   inp.addEventListener("keydown", function(e) {
@@ -229,6 +229,8 @@ function init_navbar(link_list) {
     searchbar.setAttribute("type","text")
     searchbar.setAttribute("name", "searchbar")
     searchbar.setAttribute("id","searchbar")
+    searchbar.setAttribute("class","searchbar")
+    searchbar.setAttribute("style","width:70%;")
     searchbar.setAttribute("list","suggestions")
     searchbar.setAttribute("placeholder","Search a film..")
     searchcontainer.appendChild(searchbar)
@@ -240,7 +242,7 @@ function init_navbar(link_list) {
     button.innerHTML = "Search"
 
     searchcontainer.appendChild(button)
-
+  
     autocomplete(searchbar)
     button.addEventListener("click", SearchMovie)
   
