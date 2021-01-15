@@ -40,7 +40,8 @@ function insert_info(info){
       for (i in info.users_also_liked){
         pre+= info.users_also_liked[i]+"| "
       }
-      document.getElementById("also_liked").innerHTML = "<b>Users who liked this film also liked: </b>"+info.users_also_liked
+      var also_liked = info.users_also_liked..slice(3).join(", ")
+      document.getElementById("also_liked").innerHTML = "<b>Users who liked this movie also liked: </b>" + also_liked
     }
 }
 

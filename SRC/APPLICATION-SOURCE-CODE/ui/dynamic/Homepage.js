@@ -79,7 +79,7 @@ function get_random_pick(){
       console.log(pick, typeof pick);
       const staffmembers = ["Dana","Tamara","Dor","Edan"]
       const random = Math.floor(Math.random() * 4);
-      const picktitle = staffmembers[random] + " recommeds" + " '"+ pick.title + "'"
+      const picktitle = staffmembers[random] + " recommeds" + " "+ pick.title + ""
       document.getElementById("picktitle").innerHTML = picktitle
       insert_movie_description("description",pick.summary, pick.image, 300);
       //document.getElementById("staffpicklink") = ?

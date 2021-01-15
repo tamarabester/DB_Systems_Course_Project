@@ -197,6 +197,8 @@ def get_all_info_for_analytics():
     all_info = {}
     n = int(request.args.get('n'))
 
+    all_info["general"] = get_general_data_info()
+
     years = get_movies_per_year_top_n(n)
     add_rank_to_list(years, lambda m: -m["movie_count"])
     all_info["years"] = years
