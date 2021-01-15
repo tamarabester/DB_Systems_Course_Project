@@ -16,7 +16,7 @@ function loadRatingView(source, n){
     document.getElementById("imggrid").innerHTML = img3;
   }
 
-  for(i in ids){
+  for(var i in ids){
     document.getElementById(ids[i]).innerHTML="";
   }
   loadRatingTable(cur_id,source, n);
