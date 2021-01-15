@@ -6,7 +6,6 @@ from flask import Flask, request, send_from_directory
 
 from lib.movies.movie_utils import *
 from lib.staff_pick.staff_pick_utils import *
-# from lib.general import *
 from utils.config import *
 
 app = Flask(__name__)
@@ -95,8 +94,6 @@ def get_random_rating():
 def get_staff_pick():
     random_id = random.randrange(STAFF_PICK_LEN)
     pick = STAFF_PICK_MOVIES[random_id]
-    wiki_summary = wikipedia.summary(pick["wiki_name"], sentences=5)
-    pick["summary"] = wiki_summary
     return json.dumps(pick)
 
 
@@ -182,9 +179,15 @@ def get_movies_per_year():
 
 
 @app.route('/id_for_title/<title1>/<title2>/<title3>')
-def get_id_for_title(title1, title2, title3):
+def get_id_for_title3(title1, title2, title3):
     movie_ids = [get_movie_id_for_title(t) for t in [title1, title2, title3]]
     return json.dumps(movie_ids)
+
+
+@app.route('/id_for_title/<title>')
+def get_id_for_title1(title):
+    movie_id = get_movie_id_for_title(title)
+    return json.dumps([movie_id])
 
 
 @app.route('/analytics_data')

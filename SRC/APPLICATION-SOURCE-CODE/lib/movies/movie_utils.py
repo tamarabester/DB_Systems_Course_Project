@@ -51,7 +51,7 @@ def get_movie_info_for_movie_id(movie_id):
         ratings=get_average_ratings_for_movie_id(movie_id),
         actors=get_actors_for_movie_id(movie_id),
         users_also_liked=get_users_also_liked(movie_id),
-        comments=get_n_comments_for_movie_id(movie_id, 5),
+        comments=get_comments_for_movie_id(movie_id),
         summary=get_plot_for_movie_id(movie_id),
         id=movie_id,
     )

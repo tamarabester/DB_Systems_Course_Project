@@ -45,7 +45,7 @@ function insert_info(info){
     }
     if (info.actors.length > 0){
         console.log(info.actors.length)
-        document.getElementById("featuring").innerHTML = "<b>Featuring: </b>"+info.actors
+        document.getElementById("featuring").innerHTML = "<b>Featuring: </b>" + info.actors.join(", ")
     }
     if (info.summary != undefined){
         document.getElementById("summarytitle").innerHTML = "Plot summary"

@@ -76,7 +76,7 @@ function load_page(){
       inset_paragraph(5 ,data.years, "release_year", "movie_count",false);
     }
   };
-  xhttp.open("GET", "/all_info_for_analitics?n=5", true);
+  xhttp.open("GET", "/analytics_data?n=5", true);
   xhttp.send();
 
 }

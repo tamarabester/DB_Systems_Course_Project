@@ -309,11 +309,12 @@ def insert_movies_with_random_id_from_imdb(inserted):
 
 
 def get_top_n_from_source(n, source):
-    query = "SELECT title, movie_id, normalized_rating " \
+    query = "SELECT title, movie_id, rating_source, AVG(normalized_rating) " \
             "FROM movie_ratings, movies " \
             "WHERE movies.id = movie_ratings.movie_id " \
             "AND rating_source = %(source)s " \
-            "ORDER BY normalized_rating DESC " \
+            "GROUP BY title, movie_id, rating_source " \
+            "ORDER BY AVG(normalized_rating) DESC " \
             "LIMIT %(limit)s"
 
     db_cursor = CONNECTION.cursor()
@@ -381,12 +382,12 @@ def fix_top_from_source(source):
         norm = m["rating"]
         if norm > 4.9:
             continue
-        norm = m["rating"] + 0.1
+        norm = round(m["rating"], 2)
         original = norm * 2
         update_rating(m["id"], source, norm, original)
 
     for m in without_info:
-        norm = m["rating"] - 1
+        norm = round(m["rating"], 2)
         original = norm * 2
         update_rating(m["id"], source, norm, original)
 
