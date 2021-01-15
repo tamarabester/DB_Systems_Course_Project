@@ -26,8 +26,8 @@ function insert_movie_info(info){
     }
     if (info.summary != undefined){
         document.getElementById("summarytitle").innerHTML = "Plot summary"
-        insert_movie_description("description",info.summary, info.poster_link, 300);
-        document.getElementById("info").style.height="300px";
+        insert_movie_description("description",info.summary, info.poster_link, 200);
+        document.getElementById("info").style.height="400px";
     }
 }
 
