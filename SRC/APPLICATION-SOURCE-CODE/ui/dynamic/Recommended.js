@@ -4,6 +4,7 @@ import {links} from "./constants.js"
 var options = ["", "", ""];
 
 function insert_movie_info(info){
+  document.getElementById("movie").innerHTML = ""
   document.getElementById("movie_link").setAttribute("href", "/movie?id=" + info.id)
   document.getElementById("pagetitle").innerHTML = info.title
     var rating = "";
