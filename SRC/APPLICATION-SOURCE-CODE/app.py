@@ -124,7 +124,7 @@ def get_recommendation(movie1, movie2, movie3):
     elif majority_actor is not None:
         recommendation_id = get_top_movie_for_actor(majority_genre, exclude=movies)
     else:
-        recommendation_id = get_top_movie_for_genre(get_genre_for_movie_id(movies[0]), exclude=movies)
+        recommendation_id = get_random_high_rated_movie(movies)
 
     recommendation = get_full_recommendation(recommendation_id)
     return json.dumps(recommendation)
@@ -180,13 +180,13 @@ def get_movies_per_year():
 
 @app.route('/id_for_title/<title1>/<title2>/<title3>')
 def get_id_for_title3(title1, title2, title3):
-    movie_ids = [get_movie_id_for_title(t) for t in [title1, title2, title3]]
+    movie_ids = [get_movie_id_for_title(t) or -1 for t in [title1, title2, title3]]
     return json.dumps(movie_ids)
 
 
 @app.route('/id_for_title/<title>')
 def get_id_for_title1(title):
-    movie_id = get_movie_id_for_title(title)
+    movie_id = get_movie_id_for_title(title) or -1
     return json.dumps([movie_id])
 
 
