@@ -54,7 +54,7 @@ function searchRecommendation(){
             var display = document.getElementById("movie")
             display.setAttribute("style", "display:block")
             insert_movie_info(movies)
-            
+
 
 		}
     };
@@ -68,8 +68,8 @@ function EnterMovie() {
     alert("You have already entered three movies!");
     return;
   }
-	
-  val = document.getElementById("myInput").value; 
+
+  val = document.getElementById("myInput").value;
   if(val == options[0] || val == options[1] || val == options[2]){
     alert("You already picked that movie!");
     return;

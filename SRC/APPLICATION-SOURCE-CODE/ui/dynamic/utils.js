@@ -65,13 +65,13 @@ function autocomplete(inp) {
               }
 
             }
-        
+
       }
       }
     };
     xhttp.open("GET", "/movie_name?text="+document.getElementById("searchbar").value, true);
     xhttp.send();
-    
+
   });
   /*execute a function presses a key on the keyboard:*/
   inp.addEventListener("keydown", function(e) {
@@ -240,7 +240,7 @@ function init_navbar(link_list) {
     button.innerHTML = "Search"
 
     searchcontainer.appendChild(button)
-  
+
     autocomplete(searchbar)
     button.addEventListener("click", SearchMovie)
   
