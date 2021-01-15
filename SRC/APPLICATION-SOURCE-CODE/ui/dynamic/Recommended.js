@@ -4,7 +4,13 @@ import {links} from "./constants.js"
 var options = ["", "", ""];
 
 function insert_movie_info(info){
-  document.getElementById("movie").innerHTML = ""
+  document.getElementById("pagetitle").innerHTML = ""
+  document.getElementById("ratings").innerHTML = ""
+  document.getElementById("plotcontainer").innerHTML = ""
+  document.getElementById("info").innerHTML = ""
+  document.getElementById("genre").innerHTML = ""
+  document.getElementById("featuring").innerHTML = ""
+  document.getElementById("summarytitle").innerHTML = ""
   document.getElementById("movie_link").setAttribute("href", "/movie?id=" + info.id)
   document.getElementById("pagetitle").innerHTML = info.title
     var rating = "";
