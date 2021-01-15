@@ -1,4 +1,5 @@
 import wikipedia
+from requests.exceptions import SSLError
 from models.actor_movies import *
 from models.movie_ratings import *
 from models.movies import *
@@ -61,7 +62,10 @@ def get_movie_info_for_movie_id(movie_id):
         try:
             wiki_summary = wikipedia.summary(movie_info["title"], sentences=5)
             movie_info["summary"] = wiki_summary
+        except SSLError:
+            pass
         except Exception as e:
+            print(f"Unknown Error! {e}")
             pass
 
     return movie_info
