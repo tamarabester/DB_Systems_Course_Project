@@ -212,8 +212,8 @@ def add_comment(user_id, comments_list, ratings, movie_id=None):
 
     db_cursor = CONNECTION.cursor()
     query = "INSERT INTO movie_ratings" \
-            "(user_id, movie_id, original_rating, normalized_rating, rating_source, comment)" \
-            "VALUES (%(user_id)s, %(movie_id)s, %(original_rating)s, %(normalized_rating)s," \
+            "(user_id, movie_id, normalized_rating, rating_source, comment)" \
+            "VALUES (%(user_id)s, %(movie_id)s, %(normalized_rating)s," \
             " %(rating_source)s, %(comment)s)"
 
     rating = random.choice(ratings)
@@ -223,7 +223,6 @@ def add_comment(user_id, comments_list, ratings, movie_id=None):
         params = dict(
             user_id=user_id,
             movie_id=movie_id,
-            original_rating=rating,
             normalized_rating=rating,
             rating_source="USER",
             comment=comment
