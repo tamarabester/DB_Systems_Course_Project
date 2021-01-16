@@ -27,8 +27,8 @@ function toggleSwitch(btn,p, pheight){
 
 function toggle(bid,pid,h) {
   var i, pp, bb;
-  const togglebtns = ["btn1","btn2","btn3","btn4","btn5"]
-  const toggleps = ["p1","p2","p3","p4","p5"]
+  const togglebtns = ["btn0","btn1","btn2","btn3","btn4","btn5"]
+  const toggleps = ["p0","p1","p2","p3","p4","p5"]
   var p = document.getElementById(pid);
   var btn = document.getElementById(bid);
   const pheight = h+"px"
@@ -63,12 +63,21 @@ function inset_paragraph(p_i, data, attr2, attr3, fix3){
   document.getElementById("p"+p_i).innerHTML = pre;
 }
 
+function insert_general(general){
+  var text = "Our movie collection contains "+general.movies+" movies, "
+  text+= "with "+general.appearances+" actor appearances by "+general.actors+" actors."
+  text+=" The movies were rated by "+general.users+" users, IMDB and Rotten-Tomatoes "
+  text+=" with "+general.ratings+" ratings overall!"
+  document.getElementById("p0").innerHTML = text;
+}
+
 function load_page(){
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       console.log(this.responseText);
       var data = JSON.parse(this.responseText);
+      insert_general(data.general);
       inset_paragraph(1 ,data.top_genres,"name","avg_rating", true);
       inset_paragraph(2 ,data.top_actors,"name","avg_rating", true);
       inset_paragraph(3 ,data.movies, "title","num_ratings", false);

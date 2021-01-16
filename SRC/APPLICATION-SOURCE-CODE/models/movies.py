@@ -211,6 +211,6 @@ def get_general_data_info():
         users=count_rows("users"),
         actors=count_rows("actors"),
         ratings=count_rows("movie_ratings"),
-        appearences=count_rows("actors_movies")
+        appearances=count_rows("actors_movies")
     )
     return info
