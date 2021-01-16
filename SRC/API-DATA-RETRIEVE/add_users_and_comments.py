@@ -11,6 +11,7 @@ NUM_MOVIES = 1000
 NUM_USERS = 1500
 
 BAD_RATINGS = [i for i in np.arange(0, 2.5, 0.1)] + [2.5]
+MID_RATINGS = [i for i in np.arange(2, 3.5, 0.1)]
 GOOD_RATINGS = [i for i in np.arange(2.6, 5.0, 0.1)] + [5]
 
 BAD_COMMENTS = [
@@ -258,6 +259,9 @@ def main():
 
         inserted += add_comment(user_id, BAD_COMMENTS, BAD_RATINGS)
         inserted += add_comment(user_id, BAD_COMMENTS, BAD_RATINGS)
+
+        inserted += add_comment(user_id, BAD_COMMENTS, MID_RATINGS)
+        inserted += add_comment(user_id, GOOD_COMMENTS, MID_RATINGS)
 
         for i in range(3):
             top_movie = random.choice(top_movies)

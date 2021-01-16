@@ -1,5 +1,5 @@
 export const links = [ ["Home","./"] ,["Recommended for you","./recommended"]
-,["Top Rated Films","./top_rating"] ,["Get to know our films","./analytics"] ];
+,["Top Rated Movies","./top_rating"] ,["Get to know our Movies","./analytics"] ];
 
 export const img1 = '\
 <img src=".//ui/posters/9.jpg" alt="one_movie"  style="height:150px;">\

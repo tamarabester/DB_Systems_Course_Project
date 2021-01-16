@@ -31,7 +31,6 @@ create TABLE movie_ratings (
     id int NOT NULL AUTO_INCREMENT,
     user_id int,
     movie_id int NOT NULL,
-    original_rating DOUBLE NOT NULL,
     normalized_rating DOUBLE NOT NULL,
     rating_source VARCHAR(64) NOT NULL,
     comment VARCHAR(2048),

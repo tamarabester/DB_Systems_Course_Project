@@ -321,7 +321,7 @@ def get_top_n_from_source(n, source):
 
     ratings = []
     for result in db_cursor:
-        title, movie_id, rating = result[0], result[1], result[2]
+        title, movie_id, source, rating = result[0], result[1], result[2], result[3]
         rating = dict(
             title=title,
             id=movie_id,
@@ -387,23 +387,25 @@ def fix_top_from_source(source):
 
     print(f"{len(with_info)} with info, {len(without_info)} without")
 
-    for m in with_info:
-        norm = m["rating"]
-        if norm > 4.9:
-            continue
-        norm = round(m["rating"] + 0.01, 2)
-        update_rating(m["id"], source, norm)
+    if without_info:
+        for m in with_info:
+            norm = m["rating"]
+            if norm > 4.9:
+                continue
+            norm = min(round(m["rating"] + 0.01, 2), 5)
+            update_rating(m["id"], source, norm)
 
     for m in without_info:
-        norm = round(m["rating"] - 0.01, 2)
+        norm = m["rating"]
+        norm = max(round(norm - 0.1, 2), 3.2)
         update_rating(m["id"], source, norm)
 
 
 init_db_connection()
 inserted = insert_movies_from_csv()
-insert_movies_with_random_id_from_imdb(inserted)
+inserted = insert_movies_with_random_id_from_imdb(inserted)
 print(f"inserted {inserted} movies total")
-for _ in range(3):
+for _ in range(10):
     fix_top_from_source("IMDB")
     fix_top_from_source("RT")
 CONNECTION.close()
