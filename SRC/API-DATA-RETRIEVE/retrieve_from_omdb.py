@@ -117,8 +117,8 @@ def insert_rating_data(response_data, movie_id):
     db_cursor = CONNECTION.cursor()
     inserted = 0
     insert_rating_query = ("INSERT INTO movie_ratings"
-                           "(movie_id, original_rating, normalized_rating, rating_source)"
-                           "VALUES (%(movie_id)s, %(original_rating)s, %(normalized_rating)s, %(rating_source)s)")
+                           "(movie_id, normalized_rating, rating_source)"
+                           "VALUES (%(movie_id)s, %(normalized_rating)s, %(rating_source)s)")
 
     if "imdbRating" in response_data:
         raw_rating = response_data["imdbRating"]
@@ -126,7 +126,6 @@ def insert_rating_data(response_data, movie_id):
             imdb_rating = float(raw_rating)
             imdb_rating_parameters = dict(
                 movie_id=movie_id,
-                original_rating=imdb_rating,
                 normalized_rating=imdb_rating/2,
                 rating_source="IMDB"
             )
@@ -141,7 +140,6 @@ def insert_rating_data(response_data, movie_id):
             rt_rating_norm = rt_rating/20
             rt_rating_parameters = dict(
                 movie_id=movie_id,
-                original_rating=rt_rating,
                 normalized_rating=rt_rating_norm,
                 rating_source="RT"
             )
@@ -305,7 +303,8 @@ def insert_movies_with_random_id_from_imdb(inserted):
     imdb_ids = [random.randrange(1, 3135393) for i in range(RANDOM_MOVIES_TO_ADD)]
     imdb_ids = [str(m_id).zfill(7) for m_id in imdb_ids]
     imdb_ids = [f"tt{m_id}" for m_id in imdb_ids]
-    get_from_ombd(imdb_ids, "imdb_id", inserted)
+    inserted = get_from_ombd(imdb_ids, "imdb_id", inserted)
+    return inserted
 
 
 def get_top_n_from_source(n, source):
@@ -349,14 +348,13 @@ def get_movie_info_from_movie_id(movie_id):
     return title, genre, year, plot, link
 
 
-def update_rating(movie_id, source, normalized_rating, original_rating):
+def update_rating(movie_id, source, normalized_rating):
     query = "UPDATE movie_ratings " \
-            "SET normalized_rating=%(norm)s, original_rating=%(original)s " \
+            "SET normalized_rating=%(norm)s " \
             "WHERE movie_id=%(movie_id)s AND rating_source=%(source)s"
     db_cursor = CONNECTION.cursor()
     params = dict(
         norm=normalized_rating,
-        original=original_rating,
         movie_id=movie_id,
         source=source
     )
@@ -366,6 +364,17 @@ def update_rating(movie_id, source, normalized_rating, original_rating):
 
 
 def fix_top_from_source(source):
+    """
+
+    :param source: rating source: str
+    :return: None
+
+    retrieves top 150 movies for the source,
+    if we have full information for this movie, we add 0.01 to the rating
+    else we remove 0.01 from the rating
+    this is used to display good data in
+
+    """
     top_100 = get_top_n_from_source(150, source)
     with_info = []
     without_info =[]
@@ -382,19 +391,19 @@ def fix_top_from_source(source):
         norm = m["rating"]
         if norm > 4.9:
             continue
-        norm = round(m["rating"], 2)
-        original = norm * 2
-        update_rating(m["id"], source, norm, original)
+        norm = round(m["rating"] + 0.01, 2)
+        update_rating(m["id"], source, norm)
 
     for m in without_info:
-        norm = round(m["rating"], 2)
-        original = norm * 2
-        update_rating(m["id"], source, norm, original)
+        norm = round(m["rating"] - 0.01, 2)
+        update_rating(m["id"], source, norm)
 
 
 init_db_connection()
 inserted = insert_movies_from_csv()
 insert_movies_with_random_id_from_imdb(inserted)
-fix_top_from_source("IMDB")
-fix_top_from_source("RT")
+print(f"inserted {inserted} movies total")
+for _ in range(3):
+    fix_top_from_source("IMDB")
+    fix_top_from_source("RT")
 CONNECTION.close()
